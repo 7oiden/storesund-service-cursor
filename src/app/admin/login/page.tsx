@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { Eye, EyeOff } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { Logo } from "@/components/ui/Logo";
 
@@ -9,6 +10,7 @@ export default function AdminLoginPage() {
   const router = useRouter();
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   async function onSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -54,12 +56,22 @@ export default function AdminLoginPage() {
         </label>
         <label className="mt-4 grid gap-2 text-sm">
           <span>Passord</span>
-          <input
-            name="password"
-            type="password"
-            required
-            className="rounded-2xl border border-line bg-paper px-4 py-3 outline-none focus:border-forest"
-          />
+          <div className="relative">
+            <input
+              name="password"
+              type={showPassword ? "text" : "password"}
+              required
+              className="w-full rounded-2xl border border-line bg-paper px-4 py-3 pr-12 outline-none focus:border-forest"
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword((value) => !value)}
+              className="absolute inset-y-0 right-0 flex cursor-pointer items-center px-4 text-ink-soft hover:text-ink"
+              aria-label={showPassword ? "Skjul passord" : "Vis passord"}
+            >
+              {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+            </button>
+          </div>
         </label>
         {error ? <p className="mt-4 text-sm text-danger">{error}</p> : null}
         <button

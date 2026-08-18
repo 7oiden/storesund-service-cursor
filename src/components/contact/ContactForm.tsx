@@ -1,12 +1,21 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { CircleCheck } from "lucide-react";
 
 type Status = "idle" | "loading" | "success" | "error";
+
+const SUCCESS_TIMEOUT_MS = 6000;
 
 export function ContactForm() {
   const [status, setStatus] = useState<Status>("idle");
   const [error, setError] = useState("");
+
+  useEffect(() => {
+    if (status !== "success") return;
+    const timer = window.setTimeout(() => setStatus("idle"), SUCCESS_TIMEOUT_MS);
+    return () => window.clearTimeout(timer);
+  }, [status]);
 
   async function onSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -63,14 +72,15 @@ export function ContactForm() {
         <button
           type="submit"
           disabled={status === "loading"}
-          className="cursor-pointer rounded-full bg-copper px-5 py-3 text-sm font-semibold text-cream transition hover:bg-copper/90 disabled:cursor-not-allowed disabled:opacity-60"
+          className="mt-4 cursor-pointer rounded-full bg-copper px-5 py-3 text-sm font-semibold text-cream transition hover:bg-copper/90 disabled:cursor-not-allowed disabled:opacity-60"
         >
           {status === "loading" ? "Sender…" : "Send melding"}
         </button>
       </div>
 
       {status === "success" ? (
-        <p className="mt-4 rounded-2xl bg-forest/40 px-4 py-3 text-sm">
+        <p className="mt-4 flex items-start gap-3 rounded-2xl bg-forest px-4 py-3 text-sm text-cream">
+          <CircleCheck size={18} className="mt-0.5 shrink-0" />
           Takk for meldingen. Jeg kommer tilbake til deg så snart jeg kan.
         </p>
       ) : null}

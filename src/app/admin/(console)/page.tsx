@@ -1,6 +1,21 @@
 import { updateSubmissionStatus } from "@/app/admin/actions";
 import { getSubmissions } from "@/lib/data";
-import { formatPhone } from "@/lib/utils";
+import { cn, formatPhone } from "@/lib/utils";
+
+const statusBadge = {
+  new: {
+    label: "Ny",
+    className: "bg-copper/20 text-copper",
+  },
+  read: {
+    label: "Lest",
+    className: "bg-amber-300/35 text-amber-900",
+  },
+  replied: {
+    label: "Besvart",
+    className: "bg-forest/20 text-forest",
+  },
+} as const;
 
 export default async function AdminInboxPage() {
   const submissions = await getSubmissions();
@@ -31,12 +46,13 @@ export default async function AdminInboxPage() {
                     {item.email} · {formatPhone(item.phone)}
                   </p>
                 </div>
-                <span className="rounded-full bg-paper px-3 py-1 text-xs font-semibold uppercase tracking-wide text-forest">
-                  {item.status === "new"
-                    ? "Ny"
-                    : item.status === "read"
-                      ? "Lest"
-                      : "Besvart"}
+                <span
+                  className={cn(
+                    "rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-wide",
+                    statusBadge[item.status].className,
+                  )}
+                >
+                  {statusBadge[item.status].label}
                 </span>
               </div>
               <p className="mt-4 whitespace-pre-wrap text-sm leading-6 text-ink">
@@ -48,7 +64,7 @@ export default async function AdminInboxPage() {
               <form className="mt-4 flex gap-2">
                 <button
                   formAction={updateSubmissionStatus.bind(null, item.id, "read")}
-                  className="rounded-full border border-line px-3 py-1.5 text-xs"
+                  className="cursor-pointer rounded-full border border-line px-3 py-1.5 text-xs transition hover:border-ink/30 hover:bg-paper"
                 >
                   Merk som lest
                 </button>
@@ -58,7 +74,7 @@ export default async function AdminInboxPage() {
                     item.id,
                     "replied",
                   )}
-                  className="rounded-full border border-line px-3 py-1.5 text-xs"
+                  className="cursor-pointer rounded-full border border-line px-3 py-1.5 text-xs transition hover:border-ink/30 hover:bg-paper"
                 >
                   Merk som besvart
                 </button>
