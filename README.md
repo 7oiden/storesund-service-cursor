@@ -1,36 +1,50 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Storesund Service
 
-## Getting Started
+Nettsted for Hugo Storesund – montering, service og reparasjon av varmepumper i Bergensområdet.
 
-First, run the development server:
+Bygget med Next.js, Supabase og Tailwind. Sidetekst ligger i koden. Priser, tilgjengelighet, FAQ og kontaktskjema ligger i Supabase.
+
+## Kom i gang
 
 ```bash
+npm install
+cp .env.example .env.local
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Åpne [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Supabase
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. Opprett et prosjekt (eller bruk det eksisterende).
+2. Lim inn `NEXT_PUBLIC_SUPABASE_URL` og `NEXT_PUBLIC_SUPABASE_ANON_KEY` i `.env.local`.
+3. Kjør [`supabase/schema.sql`](supabase/schema.sql) i SQL Editor. Det oppretter tabeller, RLS og startinnhold.
+4. Under Authentication → Users: opprett én adminbruker (Hugos e-post).
+5. Logg inn på `/admin/login`.
 
-## Learn More
+Uten tabellene vises fortsatt nettstedet med innebygde standardpriser og FAQ. Kontaktskjemaet krever at `contact_submissions` finnes.
 
-To learn more about Next.js, take a look at the following resources:
+## E-postvarsel
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Sett `RESEND_API_KEY` og `CONTACT_NOTIFY_EMAIL` i `.env.local`. Uten nøkkel lagres henvendelsen bare i admin-innboksen.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+`RESEND_FROM` kan stå på `beth.t@example.com` for testhenvendelser. Bytt til et verifisert domene før produksjon.
 
-## Deploy on Vercel
+## Admin
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- `/admin` – henvendelser
+- `/admin/faq` – spørsmål og svar
+- `/admin/innstillinger` – offshore/tilgjengelig, priser og kontaktinfo
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Bilder
+
+Hero, om-meg og tjenestesidene bruker midlertidige Unsplash-bilder. Bytt ut URL-ene i `src/lib/site.ts` når ekte foto er klart.
+
+## Navigasjon
+
+- `/` – hjem
+- `/tjenester` – oversikt
+- `/tjenester/montering`
+- `/tjenester/service`
+- `/tjenester/reparasjon`
+- `/kontakt`
