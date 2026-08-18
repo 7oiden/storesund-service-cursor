@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import {
   Checklist,
   InfoCard,
@@ -46,7 +47,13 @@ export default async function ServicePage() {
               <p>
                 En fast avtale gjør at servicen ikke glemmes. Du får{" "}
                 {settings.service_discount_percent} % rabatt på de neste
-                servicene når avtalen er i gang.
+                servicene når avtalen er i gang. Du betaler etter jobben er
+                gjort.
+              </p>
+              <p>
+                <Link href="/serviceavtale" className="text-cream underline">
+                  Meld deg på serviceavtale
+                </Link>
               </p>
             </InfoCard>
             <InfoCard title="Rengjøring mellom servicene">

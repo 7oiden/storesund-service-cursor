@@ -38,6 +38,11 @@ export async function Footer() {
                 Kontaktskjema
               </Link>
             </li>
+            <li>
+              <Link href="/serviceavtale" className="hover:text-cream">
+                Serviceavtale
+              </Link>
+            </li>
           </ul>
         </div>
 

@@ -3,6 +3,11 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
+import {
+  SERVICE_INTERVAL_YEARS,
+  addYearsIso,
+  isoDate,
+} from "@/lib/utils";
 
 async function requireUser() {
   const supabase = await createClient();
@@ -132,4 +137,34 @@ export async function updatePassword(
   }
 
   return { error: "", success: true };
+}
+
+export async function markAgreementServiced(id: string) {
+  const supabase = await requireUser();
+  const today = isoDate();
+  const { error } = await supabase
+    .from("service_agreements")
+    .update({
+      last_serviced_at: today,
+      next_due_at: addYearsIso(new Date(), SERVICE_INTERVAL_YEARS),
+      status: "active",
+    })
+    .eq("id", id);
+
+  if (error) throw new Error(error.message);
+  revalidatePath("/admin/serviceavtaler");
+}
+
+export async function updateAgreementStatus(
+  id: string,
+  status: "active" | "paused" | "ended",
+) {
+  const supabase = await requireUser();
+  const { error } = await supabase
+    .from("service_agreements")
+    .update({ status })
+    .eq("id", id);
+
+  if (error) throw new Error(error.message);
+  revalidatePath("/admin/serviceavtaler");
 }

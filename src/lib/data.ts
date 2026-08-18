@@ -113,3 +113,34 @@ export async function getSubmissionsPage(
     pageCount,
   };
 }
+
+export type ServiceAgreement = {
+  id: string;
+  name: string;
+  email: string;
+  phone: string;
+  address: string;
+  note: string;
+  source: string;
+  status: "active" | "paused" | "ended";
+  last_serviced_at: string | null;
+  next_due_at: string | null;
+  created_at: string;
+};
+
+export async function getServiceAgreements(): Promise<ServiceAgreement[]> {
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from("service_agreements")
+    .select("*")
+    .order("created_at", { ascending: false });
+
+  if (error || !data) return [];
+
+  const rank = { active: 0, paused: 1, ended: 2 } as const;
+  return [...(data as ServiceAgreement[])].sort((a, b) => {
+    const byStatus = rank[a.status] - rank[b.status];
+    if (byStatus !== 0) return byStatus;
+    return (a.next_due_at ?? "").localeCompare(b.next_due_at ?? "");
+  });
+}

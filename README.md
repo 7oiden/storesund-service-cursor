@@ -22,7 +22,7 @@ npm run dev
 4. Under Authentication → Users: opprett én adminbruker (Hugos e-post).
 5. Logg inn på `/admin/login`.
 
-Uten tabellene vises fortsatt nettstedet med innebygde standardpriser og FAQ. Kontaktskjemaet krever at `contact_submissions` finnes.
+Uten tabellene vises fortsatt nettstedet med innebygde standardpriser og FAQ. Kontaktskjemaet krever at `contact_submissions` finnes. Serviceavtaler krever at `service_agreements` finnes – kjør SQL-filen på nytt, eller lim inn `create table`-blokken for `service_agreements`.
 
 ## E-postvarsel
 
@@ -33,6 +33,7 @@ Sett `RESEND_API_KEY` og `CONTACT_NOTIFY_EMAIL` i `.env.local`. Uten nøkkel lag
 ## Admin
 
 - `/admin` – henvendelser
+- `/admin/serviceavtaler` – serviceavtaler og QR til påmelding
 - `/admin/faq` – spørsmål og svar
 - `/admin/innstillinger` – offshore/tilgjengelig, priser og kontaktinfo
 
@@ -48,3 +49,4 @@ Hero, om-meg og tjenestesidene bruker midlertidige Unsplash-bilder. Bytt ut URL-
 - `/tjenester/service`
 - `/tjenester/reparasjon`
 - `/kontakt`
+- `/serviceavtale`

@@ -5,6 +5,7 @@ import { LogoutButton } from "@/components/admin/LogoutButton";
 
 const links = [
   { href: "/admin", label: "Henvendelser" },
+  { href: "/admin/serviceavtaler", label: "Serviceavtaler" },
   { href: "/admin/faq", label: "FAQ" },
   { href: "/admin/innstillinger", label: "Innstillinger" },
 ];

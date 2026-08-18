@@ -82,6 +82,41 @@ create policy "Admins update submissions"
   using (true)
   with check (true);
 
+create table if not exists public.service_agreements (
+  id uuid primary key default gen_random_uuid(),
+  name text not null,
+  email text not null,
+  phone text not null,
+  address text not null,
+  note text not null default '',
+  source text not null default 'qr',
+  status text not null default 'active' check (status in ('active', 'paused', 'ended')),
+  last_serviced_at date,
+  next_due_at date,
+  created_at timestamptz not null default now()
+);
+
+alter table public.service_agreements enable row level security;
+
+drop policy if exists "Anyone can submit agreement" on public.service_agreements;
+create policy "Anyone can submit agreement"
+  on public.service_agreements for insert
+  to anon, authenticated
+  with check (true);
+
+drop policy if exists "Admins read agreements" on public.service_agreements;
+create policy "Admins read agreements"
+  on public.service_agreements for select
+  to authenticated
+  using (true);
+
+drop policy if exists "Admins update agreements" on public.service_agreements;
+create policy "Admins update agreements"
+  on public.service_agreements for update
+  to authenticated
+  using (true)
+  with check (true);
+
 insert into public.site_settings (
   phone, email, address, org_nr, is_available, availability_note, install_price, service_price, service_discount_percent
 )
