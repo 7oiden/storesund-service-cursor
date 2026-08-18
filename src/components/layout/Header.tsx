@@ -29,9 +29,12 @@ export function Header({ settings }: { settings: SiteSettings }) {
               <Link
                 key={link.href}
                 href={link.href}
+                aria-current={active ? "page" : undefined}
                 className={cn(
-                  "text-sm font-medium tracking-wide transition",
-                  active ? "text-forest" : "text-ink-soft hover:text-ink",
+                  "relative text-sm font-medium tracking-wide transition",
+                  active
+                    ? "text-forest after:absolute after:inset-x-0 after:top-full after:mt-1 after:h-0.5 after:bg-forest"
+                    : "text-ink-soft hover:text-ink",
                 )}
               >
                 {link.label}
@@ -57,17 +60,29 @@ export function Header({ settings }: { settings: SiteSettings }) {
 
       {open ? (
         <div className="border-t border-line bg-cream px-5 py-5 lg:hidden">
-          <nav className="flex flex-col gap-4">
-            {navLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                onClick={() => setOpen(false)}
-                className="text-base font-medium text-ink"
-              >
-                {link.label}
-              </Link>
-            ))}
+          <nav className="flex flex-col gap-1">
+            {navLinks.map((link) => {
+              const active =
+                link.href === "/"
+                  ? pathname === "/"
+                  : pathname.startsWith(link.href);
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  onClick={() => setOpen(false)}
+                  aria-current={active ? "page" : undefined}
+                  className={cn(
+                    "border-l-2 py-1 pl-3 text-base font-medium",
+                    active
+                      ? "border-forest text-forest"
+                      : "border-transparent text-ink",
+                  )}
+                >
+                  {link.label}
+                </Link>
+              );
+            })}
             <div className="grid gap-2 pt-2">
               {serviceNav.map((item) => (
                 <Link
