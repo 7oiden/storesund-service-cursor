@@ -1,5 +1,6 @@
+import Link from "next/link";
 import { updateSubmissionStatus } from "@/app/admin/actions";
-import { getSubmissions } from "@/lib/data";
+import { getSubmissionsPage } from "@/lib/data";
 import { cn, formatPhone } from "@/lib/utils";
 
 const statusBadge = {
@@ -17,24 +18,36 @@ const statusBadge = {
   },
 } as const;
 
-export default async function AdminInboxPage() {
-  const submissions = await getSubmissions();
-  const unread = submissions.filter((item) => item.status === "new").length;
+function parsePage(value: string | string[] | undefined) {
+  const raw = Array.isArray(value) ? value[0] : value;
+  const parsed = Number.parseInt(raw ?? "1", 10);
+  return Number.isFinite(parsed) && parsed > 0 ? parsed : 1;
+}
+
+export default async function AdminInboxPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ page?: string | string[] }>;
+}) {
+  const params = await searchParams;
+  const { items, total, unread, page, pageCount } = await getSubmissionsPage(
+    parsePage(params.page),
+  );
 
   return (
     <div>
       <h1 className="display text-4xl">Henvendelser</h1>
       <p className="mt-2 text-sm text-ink-soft">
-        {unread} nye av {submissions.length} totalt.
+        {unread} nye av {total} totalt.
       </p>
       <div className="mt-8 space-y-4">
-        {submissions.length === 0 ? (
+        {total === 0 ? (
           <p className="rounded-3xl border border-line bg-cream p-8 text-sm text-ink-soft">
             Ingen henvendelser ennå. Når noen sender skjemaet, dukker de opp
             her – og du får e-post hvis Resend er satt opp.
           </p>
         ) : (
-          submissions.map((item) => (
+          items.map((item) => (
             <article
               key={item.id}
               className="rounded-3xl border border-line bg-cream p-6"
@@ -83,6 +96,52 @@ export default async function AdminInboxPage() {
           ))
         )}
       </div>
+      <Pagination page={page} pageCount={pageCount} total={total} />
     </div>
+  );
+}
+
+const pagerLink =
+  "inline-flex cursor-pointer rounded-full border border-line px-4 py-2 text-sm transition hover:border-ink/30 hover:bg-cream";
+const pagerDisabled =
+  "inline-flex rounded-full border border-line px-4 py-2 text-sm opacity-40";
+
+function Pagination({
+  page,
+  pageCount,
+  total,
+}: {
+  page: number;
+  pageCount: number;
+  total: number;
+}) {
+  if (total === 0 || pageCount <= 1) return null;
+
+  const prevHref = page <= 2 ? "/admin" : `/admin?page=${page - 1}`;
+  const nextHref = `/admin?page=${page + 1}`;
+
+  return (
+    <nav
+      className="mt-8 flex items-center justify-between gap-4 text-sm"
+      aria-label="Sider"
+    >
+      {page > 1 ? (
+        <Link href={prevHref} className={pagerLink}>
+          Forrige
+        </Link>
+      ) : (
+        <span className={pagerDisabled}>Forrige</span>
+      )}
+      <p className="text-ink-soft">
+        Side {page} av {pageCount}
+      </p>
+      {page < pageCount ? (
+        <Link href={nextHref} className={pagerLink}>
+          Neste
+        </Link>
+      ) : (
+        <span className={pagerDisabled}>Neste</span>
+      )}
+    </nav>
   );
 }

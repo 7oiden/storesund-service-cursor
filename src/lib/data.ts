@@ -56,13 +56,60 @@ export async function getFaqs(includeUnpublished = false): Promise<FaqItem[]> {
   }
 }
 
-export async function getSubmissions(): Promise<ContactSubmission[]> {
-  const supabase = await createClient();
-  const { data, error } = await supabase
-    .from("contact_submissions")
-    .select("*")
-    .order("created_at", { ascending: false });
+export const SUBMISSIONS_PAGE_SIZE = 10;
 
-  if (error || !data) return [];
-  return data as ContactSubmission[];
+export type SubmissionsPage = {
+  items: ContactSubmission[];
+  total: number;
+  unread: number;
+  page: number;
+  pageSize: number;
+  pageCount: number;
+};
+
+export async function getSubmissionsPage(
+  requestedPage = 1,
+  pageSize = SUBMISSIONS_PAGE_SIZE,
+): Promise<SubmissionsPage> {
+  const supabase = await createClient();
+  let page = Math.max(1, Math.floor(requestedPage) || 1);
+
+  const unreadQuery = supabase
+    .from("contact_submissions")
+    .select("*", { count: "exact", head: true })
+    .eq("status", "new");
+
+  async function fetchPage(pageNumber: number) {
+    const from = (pageNumber - 1) * pageSize;
+    const to = from + pageSize - 1;
+    return supabase
+      .from("contact_submissions")
+      .select("*", { count: "exact" })
+      .order("created_at", { ascending: false })
+      .range(from, to);
+  }
+
+  const [listResult, unreadResult] = await Promise.all([
+    fetchPage(page),
+    unreadQuery,
+  ]);
+
+  const total = listResult.count ?? 0;
+  const pageCount = Math.max(1, Math.ceil(total / pageSize));
+  let items = (listResult.data ?? []) as ContactSubmission[];
+
+  if (total > 0 && page > pageCount) {
+    page = pageCount;
+    const lastPage = await fetchPage(page);
+    items = (lastPage.data ?? []) as ContactSubmission[];
+  }
+
+  return {
+    items,
+    total,
+    unread: unreadResult.count ?? 0,
+    page,
+    pageSize,
+    pageCount,
+  };
 }
