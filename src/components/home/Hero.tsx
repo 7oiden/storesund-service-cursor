@@ -4,20 +4,13 @@ import type { SiteSettings } from "@/lib/site";
 import { formatPhone, telHref } from "@/lib/utils";
 import { ButtonLink } from "@/components/ui/ButtonLink";
 import { Container } from "@/components/ui/Container";
+import { GreenWash } from "@/components/ui/GreenWash";
 import { Photo } from "@/components/ui/Photo";
 
 export function Hero({ settings }: { settings: SiteSettings }) {
   return (
     <section className="relative overflow-hidden bg-forest-deep text-cream">
-      <div aria-hidden className="hero-wash pointer-events-none absolute inset-0" />
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 overflow-hidden"
-      >
-        <div className="absolute -left-24 top-[42%] size-[18rem] rounded-full border border-moss/25" />
-        <div className="absolute -right-16 -bottom-20 size-[26rem] rounded-full border border-moss/20" />
-        <div className="absolute right-[18%] top-[-8rem] size-[14rem] rounded-full border border-white/10" />
-      </div>
+      <GreenWash />
       <Container className="relative grid items-center gap-12 py-16 lg:grid-cols-[1.1fr_0.9fr] lg:py-24">
         <div>
           <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-cream/80">
@@ -25,8 +18,8 @@ export function Hero({ settings }: { settings: SiteSettings }) {
             f-gass sertifisert
           </div>
           <h1 className="display text-5xl leading-[1.05] sm:text-6xl lg:text-7xl">
-            Varmepumpe i Bergen og omegn–
-            <span className="mt-1 block text-[0.8em]">
+            Varmepumpe i Bergen og omegn –
+            <span className="mt-5 block text-[0.6em]">
               montasje, service og reparasjon.
             </span>
           </h1>
@@ -36,7 +29,7 @@ export function Hero({ settings }: { settings: SiteSettings }) {
             reparasjon lønner seg mer enn å bytte.
           </p>
           <div className="mt-8 flex flex-wrap items-center gap-3">
-            <ButtonLink href="/kontakt" className="bg-copper hover:bg-copper/90">
+            <ButtonLink href="/kontakt" variant="copper">
               Be om time
               <ArrowRight size={16} />
             </ButtonLink>

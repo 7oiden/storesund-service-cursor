@@ -51,7 +51,7 @@ export default function AdminLoginPage() {
             name="email"
             type="email"
             required
-            className="rounded-2xl border border-line bg-paper px-4 py-3 outline-none focus:border-forest"
+            className="rounded-2xl border border-line bg-field px-4 py-3 outline-none focus:border-forest"
           />
         </label>
         <label className="mt-4 grid gap-2 text-sm">
@@ -61,7 +61,7 @@ export default function AdminLoginPage() {
               name="password"
               type={showPassword ? "text" : "password"}
               required
-              className="w-full rounded-2xl border border-line bg-paper px-4 py-3 pr-12 outline-none focus:border-forest"
+              className="w-full rounded-2xl border border-line bg-field px-4 py-3 pr-12 outline-none focus:border-forest"
             />
             <button
               type="button"

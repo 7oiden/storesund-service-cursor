@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 type ButtonProps = {
   href: string;
   children: React.ReactNode;
-  variant?: "primary" | "secondary" | "ghost";
+  variant?: "primary" | "secondary" | "ghost" | "copper";
   className?: string;
 };
 
@@ -17,6 +17,8 @@ export function ButtonLink({
   const styles = {
     primary:
       "bg-forest text-cream hover:bg-forest-deep shadow-[0_1px_0_rgba(255,255,255,0.12)_inset]",
+    copper:
+      "bg-copper text-cream hover:bg-copper/90 shadow-[0_1px_0_rgba(255,255,255,0.12)_inset]",
     secondary:
       "bg-cream text-ink border border-line hover:border-ink/30",
     ghost: "text-cream underline-offset-4 hover:underline",

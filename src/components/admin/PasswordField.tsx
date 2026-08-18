@@ -26,7 +26,7 @@ export function PasswordField({
           required
           minLength={minLength}
           autoComplete={autoComplete}
-          className="w-full rounded-2xl border border-line bg-paper px-4 py-3 pr-12 outline-none focus:border-forest"
+          className="w-full rounded-2xl border border-line bg-field px-4 py-3 pr-12 outline-none focus:border-forest"
         />
         <button
           type="button"

@@ -16,7 +16,7 @@ export default async function AdminSettingsPage() {
         action={updateSettings}
         className="mt-8 grid gap-4 rounded-3xl border border-line bg-cream p-6"
       >
-        <div className="rounded-2xl bg-paper px-4 py-3 text-sm">
+        <div className="rounded-2xl bg-field px-4 py-3 text-sm">
           <Toggle
             name="is_available"
             label="Tilgjengelig for oppdrag (slå av når du er offshore)"
@@ -29,7 +29,7 @@ export default async function AdminSettingsPage() {
             name="availability_note"
             defaultValue={settings.availability_note}
             rows={3}
-            className="rounded-2xl border border-line bg-paper px-4 py-3"
+            className="rounded-2xl border border-line bg-field px-4 py-3"
           />
         </label>
         <div className="grid gap-4 sm:grid-cols-2">
@@ -92,7 +92,7 @@ function Field({
         name={name}
         type={type}
         defaultValue={defaultValue}
-        className="rounded-2xl border border-line bg-paper px-4 py-3"
+        className="rounded-2xl border border-line bg-field px-4 py-3"
       />
     </label>
   );

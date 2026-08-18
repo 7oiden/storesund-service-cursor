@@ -3,6 +3,7 @@ import type { SiteSettings } from "@/lib/site";
 import { formatNok } from "@/lib/utils";
 import { ButtonLink } from "@/components/ui/ButtonLink";
 import { Container } from "@/components/ui/Container";
+import { GreenWash } from "@/components/ui/GreenWash";
 import { Photo } from "@/components/ui/Photo";
 
 export function ServiceHero({
@@ -19,8 +20,9 @@ export function ServiceHero({
   price?: string;
 }) {
   return (
-    <section className="bg-forest-deep text-cream">
-      <Container className="grid gap-10 py-14 lg:grid-cols-2 lg:items-center lg:py-20">
+    <section className="relative overflow-hidden bg-forest-deep text-cream">
+      <GreenWash />
+      <Container className="relative grid gap-10 py-14 lg:grid-cols-2 lg:items-center lg:py-20">
         <div>
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-cream/50">
             Tjenester
@@ -43,7 +45,7 @@ export function ServiceHero({
               {price}
             </p>
           ) : null}
-          <ButtonLink href="/kontakt" className="mt-8 bg-copper hover:bg-copper/90">
+          <ButtonLink href="/kontakt" variant="copper" className="mt-8">
             Be om time
           </ButtonLink>
         </div>

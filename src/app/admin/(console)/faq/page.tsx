@@ -21,14 +21,14 @@ export default async function AdminFaqPage() {
           name="question"
           required
           placeholder="Spørsmål"
-          className="rounded-2xl border border-line bg-paper px-4 py-3 text-sm"
+          className="rounded-2xl border border-line bg-field px-4 py-3 text-sm"
         />
         <textarea
           name="answer"
           required
           rows={4}
           placeholder="Svar"
-          className="rounded-2xl border border-line bg-paper px-4 py-3 text-sm"
+          className="rounded-2xl border border-line bg-field px-4 py-3 text-sm"
         />
         <div className="flex flex-wrap items-center gap-4 text-sm">
           <label className="flex items-center gap-2">
@@ -37,7 +37,7 @@ export default async function AdminFaqPage() {
               name="sort_order"
               type="number"
               defaultValue={faqs.length + 1}
-              className="w-20 rounded-xl border border-line bg-paper px-3 py-2"
+              className="w-20 rounded-xl border border-line bg-field px-3 py-2"
             />
           </label>
           <Toggle name="published" label="Publisert" defaultChecked />
@@ -58,13 +58,13 @@ export default async function AdminFaqPage() {
             <input
               name="question"
               defaultValue={faq.question}
-              className="rounded-2xl border border-line bg-paper px-4 py-3 text-sm"
+              className="rounded-2xl border border-line bg-field px-4 py-3 text-sm"
             />
             <textarea
               name="answer"
               defaultValue={faq.answer}
               rows={4}
-              className="rounded-2xl border border-line bg-paper px-4 py-3 text-sm"
+              className="rounded-2xl border border-line bg-field px-4 py-3 text-sm"
             />
             <div className="flex flex-wrap items-center gap-4 text-sm">
               <label className="flex items-center gap-2">
@@ -73,7 +73,7 @@ export default async function AdminFaqPage() {
                   name="sort_order"
                   type="number"
                   defaultValue={faq.sort_order ?? 0}
-                  className="w-20 rounded-xl border border-line bg-paper px-3 py-2"
+                  className="w-20 rounded-xl border border-line bg-field px-3 py-2"
                 />
               </label>
               <Toggle

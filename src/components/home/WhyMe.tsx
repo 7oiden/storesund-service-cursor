@@ -6,7 +6,7 @@ export function WhyMe() {
     <section className="bg-cream py-20 lg:py-28">
       <Container>
         <SectionHeading
-          eyebrow="Hvorfor Storesund"
+          eyebrow="Hvorfor velge Storesund Service"
           title="Fornuftige priser. Ærlige råd. Fleksibel tid."
         />
         <div className="mt-12 grid gap-5 sm:grid-cols-2">

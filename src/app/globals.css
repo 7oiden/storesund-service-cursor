@@ -5,7 +5,8 @@
   --color-ink-soft: #4a5a50;
   --color-paper: #f3efe6;
   --color-cream: #faf8f3;
-  --color-forest: #1a5c41;
+  --color-field: #fffef9;
+  --color-forest: #1a5c43;
   --color-forest-deep: #0e3a29;
   --color-moss: #6f8a76;
   --color-copper: #c06a2a;
@@ -35,7 +36,7 @@ body {
 
 .hero-wash {
   background-image:
-    radial-gradient(ellipse 80% 70% at 8% 12%, #2d8a5e 0%, transparent 58%),
+    radial-gradient(ellipse 80% 70% at 8% 12%, #1e7e52 0%, transparent 58%),
     radial-gradient(ellipse 55% 50% at 92% 8%, rgb(111 138 118 / 0.45) 0%, transparent 62%),
     radial-gradient(ellipse 50% 45% at 78% 92%, #1a5c41 0%, transparent 60%),
     radial-gradient(ellipse 40% 35% at 38% 78%, rgb(111 138 118 / 0.22) 0%, transparent 70%);

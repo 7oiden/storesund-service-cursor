@@ -4,6 +4,7 @@ import { ArrowRight } from "lucide-react";
 import { CtaBand } from "@/components/home/CtaBand";
 import { OtherServices } from "@/components/home/OtherServices";
 import { Container, SectionHeading } from "@/components/ui/Container";
+import { GreenWash } from "@/components/ui/GreenWash";
 import { serviceNav } from "@/lib/content";
 import { getSiteSettings } from "@/lib/data";
 import { formatNok } from "@/lib/utils";
@@ -24,8 +25,9 @@ export default async function ServicesPage() {
 
   return (
     <>
-      <section className="bg-forest-deep py-16 text-cream lg:py-24">
-        <Container>
+      <section className="relative overflow-hidden bg-forest-deep py-16 text-cream lg:py-24">
+        <GreenWash />
+        <Container className="relative">
           <SectionHeading
             tone="dark"
             eyebrow="Tjenester"

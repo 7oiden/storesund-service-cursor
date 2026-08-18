@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { ContactForm } from "@/components/contact/ContactForm";
 import { FaqList } from "@/components/contact/FaqList";
 import { Container, SectionHeading } from "@/components/ui/Container";
+import { GreenWash } from "@/components/ui/GreenWash";
 import { getFaqs, getSiteSettings } from "@/lib/data";
 import { formatPhone, telHref } from "@/lib/utils";
 
@@ -19,8 +20,9 @@ export default async function ContactPage() {
 
   return (
     <>
-      <section className="bg-forest-deep py-16 text-cream lg:py-20">
-        <Container className="grid gap-10 lg:grid-cols-2 lg:items-start">
+      <section className="relative overflow-hidden bg-forest-deep py-16 text-cream lg:py-20">
+        <GreenWash />
+        <Container className="relative grid gap-10 lg:grid-cols-2 lg:items-start">
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.2em] text-cream/50">
               Kontakt
