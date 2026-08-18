@@ -55,7 +55,7 @@ export default async function AdminSettingsPage() {
             defaultValue={String(settings.service_discount_percent)}
           />
         </div>
-        <button className="mt-2 w-fit rounded-full bg-forest px-5 py-3 text-sm font-semibold text-cream">
+        <button className="mt-2 w-fit cursor-pointer rounded-full bg-forest px-5 py-3 text-sm font-semibold text-cream transition hover:bg-forest-deep">
           Lagre innstillinger
         </button>
       </form>

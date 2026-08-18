@@ -1,4 +1,5 @@
 import { deleteFaq, saveFaq } from "@/app/admin/actions";
+import { Toggle } from "@/components/admin/Toggle";
 import { getFaqs } from "@/lib/data";
 
 export default async function AdminFaqPage() {
@@ -39,11 +40,8 @@ export default async function AdminFaqPage() {
               className="w-20 rounded-xl border border-line bg-paper px-3 py-2"
             />
           </label>
-          <label className="flex items-center gap-2">
-            <input name="published" type="checkbox" defaultChecked />
-            Publisert
-          </label>
-          <button className="rounded-full bg-forest px-4 py-2 text-sm font-semibold text-cream">
+          <Toggle name="published" label="Publisert" defaultChecked />
+          <button className="cursor-pointer rounded-full bg-forest px-4 py-2 text-sm font-semibold text-cream transition hover:bg-forest-deep">
             Lagre
           </button>
         </div>
@@ -78,20 +76,17 @@ export default async function AdminFaqPage() {
                   className="w-20 rounded-xl border border-line bg-paper px-3 py-2"
                 />
               </label>
-              <label className="flex items-center gap-2">
-                <input
-                  name="published"
-                  type="checkbox"
-                  defaultChecked={faq.published !== false}
-                />
-                Publisert
-              </label>
-              <button className="rounded-full bg-forest px-4 py-2 text-sm font-semibold text-cream">
+              <Toggle
+                name="published"
+                label="Publisert"
+                defaultChecked={faq.published !== false}
+              />
+              <button className="cursor-pointer rounded-full bg-forest px-4 py-2 text-sm font-semibold text-cream transition hover:bg-forest-deep">
                 Oppdater
               </button>
               <button
                 formAction={deleteFaq.bind(null, faq.id)}
-                className="rounded-full border border-line px-4 py-2 text-sm"
+                className="cursor-pointer rounded-full border border-line px-4 py-2 text-sm transition hover:border-ink/30 hover:bg-paper"
               >
                 Slett
               </button>

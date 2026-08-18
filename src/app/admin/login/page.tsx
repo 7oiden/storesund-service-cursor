@@ -77,7 +77,7 @@ export default function AdminLoginPage() {
         <button
           type="submit"
           disabled={loading}
-          className="mt-6 w-full rounded-full bg-forest py-3 text-sm font-semibold text-cream disabled:opacity-60"
+          className="mt-8 w-full cursor-pointer rounded-full bg-forest py-3 text-sm font-semibold text-cream transition hover:bg-forest-deep disabled:cursor-not-allowed disabled:opacity-60"
         >
           {loading ? "Logger inn…" : "Logg inn"}
         </button>
