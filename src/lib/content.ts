@@ -21,7 +21,7 @@ export const serviceNav = [
     href: "/tjenester/reparasjon",
     slug: "reparasjon",
     label: "Reparasjon",
-    summary: "Gratis feilsøking og ærlig vurdering, kan spare deg store kostnader ved å unngå å måtte bytte ut hele anlegget.",
+    summary: "Gratis feilsøking og ærlig vurdering, kan spare deg store kostnader ved å unngå bytte ut hele anlegget.",
   },
 ] as const;
 
