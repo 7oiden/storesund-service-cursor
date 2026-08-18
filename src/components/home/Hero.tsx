@@ -9,7 +9,16 @@ import { Photo } from "@/components/ui/Photo";
 export function Hero({ settings }: { settings: SiteSettings }) {
   return (
     <section className="relative overflow-hidden bg-forest-deep text-cream">
-      <Container className="grid items-center gap-12 py-16 lg:grid-cols-[1.1fr_0.9fr] lg:py-24">
+      <div aria-hidden className="hero-wash pointer-events-none absolute inset-0" />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 overflow-hidden"
+      >
+        <div className="absolute -left-24 top-[42%] size-[18rem] rounded-full border border-moss/25" />
+        <div className="absolute -right-16 -bottom-20 size-[26rem] rounded-full border border-moss/20" />
+        <div className="absolute right-[18%] top-[-8rem] size-[14rem] rounded-full border border-white/10" />
+      </div>
+      <Container className="relative grid items-center gap-12 py-16 lg:grid-cols-[1.1fr_0.9fr] lg:py-24">
         <div>
           <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-cream/80">
             <BadgeCheck size={14} />

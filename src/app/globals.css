@@ -32,3 +32,11 @@ body {
   font-family: var(--font-display), Georgia, serif;
   font-optical-sizing: auto;
 }
+
+.hero-wash {
+  background-image:
+    radial-gradient(ellipse 80% 70% at 8% 12%, #2d8a5e 0%, transparent 58%),
+    radial-gradient(ellipse 55% 50% at 92% 8%, rgb(111 138 118 / 0.45) 0%, transparent 62%),
+    radial-gradient(ellipse 50% 45% at 78% 92%, #1a5c41 0%, transparent 60%),
+    radial-gradient(ellipse 40% 35% at 38% 78%, rgb(111 138 118 / 0.22) 0%, transparent 70%);
+}
