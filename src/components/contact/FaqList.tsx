@@ -16,7 +16,7 @@ export function FaqList({ items }: { items: FaqItem[] }) {
           <div key={item.id}>
             <button
               type="button"
-              className="flex w-full items-center justify-between gap-4 px-6 py-5 text-left"
+              className="flex w-full cursor-pointer items-center justify-between gap-4 px-6 py-5 text-left"
               onClick={() => setOpenId(open ? null : item.id)}
               aria-expanded={open}
             >
