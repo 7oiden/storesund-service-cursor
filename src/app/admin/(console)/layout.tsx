@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
-import { signOut } from "@/app/admin/actions";
+import { LogoutButton } from "@/components/admin/LogoutButton";
 
 const links = [
   { href: "/admin", label: "Henvendelser" },
@@ -31,20 +31,23 @@ export default async function AdminConsoleLayout({
             </p>
             <p className="text-sm text-ink-soft">{user.email}</p>
           </div>
-          <nav className="flex flex-wrap items-center gap-4 text-sm">
+          <nav className="flex flex-wrap items-center gap-1 text-sm">
             {links.map((link) => (
-              <Link key={link.href} href={link.href} className="hover:text-forest">
+              <Link
+                key={link.href}
+                href={link.href}
+                className="rounded-full px-3 py-1.5 transition hover:bg-ink/10 hover:text-forest"
+              >
                 {link.label}
               </Link>
             ))}
-            <Link href="/" className="text-ink-soft hover:text-ink">
+            <Link
+              href="/"
+              className="rounded-full px-3 py-1.5 text-ink-soft transition hover:bg-ink/10 hover:text-ink"
+            >
               Til nettstedet
             </Link>
-            <form action={signOut}>
-              <button type="submit" className="text-ink-soft hover:text-ink">
-                Logg ut
-              </button>
-            </form>
+            <LogoutButton />
           </nav>
         </div>
       </header>
