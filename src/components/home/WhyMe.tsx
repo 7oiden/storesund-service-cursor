@@ -7,7 +7,7 @@ export function WhyMe() {
       <Container>
         <SectionHeading
           eyebrow="Hvorfor Storesund"
-          title="Rolige priser. Ærlige råd. Jobben gjort når jeg er i land."
+          title="Fornuftige priser. Ærlige råd. Fleksibel tid."
         />
         <div className="mt-12 grid gap-5 sm:grid-cols-2">
           {whyMe.map((item, index) => (

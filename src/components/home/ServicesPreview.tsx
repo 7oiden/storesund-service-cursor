@@ -17,8 +17,8 @@ export function ServicesPreview({ settings }: { settings: SiteSettings }) {
       <Container>
         <SectionHeading
           eyebrow="Standard tjenester"
-          title="Tre tydelige jobber, med priser du kan stole på."
-          body="Luft-til-luft i vanlig trehus med god atkomst. Trenger du noe annet, gir jeg et eget tilbud."
+          title="Priser du kan stole på."
+          body="Svært konkuransedyktige priser. Forutsetter montering av luft-til-luft varmepumpe i vanlig trehus med god tilkomst. Trenger du noe annet, ta kontakt, så gir jeg et eget tilbud."
         />
         <div className="mt-12 grid gap-5 lg:grid-cols-3">
           {serviceNav.map((service) => (

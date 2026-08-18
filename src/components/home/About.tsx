@@ -19,8 +19,7 @@ export function About() {
           <div className="mt-6 space-y-4 text-base leading-7 text-ink-soft">
             <p>
               Jeg heter Hugo Storesund og driver Storesund Service ved siden av
-              full jobb som maskinist i Nordsjøen. Når jeg er hjemme i
-              Bergensområdet tar jeg på meg montering, service og reparasjon av
+              full jobb som maskinist i Nordsjøen. Når jeg er hjemme på Sotra tar jeg på meg montering, service og reparasjon av
               varmepumper og klimaanlegg – for både privatpersoner og bedrifter.
             </p>
             <p>
@@ -29,9 +28,8 @@ export function About() {
               anlegg med mer enn 3 kg kuldemedium.
             </p>
             <p>
-              Fordi jeg jobber 14 dager til havs om gangen, er jeg ikke alltid
-              tilgjengelig på telefon. E-post og kontaktskjemaet når meg
-              uansett, og jeg svarer så snart jeg kan.
+              På grunn av turnusordningen på jobb, er jeg ikke alltid
+              tilgjengelig på telefon. Men dersom du ønkser å sette opp en avtale, kan du gjøre det gjennom e-post eller via kontaktskjemaet, og jeg svarer så snart jeg kan.
             </p>
           </div>
         </div>

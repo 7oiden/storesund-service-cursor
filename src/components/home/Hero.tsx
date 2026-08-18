@@ -25,11 +25,14 @@ export function Hero({ settings }: { settings: SiteSettings }) {
             f-gass sertifisert
           </div>
           <h1 className="display text-5xl leading-[1.05] sm:text-6xl lg:text-7xl">
-            Varmepumpe i Bergen – montert, servet og reparert skikkelig.
+            Varmepumpe i Bergen og omegn–
+            <span className="mt-1 block text-[0.8em]">
+              montasje, service og reparasjon.
+            </span>
           </h1>
           <p className="mt-6 max-w-xl text-base leading-7 text-cream/75 sm:text-lg">
-            Storesund Service er et sideoppdrag for Hugo Storesund. Fastpris på
-            standard jobber, hjemmebesøk etter arbeidstid, og ærlig råd når
+            Fastpris på
+            standard jobber, hjemmebesøk etter arbeidstid, og ærlige råd når
             reparasjon lønner seg mer enn å bytte.
           </p>
           <div className="mt-8 flex flex-wrap items-center gap-3">

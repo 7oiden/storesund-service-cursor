@@ -9,19 +9,19 @@ export const serviceNav = [
     href: "/tjenester/montering",
     slug: "montering",
     label: "Montering",
-    summary: "Fastpris på standard luft-til-luft, også på pumper du har kjøpt selv.",
+    summary: "Fastpris på montering av standard luft-til-luft. Prisen gjelder også på pumper du har kjøpt selv.",
   },
   {
     href: "/tjenester/service",
     slug: "service",
     label: "Service",
-    summary: "Regelmessig vedlikehold som holder anlegget effektivt og billig i drift.",
+    summary: "Regelmessig vedlikehold og service holder anlegget effektivt og øker levetiden betraktelig.",
   },
   {
     href: "/tjenester/reparasjon",
     slug: "reparasjon",
     label: "Reparasjon",
-    summary: "Gratis feilsøking og ærlig vurdering før du bytter ut hele anlegget.",
+    summary: "Gratis feilsøking og ærlig vurdering, kan spare deg store kostnader ved å unngå å måtte bytte ut hele anlegget.",
   },
 ] as const;
 
@@ -32,15 +32,15 @@ export const whyMe = [
   },
   {
     title: "Allsidig",
-    body: "Privat og næring – fra luft-til-luft i enebolig til mikrobryggeri, kjøleanlegg og skipsfart.",
+    body: "Tar på meg oppdrag både for private og næring – fra luft-til-luft i enebolig til mikrobryggeri, kjøleanlegg og skipsfart.",
   },
   {
     title: "Fleksibel",
-    body: "Hjemmebesøk etter arbeidstid uten tillegg. Jobben tilpasses når jeg er i land.",
+    body: "Hjemmebesøk etter arbeidstid uten tillegg. Avtalen kan tilpasses ditt behov.",
   },
   {
     title: "Erfaring",
-    body: "Mer enn 20 år med varmepumper, 15 år som maskinist offshore, og f-gass kategori I.",
+    body: "Mer enn 20 års erfaring med varmepumper, 15 års erfaring som maskinist offshore, og sertifisering som sikrer korrekt og sikkert arbeid.",
   },
 ] as const;
 
