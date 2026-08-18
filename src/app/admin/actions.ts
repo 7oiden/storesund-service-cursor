@@ -80,3 +80,56 @@ export async function signOut() {
   await supabase.auth.signOut();
   redirect("/admin/login");
 }
+
+type PasswordState = {
+  error: string;
+  success: boolean;
+};
+
+export async function updatePassword(
+  _prev: PasswordState,
+  formData: FormData,
+): Promise<PasswordState> {
+  const supabase = await requireUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user?.email) {
+    return { error: "Kunne ikke bekrefte innloggingen.", success: false };
+  }
+
+  const currentPassword = String(formData.get("current_password") ?? "");
+  const newPassword = String(formData.get("new_password") ?? "");
+  const confirmPassword = String(formData.get("confirm_password") ?? "");
+
+  if (newPassword.length < 8) {
+    return {
+      error: "Det nye passordet må ha minst 8 tegn.",
+      success: false,
+    };
+  }
+
+  if (newPassword !== confirmPassword) {
+    return { error: "Passordene er ikke like.", success: false };
+  }
+
+  const { error: signInError } = await supabase.auth.signInWithPassword({
+    email: user.email,
+    password: currentPassword,
+  });
+
+  if (signInError) {
+    return { error: "Feil nåværende passord.", success: false };
+  }
+
+  const { error } = await supabase.auth.updateUser({ password: newPassword });
+  if (error) {
+    return {
+      error: "Kunne ikke oppdatere passordet. Prøv igjen.",
+      success: false,
+    };
+  }
+
+  return { error: "", success: true };
+}

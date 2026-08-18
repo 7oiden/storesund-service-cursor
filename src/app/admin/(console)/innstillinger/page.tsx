@@ -1,4 +1,6 @@
 import { updateSettings } from "@/app/admin/actions";
+import { PasswordForm } from "@/components/admin/PasswordForm";
+import { Toggle } from "@/components/admin/Toggle";
 import { getSiteSettings } from "@/lib/data";
 
 export default async function AdminSettingsPage() {
@@ -14,14 +16,13 @@ export default async function AdminSettingsPage() {
         action={updateSettings}
         className="mt-8 grid gap-4 rounded-3xl border border-line bg-cream p-6"
       >
-        <label className="flex items-center gap-3 rounded-2xl bg-paper px-4 py-3 text-sm">
-          <input
+        <div className="rounded-2xl bg-paper px-4 py-3 text-sm">
+          <Toggle
             name="is_available"
-            type="checkbox"
+            label="Tilgjengelig for oppdrag (slå av når du er offshore)"
             defaultChecked={settings.is_available}
           />
-          Tilgjengelig for oppdrag (fjern avhuking når du er offshore)
-        </label>
+        </div>
         <label className="grid gap-2 text-sm">
           Merknad om tilgjengelighet
           <textarea
@@ -59,6 +60,16 @@ export default async function AdminSettingsPage() {
           Lagre innstillinger
         </button>
       </form>
+
+      <section className="mt-8 rounded-3xl border border-line bg-cream p-6">
+        <h2 className="display text-2xl">Passord</h2>
+        <p className="mt-1 text-sm text-ink-soft">
+          Bytt passordet du bruker for å logge inn i admin.
+        </p>
+        <div className="mt-6">
+          <PasswordForm />
+        </div>
+      </section>
     </div>
   );
 }
