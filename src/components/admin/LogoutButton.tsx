@@ -15,7 +15,7 @@ export function LogoutButton() {
       <button
         type="button"
         onClick={() => dialogRef.current?.showModal()}
-        className="cursor-pointer rounded-full px-3 py-1.5 text-ink-soft transition hover:bg-ink/10 hover:text-ink"
+        className="cursor-pointer font-medium tracking-wide text-ink-soft transition hover:text-ink"
       >
         Logg ut
       </button>

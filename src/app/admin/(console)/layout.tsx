@@ -1,14 +1,6 @@
-import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
-import { LogoutButton } from "@/components/admin/LogoutButton";
-
-const links = [
-  { href: "/admin", label: "Henvendelser" },
-  { href: "/admin/serviceavtaler", label: "Serviceavtaler" },
-  { href: "/admin/faq", label: "FAQ" },
-  { href: "/admin/innstillinger", label: "Innstillinger" },
-];
+import { AdminNav } from "@/components/admin/AdminNav";
 
 export default async function AdminConsoleLayout({
   children,
@@ -32,24 +24,7 @@ export default async function AdminConsoleLayout({
             </p>
             <p className="text-sm text-ink-soft">{user.email}</p>
           </div>
-          <nav className="flex flex-wrap items-center gap-1 text-sm">
-            {links.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className="rounded-full px-3 py-1.5 transition hover:bg-ink/10 hover:text-forest"
-              >
-                {link.label}
-              </Link>
-            ))}
-            <Link
-              href="/"
-              className="rounded-full px-3 py-1.5 text-ink-soft transition hover:bg-ink/10 hover:text-ink"
-            >
-              Til nettstedet
-            </Link>
-            <LogoutButton />
-          </nav>
+          <AdminNav />
         </div>
       </header>
       <div className="mx-auto max-w-5xl px-5 py-10">{children}</div>
