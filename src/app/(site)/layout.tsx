@@ -1,4 +1,5 @@
 import { Footer } from "@/components/layout/Footer";
+import { ScrollToTop } from "@/components/layout/ScrollToTop";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 
 export default function SiteLayout({
@@ -11,6 +12,7 @@ export default function SiteLayout({
       <SiteHeader />
       <main className="flex-1">{children}</main>
       <Footer />
+      <ScrollToTop />
     </>
   );
 }

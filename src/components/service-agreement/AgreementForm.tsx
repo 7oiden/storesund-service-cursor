@@ -85,7 +85,7 @@ export function AgreementForm({ source = "qr" }: { source?: "qr" | "web" }) {
         <button
           type="submit"
           disabled={status === "loading"}
-          className="mt-2 mr-auto w-fit cursor-pointer rounded-full bg-copper px-6 py-3.5 text-base font-semibold text-cream transition hover:bg-copper/90 disabled:cursor-not-allowed disabled:opacity-60"
+          className="mt-2 mr-auto w-fit cursor-pointer rounded-full bg-copper px-6 py-3.5 text-base font-semibold text-white transition hover:bg-copper/90 disabled:cursor-not-allowed disabled:opacity-60"
         >
           {status === "loading" ? "Sender…" : "Start serviceavtale"}
         </button>
