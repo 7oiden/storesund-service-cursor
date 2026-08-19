@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { LogoutButton } from "@/components/admin/LogoutButton";
+import { rentalAdminUrl } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
 const links = [
@@ -44,6 +45,12 @@ export function AdminNav() {
       >
         Til nettstedet
       </Link>
+      <a
+        href={rentalAdminUrl}
+        className="relative font-medium tracking-wide text-ink-soft transition hover:text-ink"
+      >
+        Utleie-admin
+      </a>
       <LogoutButton />
     </nav>
   );
