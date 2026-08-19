@@ -82,6 +82,12 @@ create policy "Admins update submissions"
   using (true)
   with check (true);
 
+drop policy if exists "Admins delete submissions" on public.contact_submissions;
+create policy "Admins delete submissions"
+  on public.contact_submissions for delete
+  to authenticated
+  using (true);
+
 create table if not exists public.service_agreements (
   id uuid primary key default gen_random_uuid(),
   name text not null,

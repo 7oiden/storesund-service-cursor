@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { updateSubmissionStatus } from "@/app/admin/actions";
+import { DeleteSubmissionDialog } from "@/components/admin/DeleteSubmissionDialog";
 import { getSubmissionsPage } from "@/lib/data";
 import { cn, formatPhone } from "@/lib/utils";
 
@@ -74,24 +75,36 @@ export default async function AdminInboxPage({
               <p className="mt-3 text-xs text-ink-soft">
                 {new Date(item.created_at).toLocaleString("nb-NO")}
               </p>
-              <form className="mt-4 flex gap-2">
-                <button
-                  formAction={updateSubmissionStatus.bind(null, item.id, "read")}
-                  className="cursor-pointer rounded-full border border-line px-3 py-1.5 text-xs transition hover:border-ink/30 hover:bg-paper"
-                >
-                  Merk som lest
-                </button>
-                <button
-                  formAction={updateSubmissionStatus.bind(
-                    null,
-                    item.id,
-                    "replied",
-                  )}
-                  className="cursor-pointer rounded-full border border-line px-3 py-1.5 text-xs transition hover:border-ink/30 hover:bg-paper"
-                >
-                  Merk som besvart
-                </button>
-              </form>
+              <div className="mt-4 flex items-end justify-between gap-3">
+                <DeleteSubmissionDialog
+                  submissionId={item.id}
+                  customerName={item.name}
+                />
+                <form className="flex flex-wrap justify-end gap-2">
+                  <button
+                    formAction={updateSubmissionStatus.bind(
+                      null,
+                      item.id,
+                      "read",
+                    )}
+                    className="cursor-pointer rounded-full border border-line px-3 py-1.5 text-xs transition hover:border-ink/30 hover:bg-paper"
+                  >
+                    Merk som lest
+                  </button>
+                  {item.status !== "replied" ? (
+                    <button
+                      formAction={updateSubmissionStatus.bind(
+                        null,
+                        item.id,
+                        "replied",
+                      )}
+                      className="cursor-pointer rounded-full border border-line px-3 py-1.5 text-xs transition hover:border-ink/30 hover:bg-paper"
+                    >
+                      Merk som besvart
+                    </button>
+                  ) : null}
+                </form>
+              </div>
             </article>
           ))
         )}

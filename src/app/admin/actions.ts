@@ -54,6 +54,38 @@ export async function updateSubmissionStatus(id: string, status: string) {
   revalidatePath("/admin");
 }
 
+type DeleteSubmissionState = {
+  error: string;
+  success: boolean;
+};
+
+export async function deleteSubmission(
+  _prev: DeleteSubmissionState,
+  formData: FormData,
+): Promise<DeleteSubmissionState> {
+  const id = String(formData.get("id") ?? "");
+  if (!id) return { error: "Mangler henvendelse.", success: false };
+
+  const supabase = await requireUser();
+  const { data, error } = await supabase
+    .from("contact_submissions")
+    .delete()
+    .eq("id", id)
+    .select("id");
+
+  if (error) return { error: error.message, success: false };
+  if (!data?.length) {
+    return {
+      error:
+        "Kunne ikke slette. Kjør SQL for slette-tilgang på contact_submissions og prøv igjen.",
+      success: false,
+    };
+  }
+
+  revalidatePath("/admin");
+  return { error: "", success: true };
+}
+
 type FaqClient = Awaited<ReturnType<typeof createClient>>;
 
 async function listFaqIds(supabase: FaqClient) {
