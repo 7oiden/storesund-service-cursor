@@ -114,6 +114,11 @@ export async function getSubmissionsPage(
   };
 }
 
+export type ServiceVisit = {
+  id: string;
+  serviced_at: string;
+};
+
 export type ServiceAgreement = {
   id: string;
   name: string;
@@ -126,6 +131,7 @@ export type ServiceAgreement = {
   last_serviced_at: string | null;
   next_due_at: string | null;
   created_at: string;
+  visits: ServiceVisit[];
 };
 
 export async function getServiceAgreements(): Promise<ServiceAgreement[]> {
@@ -137,10 +143,35 @@ export async function getServiceAgreements(): Promise<ServiceAgreement[]> {
 
   if (error || !data) return [];
 
+  const agreements = data as Omit<ServiceAgreement, "visits">[];
+  const visitsByAgreement = new Map<string, ServiceVisit[]>();
+
+  if (agreements.length > 0) {
+    const { data: visits } = await supabase
+      .from("service_visits")
+      .select("id, agreement_id, serviced_at")
+      .in(
+        "agreement_id",
+        agreements.map((item) => item.id),
+      )
+      .order("serviced_at", { ascending: false });
+
+    for (const visit of visits ?? []) {
+      const list = visitsByAgreement.get(visit.agreement_id) ?? [];
+      list.push({ id: visit.id, serviced_at: visit.serviced_at });
+      visitsByAgreement.set(visit.agreement_id, list);
+    }
+  }
+
   const rank = { active: 0, paused: 1, ended: 2 } as const;
-  return [...(data as ServiceAgreement[])].sort((a, b) => {
-    const byStatus = rank[a.status] - rank[b.status];
-    if (byStatus !== 0) return byStatus;
-    return (a.next_due_at ?? "").localeCompare(b.next_due_at ?? "");
-  });
+  return agreements
+    .map((item) => ({
+      ...item,
+      visits: visitsByAgreement.get(item.id) ?? [],
+    }))
+    .sort((a, b) => {
+      const byStatus = rank[a.status] - rank[b.status];
+      if (byStatus !== 0) return byStatus;
+      return (a.next_due_at ?? "").localeCompare(b.next_due_at ?? "");
+    });
 }

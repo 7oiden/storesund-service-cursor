@@ -22,7 +22,7 @@ npm run dev
 4. Under Authentication → Users: opprett én adminbruker (Hugos e-post).
 5. Logg inn på `/admin/login`.
 
-Uten tabellene vises fortsatt nettstedet med innebygde standardpriser og FAQ. Kontaktskjemaet krever at `contact_submissions` finnes. Serviceavtaler krever at `service_agreements` finnes – kjør SQL-filen på nytt, eller lim inn `create table`-blokken for `service_agreements`.
+Uten tabellene vises fortsatt nettstedet med innebygde standardpriser og FAQ. Kontaktskjemaet krever at `contact_submissions` finnes. Serviceavtaler krever at `service_agreements` finnes. Servicelogg krever `service_visits`. Kjør SQL-filen på nytt, eller lim inn `create table`-blokkene som mangler.
 
 ## E-postvarsel
 

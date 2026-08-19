@@ -8,7 +8,7 @@ import { formatNok } from "@/lib/utils";
 export const metadata: Metadata = {
   title: "Serviceavtale",
   description:
-    "Årlig service på varmepumpe med rabatt på neste besøk. Du betaler etter jobben er gjort.",
+    "Service annethvert år på varmepumpe med rabatt på neste besøk. Du betaler etter jobben er gjort.",
 };
 
 export default async function ServiceAgreementPage({

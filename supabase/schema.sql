@@ -117,6 +117,58 @@ create policy "Admins update agreements"
   using (true)
   with check (true);
 
+create table if not exists public.service_visits (
+  id uuid primary key default gen_random_uuid(),
+  agreement_id uuid not null references public.service_agreements(id) on delete cascade,
+  serviced_at date not null,
+  created_at timestamptz not null default now()
+);
+
+create index if not exists service_visits_agreement_id_idx
+  on public.service_visits (agreement_id, serviced_at desc);
+
+alter table public.service_visits enable row level security;
+
+drop policy if exists "Admins read visits" on public.service_visits;
+create policy "Admins read visits"
+  on public.service_visits for select
+  to authenticated
+  using (true);
+
+drop policy if exists "Admins insert visits" on public.service_visits;
+create policy "Admins insert visits"
+  on public.service_visits for insert
+  to authenticated
+  with check (true);
+
+create or replace function public.seed_service_visit()
+returns trigger
+language plpgsql
+security definer
+set search_path = public
+as $$
+begin
+  if new.last_serviced_at is not null then
+    insert into public.service_visits (agreement_id, serviced_at)
+    values (new.id, new.last_serviced_at);
+  end if;
+  return new;
+end;
+$$;
+
+drop trigger if exists service_agreements_seed_visit on public.service_agreements;
+create trigger service_agreements_seed_visit
+after insert on public.service_agreements
+for each row execute procedure public.seed_service_visit();
+
+insert into public.service_visits (agreement_id, serviced_at)
+select id, last_serviced_at
+from public.service_agreements
+where last_serviced_at is not null
+  and not exists (
+    select 1 from public.service_visits v where v.agreement_id = service_agreements.id
+  );
+
 insert into public.site_settings (
   phone, email, address, org_nr, is_available, availability_note, install_price, service_price, service_discount_percent
 )

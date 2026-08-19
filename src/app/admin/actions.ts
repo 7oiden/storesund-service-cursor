@@ -7,6 +7,7 @@ import {
   SERVICE_INTERVAL_YEARS,
   addYearsIso,
   isoDate,
+  parseIsoDate,
 } from "@/lib/utils";
 
 async function requireUser() {
@@ -139,20 +140,55 @@ export async function updatePassword(
   return { error: "", success: true };
 }
 
-export async function markAgreementServiced(id: string) {
+type MarkServicedState = {
+  error: string;
+  success: boolean;
+};
+
+export async function markAgreementServiced(
+  _prev: MarkServicedState,
+  formData: FormData,
+): Promise<MarkServicedState> {
+  const id = String(formData.get("id") ?? "");
+  const servicedAt = String(formData.get("serviced_at") ?? "");
+  const parsed = parseIsoDate(servicedAt);
+
+  if (!id) return { error: "Mangler avtale-id.", success: false };
+  if (!parsed) return { error: "Velg en gyldig dato.", success: false };
+  if (servicedAt > isoDate()) {
+    return { error: "Datoen kan ikke være i fremtiden.", success: false };
+  }
+
   const supabase = await requireUser();
-  const today = isoDate();
-  const { error } = await supabase
+  const nextDue = addYearsIso(parsed, SERVICE_INTERVAL_YEARS);
+
+  const { error: visitError } = await supabase.from("service_visits").insert({
+    agreement_id: id,
+    serviced_at: servicedAt,
+  });
+  if (visitError) {
+    return {
+      error:
+        "Kunne ikke lagre serviceloggen. Kjør SQL for tabellen service_visits og prøv igjen.",
+      success: false,
+    };
+  }
+
+  const { data, error } = await supabase
     .from("service_agreements")
     .update({
-      last_serviced_at: today,
-      next_due_at: addYearsIso(new Date(), SERVICE_INTERVAL_YEARS),
+      last_serviced_at: servicedAt,
+      next_due_at: nextDue,
       status: "active",
     })
-    .eq("id", id);
+    .eq("id", id)
+    .select("id");
 
-  if (error) throw new Error(error.message);
+  if (error) return { error: error.message, success: false };
+  if (!data?.length) return { error: "Fant ikke avtalen.", success: false };
+
   revalidatePath("/admin/serviceavtaler");
+  return { error: "", success: true };
 }
 
 export async function updateAgreementStatus(

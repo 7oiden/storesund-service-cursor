@@ -1,9 +1,7 @@
 import { headers } from "next/headers";
-import {
-  markAgreementServiced,
-  updateAgreementStatus,
-} from "@/app/admin/actions";
-import { getServiceAgreements } from "@/lib/data";
+import { updateAgreementStatus } from "@/app/admin/actions";
+import { MarkServicedDialog } from "@/components/admin/MarkServicedDialog";
+import { getServiceAgreements, type ServiceVisit } from "@/lib/data";
 import { cn, formatIsoDate, formatPhone, telHref } from "@/lib/utils";
 
 const statusBadge = {
@@ -23,6 +21,15 @@ function dueTone(nextDue: string | null, status: string) {
   if (diffDays < 0) return "Forsinket";
   if (diffDays <= 45) return "Snart";
   return null;
+}
+
+function visitsFor(
+  visits: ServiceVisit[],
+  lastServicedAt: string | null,
+): ServiceVisit[] {
+  if (visits.length > 0) return visits;
+  if (!lastServicedAt) return [];
+  return [{ id: "current", serviced_at: lastServicedAt }];
 }
 
 async function qrSignupUrl() {
@@ -64,7 +71,7 @@ export default async function AdminAgreementsPage() {
           <h2 className="font-semibold text-ink">QR til kunden</h2>
           <p className="mt-1 max-w-md text-sm leading-6 text-ink-soft">
             Vis denne koden etter jobben, eller lagre bildet på telefonen. Den
-            åpner påmeldingssiden med årsintervall og rabatt.
+            åpner påmeldingssiden med toårsintervall og rabatt.
           </p>
           <p className="mt-3 break-all text-xs text-ink-soft">{signupUrl}</p>
         </div>
@@ -79,6 +86,7 @@ export default async function AdminAgreementsPage() {
         ) : (
           agreements.map((item) => {
             const due = dueTone(item.next_due_at, item.status);
+            const visits = visitsFor(item.visits, item.last_serviced_at);
             return (
               <article
                 key={item.id}
@@ -124,63 +132,76 @@ export default async function AdminAgreementsPage() {
                   Sist service {formatIsoDate(item.last_serviced_at)} · Neste{" "}
                   {formatIsoDate(item.next_due_at)}
                 </p>
-                <form className="mt-4 flex flex-wrap gap-2">
+                {visits.length > 0 ? (
+                  <div className="mt-3">
+                    <p className="text-xs font-semibold uppercase tracking-wide text-ink-soft">
+                      Servicelogg
+                    </p>
+                    <ul className="mt-1 space-y-0.5 text-xs text-ink-soft">
+                      {visits.map((visit) => (
+                        <li key={visit.id}>{formatIsoDate(visit.serviced_at)}</li>
+                      ))}
+                    </ul>
+                  </div>
+                ) : null}
+                <div className="mt-4 flex flex-wrap gap-2">
                   {item.status !== "ended" ? (
-                    <button
-                      formAction={markAgreementServiced.bind(null, item.id)}
-                      className={actionBtn}
-                    >
-                      Merk som utført
-                    </button>
+                    <MarkServicedDialog
+                      agreementId={item.id}
+                      customerName={item.name}
+                      visits={visits}
+                    />
                   ) : null}
-                  {item.status === "active" ? (
-                    <button
-                      formAction={updateAgreementStatus.bind(
-                        null,
-                        item.id,
-                        "paused",
-                      )}
-                      className={actionBtn}
-                    >
-                      Sett på pause
-                    </button>
-                  ) : null}
-                  {item.status === "paused" ? (
-                    <button
-                      formAction={updateAgreementStatus.bind(
-                        null,
-                        item.id,
-                        "active",
-                      )}
-                      className={actionBtn}
-                    >
-                      Aktiver
-                    </button>
-                  ) : null}
-                  {item.status !== "ended" ? (
-                    <button
-                      formAction={updateAgreementStatus.bind(
-                        null,
-                        item.id,
-                        "ended",
-                      )}
-                      className={actionBtn}
-                    >
-                      Avslutt
-                    </button>
-                  ) : (
-                    <button
-                      formAction={updateAgreementStatus.bind(
-                        null,
-                        item.id,
-                        "active",
-                      )}
-                      className={actionBtn}
-                    >
-                      Gjenåpne
-                    </button>
-                  )}
-                </form>
+                  <form className="flex flex-wrap gap-2">
+                    {item.status === "active" ? (
+                      <button
+                        formAction={updateAgreementStatus.bind(
+                          null,
+                          item.id,
+                          "paused",
+                        )}
+                        className={actionBtn}
+                      >
+                        Sett på pause
+                      </button>
+                    ) : null}
+                    {item.status === "paused" ? (
+                      <button
+                        formAction={updateAgreementStatus.bind(
+                          null,
+                          item.id,
+                          "active",
+                        )}
+                        className={actionBtn}
+                      >
+                        Aktiver
+                      </button>
+                    ) : null}
+                    {item.status !== "ended" ? (
+                      <button
+                        formAction={updateAgreementStatus.bind(
+                          null,
+                          item.id,
+                          "ended",
+                        )}
+                        className={actionBtn}
+                      >
+                        Avslutt
+                      </button>
+                    ) : (
+                      <button
+                        formAction={updateAgreementStatus.bind(
+                          null,
+                          item.id,
+                          "active",
+                        )}
+                        className={actionBtn}
+                      >
+                        Gjenåpne
+                      </button>
+                    )}
+                  </form>
+                </div>
               </article>
             );
           })
