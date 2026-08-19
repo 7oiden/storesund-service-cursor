@@ -11,7 +11,7 @@ export function CtaBand() {
               Klar for en prat?
             </p>
             <h2 className="display mt-2 text-3xl sm:text-4xl">
-              Send en melding. Jeg svarer når jeg kan.
+              Ikke nøl med å ta kontakt.
             </h2>
           </div>
           <ButtonLink

@@ -29,7 +29,8 @@ export function About() {
             </p>
             <p>
               På grunn av turnusordningen på jobb, er jeg ikke alltid
-              tilgjengelig på telefon. Men dersom du ønkser å sette opp en avtale, kan du gjøre det gjennom e-post eller via kontaktskjemaet, og jeg svarer så snart jeg kan.
+              tilgjengelig på telefon. Men dersom du ønsker å sette opp en avtale eller har spørsmål, kan du gjøre det gjennom e-post eller via kontaktskjemaet; så svarer jeg
+               så snart jeg kan.
             </p>
           </div>
         </div>
