@@ -1,28 +1,28 @@
+import { ArrowRight } from "lucide-react";
 import { ButtonLink } from "@/components/ui/ButtonLink";
 import { Container } from "@/components/ui/Container";
+import { GreenWash } from "@/components/ui/GreenWash";
 
 export function CtaBand() {
   return (
-    <section className="py-16">
-      <Container>
-        <div className="flex flex-col items-start justify-between gap-6 rounded-[2rem] bg-forest px-8 py-10 text-cream sm:flex-row sm:items-center sm:px-12">
+    <section className="pb-32">
+      <div className="relative overflow-hidden bg-forest-deep text-cream">
+        <GreenWash />
+        <Container className="relative z-10 flex flex-col items-start justify-between gap-6 py-12 sm:flex-row sm:items-center lg:py-16">
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.2em] text-cream/60">
-              Klar for en prat?
+              Klar for en time?
             </p>
             <h2 className="display mt-2 text-3xl sm:text-4xl">
-              Ikke nøl med å ta kontakt.
+              Send en melding, så tar vi det derfra.
             </h2>
           </div>
-          <ButtonLink
-            href="/kontakt"
-            variant="secondary"
-            className="shrink-0"
-          >
-            Gå til kontakt
+          <ButtonLink href="/kontakt" variant="copper" className="shrink-0">
+            Be om time
+            <ArrowRight size={16} />
           </ButtonLink>
-        </div>
-      </Container>
+        </Container>
+      </div>
     </section>
   );
 }
