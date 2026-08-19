@@ -11,6 +11,11 @@ export type SiteSettings = {
   service_discount_percent: number;
 };
 
+/** Public origin for sitemap and robots. Set NEXT_PUBLIC_SITE_URL at launch. */
+export const siteUrl = (
+  process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"
+).replace(/\/$/, "");
+
 export const defaultSettings: SiteSettings = {
   phone: "90659303",
   email: "hugo.storesund@gmail.com",

@@ -41,6 +41,8 @@ Sett `RESEND_API_KEY` og `CONTACT_NOTIFY_EMAIL` i `.env.local`. Uten nøkkel lag
 
 Hero, om-meg og tjenestesidene bruker midlertidige Unsplash-bilder. Bytt ut URL-ene i `src/lib/site.ts` når ekte foto er klart.
 
+Sett `NEXT_PUBLIC_SITE_URL` (f.eks. `https://ditt-domene.no`) før lansering, så `sitemap.xml` og `robots.txt` peker på riktig adresse. Admin er satt til `noindex`.
+
 ## Navigasjon
 
 - `/` – hjem
