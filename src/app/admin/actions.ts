@@ -19,7 +19,16 @@ async function requireUser() {
   return supabase;
 }
 
-export async function updateSettings(formData: FormData) {
+type SettingsState = {
+  error: string;
+  success: boolean;
+  savedAt: number;
+};
+
+export async function updateSettings(
+  _prev: SettingsState,
+  formData: FormData,
+): Promise<SettingsState> {
   const supabase = await requireUser();
   const { error } = await supabase
     .from("site_settings")
@@ -28,7 +37,6 @@ export async function updateSettings(formData: FormData) {
       email: String(formData.get("email") ?? ""),
       address: String(formData.get("address") ?? ""),
       org_nr: String(formData.get("org_nr") ?? ""),
-      is_available: formData.get("is_available") === "on",
       availability_note: String(formData.get("availability_note") ?? ""),
       install_price: Number(formData.get("install_price") ?? 0),
       service_price: Number(formData.get("service_price") ?? 0),
@@ -38,9 +46,23 @@ export async function updateSettings(formData: FormData) {
     })
     .not("id", "is", null);
 
-  if (error) throw new Error(error.message);
+  if (error) return { error: error.message, success: false, savedAt: 0 };
   revalidatePath("/", "layout");
   revalidatePath("/admin/innstillinger");
+  return { error: "", success: true, savedAt: Date.now() };
+}
+
+export async function updateAvailability(isAvailable: boolean) {
+  const supabase = await requireUser();
+  const { error } = await supabase
+    .from("site_settings")
+    .update({ is_available: isAvailable })
+    .not("id", "is", null);
+
+  if (error) return { error: error.message };
+  revalidatePath("/", "layout");
+  revalidatePath("/admin/innstillinger");
+  return { error: "" };
 }
 
 export async function updateSubmissionStatus(id: string, status: string) {

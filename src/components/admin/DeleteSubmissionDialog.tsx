@@ -3,6 +3,7 @@
 import { useActionState, useEffect, useRef, useState } from "react";
 import { Trash2 } from "lucide-react";
 import { deleteSubmission } from "@/app/admin/actions";
+import { DialogCloseButton } from "@/components/admin/DialogCloseButton";
 
 const initialState = { error: "", success: false };
 
@@ -74,11 +75,11 @@ function ConfirmDeleteModal({
     <dialog
       ref={dialogRef}
       className="m-auto w-[min(100%-2rem,28rem)] max-h-[90vh] overflow-auto rounded-3xl border border-line bg-cream p-6 text-ink shadow-lg backdrop:bg-ink/45"
-      onClick={(event) => {
-        if (event.target === dialogRef.current) onClose();
-      }}
     >
-      <h2 className="display text-2xl">Slett henvendelse</h2>
+      <div className="flex items-start justify-between gap-3">
+        <h2 className="display text-2xl">Slett henvendelse</h2>
+        <DialogCloseButton onClose={onClose} />
+      </div>
       <p className="mt-2 text-sm leading-6 text-ink-soft">
         Vil du slette henvendelsen fra {customerName}? Dette kan ikke angres.
       </p>

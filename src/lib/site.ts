@@ -16,6 +16,18 @@ export const siteUrl = (
   process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"
 ).replace(/\/$/, "");
 
+/** Status copy shown in the public header. */
+export const availabilityStatusText = {
+  available: "Tilgjengelig for oppdrag",
+  unavailable: "Offshore – svarer på e-post/kontaktskjema",
+} as const;
+
+export function availabilityStatusLabel(available: boolean) {
+  return available
+    ? availabilityStatusText.available
+    : availabilityStatusText.unavailable;
+}
+
 export const defaultSettings: SiteSettings = {
   phone: "90659303",
   email: "hugo.storesund@gmail.com",

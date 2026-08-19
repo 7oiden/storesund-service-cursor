@@ -5,7 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
 import { navLinks, serviceNav } from "@/lib/content";
-import type { SiteSettings } from "@/lib/site";
+import { availabilityStatusLabel, type SiteSettings } from "@/lib/site";
 import { cn } from "@/lib/utils";
 import { ButtonLink } from "@/components/ui/ButtonLink";
 import { Logo } from "@/components/ui/Logo";
@@ -115,7 +115,7 @@ function AvailabilityDot({ available }: { available: boolean }) {
           available ? "bg-forest" : "bg-copper",
         )}
       />
-      {available ? "Tilgjengelig for oppdrag" : "Offshore nå – svarer på e-post"}
+      {availabilityStatusLabel(available)}
     </p>
   );
 }

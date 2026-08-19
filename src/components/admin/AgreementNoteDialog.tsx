@@ -3,6 +3,7 @@
 import { useActionState, useEffect, useRef, useState } from "react";
 import { StickyNote } from "lucide-react";
 import { updateAgreementNote } from "@/app/admin/actions";
+import { DialogCloseButton } from "@/components/admin/DialogCloseButton";
 import { cn } from "@/lib/utils";
 
 const initialState = { error: "", success: false };
@@ -86,12 +87,14 @@ function NoteModal({
     <dialog
       ref={dialogRef}
       className="m-auto w-[min(100%-2rem,28rem)] max-h-[90vh] overflow-auto rounded-3xl border border-line bg-cream p-6 text-ink shadow-lg backdrop:bg-ink/45"
-      onClick={(event) => {
-        if (event.target === dialogRef.current) onClose();
-      }}
     >
-      <h2 className="display text-2xl">Merknad</h2>
-      <p className="mt-1 text-sm text-ink-soft">{customerName}</p>
+      <div className="flex items-start justify-between gap-3">
+        <div>
+          <h2 className="display text-2xl">Merknad</h2>
+          <p className="mt-1 text-sm text-ink-soft">{customerName}</p>
+        </div>
+        <DialogCloseButton onClose={onClose} />
+      </div>
 
       <form action={action} className="mt-5 grid gap-4">
         <input type="hidden" name="id" value={agreementId} />

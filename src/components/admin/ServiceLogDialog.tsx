@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { DialogCloseButton } from "@/components/admin/DialogCloseButton";
 import type { ServiceVisit } from "@/lib/data";
 import { formatIsoDate } from "@/lib/utils";
 
@@ -61,12 +62,14 @@ function ServiceLogModal({
     <dialog
       ref={dialogRef}
       className="m-auto w-[min(100%-2rem,28rem)] max-h-[90vh] overflow-auto rounded-3xl border border-line bg-cream p-6 text-ink shadow-lg backdrop:bg-ink/45"
-      onClick={(event) => {
-        if (event.target === dialogRef.current) onClose();
-      }}
     >
-      <h2 className="display text-2xl">Servicelogg</h2>
-      <p className="mt-1 text-sm text-ink-soft">{customerName}</p>
+      <div className="flex items-start justify-between gap-3">
+        <div>
+          <h2 className="display text-2xl">Servicelogg</h2>
+          <p className="mt-1 text-sm text-ink-soft">{customerName}</p>
+        </div>
+        <DialogCloseButton onClose={onClose} />
+      </div>
 
       {visits.length === 0 ? (
         <p className="mt-5 text-sm text-ink-soft">Ingen servicer logget ennå.</p>

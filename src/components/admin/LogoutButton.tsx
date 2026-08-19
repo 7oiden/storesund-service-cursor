@@ -2,6 +2,7 @@
 
 import { useRef } from "react";
 import { signOut } from "@/app/admin/actions";
+import { DialogCloseButton } from "@/components/admin/DialogCloseButton";
 
 export function LogoutButton() {
   const dialogRef = useRef<HTMLDialogElement>(null);
@@ -22,14 +23,14 @@ export function LogoutButton() {
       <dialog
         ref={dialogRef}
         aria-labelledby="logout-title"
-        onClick={(event) => {
-          if (event.target === event.currentTarget) close();
-        }}
         className="fixed left-1/2 top-1/2 w-[calc(100%-2.5rem)] max-w-md -translate-x-1/2 -translate-y-1/2 rounded-3xl border border-line bg-cream p-6 text-ink shadow-lg backdrop:bg-ink/50"
       >
-        <h2 id="logout-title" className="display text-2xl">
-          Logg ut?
-        </h2>
+        <div className="flex items-start justify-between gap-3">
+          <h2 id="logout-title" className="display text-2xl">
+            Logg ut?
+          </h2>
+          <DialogCloseButton onClose={close} />
+        </div>
         <p className="mt-2 text-sm leading-6 text-ink-soft">
           Du må logge inn igjen for å se henvendelser, FAQ og innstillinger.
         </p>
