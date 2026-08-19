@@ -2,6 +2,7 @@ import { headers } from "next/headers";
 import { updateAgreementStatus } from "@/app/admin/actions";
 import { AgreementNoteDialog } from "@/components/admin/AgreementNoteDialog";
 import { MarkServicedDialog } from "@/components/admin/MarkServicedDialog";
+import { PrintQrButton } from "@/components/admin/PrintQrButton";
 import { ServiceLogDialog } from "@/components/admin/ServiceLogDialog";
 import { getServiceAgreements, type ServiceVisit } from "@/lib/data";
 import { cn, formatIsoDate, formatPhone, telHref } from "@/lib/utils";
@@ -69,8 +70,11 @@ export default async function AdminAgreementsPage() {
           height={180}
           className="size-40 shrink-0 rounded-2xl bg-field p-2"
         />
-        <div>
-          <h2 className="font-semibold text-ink">QR til kunden</h2>
+        <div className="min-w-0 flex-1">
+          <div className="flex items-start justify-between gap-3">
+            <h2 className="font-semibold text-ink">QR til kunden</h2>
+            <PrintQrButton signupUrl={signupUrl} />
+          </div>
           <p className="mt-1 max-w-md text-sm leading-6 text-ink-soft">
             Vis denne koden etter jobben, eller lagre bildet på telefonen. Den
             åpner påmeldingssiden med toårsintervall og rabatt.
