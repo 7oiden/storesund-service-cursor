@@ -1,13 +1,15 @@
 import { headers } from "next/headers";
 import { updateAgreementStatus } from "@/app/admin/actions";
+import { AgreementNoteDialog } from "@/components/admin/AgreementNoteDialog";
 import { MarkServicedDialog } from "@/components/admin/MarkServicedDialog";
+import { ServiceLogDialog } from "@/components/admin/ServiceLogDialog";
 import { getServiceAgreements, type ServiceVisit } from "@/lib/data";
 import { cn, formatIsoDate, formatPhone, telHref } from "@/lib/utils";
 
 const statusBadge = {
   active: { label: "Aktiv", className: "bg-forest/20 text-forest" },
   paused: { label: "Pause", className: "bg-amber-300/35 text-amber-900" },
-  ended: { label: "Avsluttet", className: "bg-ink/10 text-ink-soft" },
+  ended: { label: "Avsluttet", className: "bg-danger/20 text-danger" },
 } as const;
 
 const actionBtn =
@@ -125,82 +127,78 @@ export default async function AdminAgreementsPage() {
                     </span>
                   </div>
                 </div>
-                {item.note ? (
-                  <p className="mt-3 text-sm leading-6 text-ink">{item.note}</p>
-                ) : null}
                 <p className="mt-3 text-xs text-ink-soft">
                   Sist service {formatIsoDate(item.last_serviced_at)} · Neste{" "}
                   {formatIsoDate(item.next_due_at)}
                 </p>
-                {visits.length > 0 ? (
-                  <div className="mt-3">
-                    <p className="text-xs font-semibold uppercase tracking-wide text-ink-soft">
-                      Servicelogg
-                    </p>
-                    <ul className="mt-1 space-y-0.5 text-xs text-ink-soft">
-                      {visits.map((visit) => (
-                        <li key={visit.id}>{formatIsoDate(visit.serviced_at)}</li>
-                      ))}
-                    </ul>
-                  </div>
-                ) : null}
-                <div className="mt-4 flex flex-wrap gap-2">
-                  {item.status !== "ended" ? (
-                    <MarkServicedDialog
-                      agreementId={item.id}
+                <div className="mt-4 flex items-end justify-between gap-3">
+                  <AgreementNoteDialog
+                    agreementId={item.id}
+                    customerName={item.name}
+                    note={item.note}
+                  />
+                  <div className="flex flex-wrap justify-end gap-2">
+                    {item.status !== "ended" ? (
+                      <MarkServicedDialog
+                        agreementId={item.id}
+                        customerName={item.name}
+                        visits={visits}
+                      />
+                    ) : null}
+                    <ServiceLogDialog
                       customerName={item.name}
                       visits={visits}
                     />
-                  ) : null}
-                  <form className="flex flex-wrap gap-2">
-                    {item.status === "active" ? (
-                      <button
-                        formAction={updateAgreementStatus.bind(
-                          null,
-                          item.id,
-                          "paused",
-                        )}
-                        className={actionBtn}
-                      >
-                        Sett på pause
-                      </button>
-                    ) : null}
-                    {item.status === "paused" ? (
-                      <button
-                        formAction={updateAgreementStatus.bind(
-                          null,
-                          item.id,
-                          "active",
-                        )}
-                        className={actionBtn}
-                      >
-                        Aktiver
-                      </button>
-                    ) : null}
-                    {item.status !== "ended" ? (
-                      <button
-                        formAction={updateAgreementStatus.bind(
-                          null,
-                          item.id,
-                          "ended",
-                        )}
-                        className={actionBtn}
-                      >
-                        Avslutt
-                      </button>
-                    ) : (
-                      <button
-                        formAction={updateAgreementStatus.bind(
-                          null,
-                          item.id,
-                          "active",
-                        )}
-                        className={actionBtn}
-                      >
-                        Gjenåpne
-                      </button>
-                    )}
-                  </form>
+                    <form className="flex flex-wrap gap-2">
+                      {item.status === "active" ? (
+                        <button
+                          formAction={updateAgreementStatus.bind(
+                            null,
+                            item.id,
+                            "paused",
+                          )}
+                          className={actionBtn}
+                        >
+                          Sett på pause
+                        </button>
+                      ) : null}
+                      {item.status === "paused" ? (
+                        <button
+                          formAction={updateAgreementStatus.bind(
+                            null,
+                            item.id,
+                            "active",
+                          )}
+                          className={actionBtn}
+                        >
+                          Aktiver
+                        </button>
+                      ) : null}
+                      {item.status !== "ended" ? (
+                        <button
+                          formAction={updateAgreementStatus.bind(
+                            null,
+                            item.id,
+                            "ended",
+                          )}
+                          className={actionBtn}
+                        >
+                          Avslutt
+                        </button>
+                      ) : (
+                        <button
+                          formAction={updateAgreementStatus.bind(
+                            null,
+                            item.id,
+                            "active",
+                          )}
+                          className={actionBtn}
+                        >
+                          Gjenåpne
+                        </button>
+                      )}
+                    </form>
+                  </div>
                 </div>
               </article>
             );

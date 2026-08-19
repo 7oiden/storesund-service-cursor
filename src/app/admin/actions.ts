@@ -204,3 +204,34 @@ export async function updateAgreementStatus(
   if (error) throw new Error(error.message);
   revalidatePath("/admin/serviceavtaler");
 }
+
+type NoteState = {
+  error: string;
+  success: boolean;
+};
+
+export async function updateAgreementNote(
+  _prev: NoteState,
+  formData: FormData,
+): Promise<NoteState> {
+  const id = String(formData.get("id") ?? "");
+  const note = String(formData.get("note") ?? "").trim();
+
+  if (!id) return { error: "Mangler avtale-id.", success: false };
+  if (note.length > 1000) {
+    return { error: "Merknaden kan være på maks 1000 tegn.", success: false };
+  }
+
+  const supabase = await requireUser();
+  const { data, error } = await supabase
+    .from("service_agreements")
+    .update({ note })
+    .eq("id", id)
+    .select("id");
+
+  if (error) return { error: error.message, success: false };
+  if (!data?.length) return { error: "Fant ikke avtalen.", success: false };
+
+  revalidatePath("/admin/serviceavtaler");
+  return { error: "", success: true };
+}
