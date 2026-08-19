@@ -54,29 +54,84 @@ export async function updateSubmissionStatus(id: string, status: string) {
   revalidatePath("/admin");
 }
 
+type FaqClient = Awaited<ReturnType<typeof createClient>>;
+
+async function listFaqIds(supabase: FaqClient) {
+  const { data, error } = await supabase
+    .from("faq_items")
+    .select("id")
+    .order("sort_order", { ascending: true })
+    .order("id", { ascending: true });
+
+  if (error) throw new Error(error.message);
+  return (data ?? []).map((item) => item.id as string);
+}
+
+async function writeFaqOrder(supabase: FaqClient, ids: string[]) {
+  const results = await Promise.all(
+    ids.map((id, index) =>
+      supabase.from("faq_items").update({ sort_order: index + 1 }).eq("id", id),
+    ),
+  );
+  const failed = results.find((result) => result.error);
+  if (failed?.error) throw new Error(failed.error.message);
+}
+
 export async function saveFaq(formData: FormData) {
   const supabase = await requireUser();
   const id = String(formData.get("id") ?? "");
   const payload = {
     question: String(formData.get("question") ?? ""),
     answer: String(formData.get("answer") ?? ""),
-    sort_order: Number(formData.get("sort_order") ?? 0),
     published: formData.get("published") === "on",
   };
 
-  const { error } = id
-    ? await supabase.from("faq_items").update(payload).eq("id", id)
-    : await supabase.from("faq_items").insert(payload);
+  if (id) {
+    const { error } = await supabase
+      .from("faq_items")
+      .update(payload)
+      .eq("id", id);
+    if (error) throw new Error(error.message);
+  } else {
+    const ids = await listFaqIds(supabase);
+    const { error } = await supabase.from("faq_items").insert({
+      ...payload,
+      sort_order: ids.length + 1,
+    });
+    if (error) throw new Error(error.message);
+  }
 
-  if (error) throw new Error(error.message);
+  await writeFaqOrder(supabase, await listFaqIds(supabase));
   revalidatePath("/kontakt");
   revalidatePath("/admin/faq");
 }
 
-export async function deleteFaq(id: string) {
+export async function deleteFaq(formData: FormData) {
+  const id = String(formData.get("id") ?? "");
+  if (!id) throw new Error("Mangler FAQ-id.");
+
   const supabase = await requireUser();
   const { error } = await supabase.from("faq_items").delete().eq("id", id);
   if (error) throw new Error(error.message);
+
+  await writeFaqOrder(supabase, await listFaqIds(supabase));
+  revalidatePath("/kontakt");
+  revalidatePath("/admin/faq");
+}
+
+export async function moveFaq(formData: FormData) {
+  const id = String(formData.get("id") ?? "");
+  const direction = String(formData.get("direction") ?? "");
+  if (!id || (direction !== "up" && direction !== "down")) return;
+
+  const supabase = await requireUser();
+  const ids = await listFaqIds(supabase);
+  const index = ids.indexOf(id);
+  const swapWith = direction === "up" ? index - 1 : index + 1;
+  if (index < 0 || swapWith < 0 || swapWith >= ids.length) return;
+
+  [ids[index], ids[swapWith]] = [ids[swapWith], ids[index]];
+  await writeFaqOrder(supabase, ids);
   revalidatePath("/kontakt");
   revalidatePath("/admin/faq");
 }

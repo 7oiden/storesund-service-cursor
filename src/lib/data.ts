@@ -48,7 +48,7 @@ export async function getFaqs(includeUnpublished = false): Promise<FaqItem[]> {
       query = query.eq("published", true);
     }
 
-    const { data, error } = await query;
+    const { data, error } = await query.order("id", { ascending: true });
     if (error || !data?.length) return fallbackFaqs;
     return data;
   } catch {
