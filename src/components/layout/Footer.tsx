@@ -101,7 +101,13 @@ export async function Footer() {
       <div className="border-t border-white/10">
         <Container className="flex flex-col gap-2 py-4 text-xs text-cream/50 sm:flex-row sm:justify-between">
           <p>© {new Date().getFullYear()} Hugo Storesund</p>
-          <p>f-gass sertifisert · kategori I</p>
+          <p>
+            <Link href="/personvern" className="hover:text-cream">
+              Personvernerklæring
+            </Link>
+            {" · "}
+            f-gass sertifisert · kategori I
+          </p>
         </Container>
       </div>
     </footer>

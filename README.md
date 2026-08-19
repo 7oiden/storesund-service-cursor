@@ -50,3 +50,4 @@ Hero, om-meg og tjenestesidene bruker midlertidige Unsplash-bilder. Bytt ut URL-
 - `/tjenester/reparasjon`
 - `/kontakt`
 - `/serviceavtale`
+- `/personvern`
