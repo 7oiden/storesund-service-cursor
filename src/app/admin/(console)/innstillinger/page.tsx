@@ -18,7 +18,7 @@ export default async function AdminSettingsPage() {
       <section className="mt-8 rounded-3xl border border-line bg-cream p-6">
         <h2 className="display text-2xl">Passord</h2>
         <p className="mt-1 text-sm text-ink-soft">
-          Bytt passordet du bruker for å logge inn i admin.
+          Bytt passordet du bruker for å logge inn som admin. Passordet vil endres både her og på minigraver-siden.
         </p>
         <PasswordForm />
       </section>

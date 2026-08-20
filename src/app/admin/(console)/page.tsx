@@ -2,7 +2,7 @@ import Link from "next/link";
 import { updateSubmissionStatus } from "@/app/admin/actions";
 import { DeleteSubmissionDialog } from "@/components/admin/DeleteSubmissionDialog";
 import { getSubmissionsPage } from "@/lib/data";
-import { cn, formatPhone } from "@/lib/utils";
+import { cn, formatPhone, telHref } from "@/lib/utils";
 
 const statusBadge = {
   new: {
@@ -53,11 +53,20 @@ export default async function AdminInboxPage({
               key={item.id}
               className="rounded-3xl border border-line bg-cream p-6"
             >
-              <div className="flex flex-wrap items-start justify-between gap-3">
+              <p className="text-xs text-ink-soft">
+                {new Date(item.created_at).toLocaleString("nb-NO")}
+              </p>
+              <div className="mt-4 flex flex-wrap items-start justify-between gap-3">
                 <div>
                   <p className="font-semibold text-ink">{item.name}</p>
                   <p className="text-sm text-ink-soft">
-                    {item.email} · {formatPhone(item.phone)}
+                    <a href={`mailto:${item.email}`} className="hover:text-ink">
+                      {item.email}
+                    </a>
+                    {" · "}
+                    <a href={telHref(item.phone)} className="hover:text-ink">
+                      {formatPhone(item.phone)}
+                    </a>
                   </p>
                 </div>
                 <span
@@ -72,9 +81,7 @@ export default async function AdminInboxPage({
               <p className="mt-4 whitespace-pre-wrap text-sm leading-6 text-ink">
                 {item.message}
               </p>
-              <p className="mt-3 text-xs text-ink-soft">
-                {new Date(item.created_at).toLocaleString("nb-NO")}
-              </p>
+              <div className="mt-5 border-t border-line" aria-hidden="true" />
               <div className="mt-4 flex items-end justify-between gap-3">
                 <DeleteSubmissionDialog
                   submissionId={item.id}
