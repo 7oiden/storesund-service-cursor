@@ -31,7 +31,7 @@ export function AdminNav() {
             className={cn(
               "relative font-medium tracking-wide transition",
               active
-                ? "text-forest after:absolute after:inset-x-0 after:top-full after:mt-1 after:h-0.5 after:bg-forest"
+                ? "text-copper after:absolute after:inset-x-0 after:top-full after:mt-1 after:h-0.5 after:bg-copper"
                 : "text-ink-soft hover:text-ink",
             )}
           >
