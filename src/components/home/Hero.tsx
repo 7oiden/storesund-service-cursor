@@ -54,11 +54,17 @@ export function Hero({ settings }: { settings: SiteSettings }) {
             priority
           />
           <div className="absolute bottom-5 left-5 right-5 rounded-2xl bg-cream/95 p-4 text-ink shadow-lg">
-            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-forest">
+            <p
+              className={`text-xs font-semibold uppercase tracking-[0.16em] ${
+                settings.is_available ? "text-forest" : "text-copper"
+              }`}
+            >
               {settings.is_available ? "I land og tilgjengelig" : "Offshore nå"}
             </p>
             <p className="mt-1 text-sm leading-6 text-ink-soft">
-              {settings.availability_note}
+              {settings.is_available
+                ? "På grunn av turnusarbeid offshore vil jeg ikke alltid være tilgjengelig på telefon. Jeg er for tiden i land og vil være tilgjengelig på telefon i tillegg til e-post og kontaktskjema."
+                : "På grunn av turnusarbeid offshore vil jeg ikke alltid være tilgjengelig på telefon. Jeg er for tiden offshore og vil kun være tilgjengelig via e-post og kontaktskjema."}
             </p>
           </div>
         </div>

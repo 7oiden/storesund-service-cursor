@@ -53,22 +53,10 @@ export default async function AdminInboxPage({
               key={item.id}
               className="rounded-3xl border border-line bg-cream p-6"
             >
-              <p className="text-xs text-ink-soft">
-                {new Date(item.created_at).toLocaleString("nb-NO")}
-              </p>
-              <div className="mt-4 flex flex-wrap items-start justify-between gap-3">
-                <div>
-                  <p className="font-semibold text-ink">{item.name}</p>
-                  <p className="text-sm text-ink-soft">
-                    <a href={`mailto:${item.email}`} className="hover:text-ink">
-                      {item.email}
-                    </a>
-                    {" · "}
-                    <a href={telHref(item.phone)} className="hover:text-ink">
-                      {formatPhone(item.phone)}
-                    </a>
-                  </p>
-                </div>
+              <div className="flex items-start justify-between gap-3">
+                <p className="text-xs text-ink-soft">
+                  {new Date(item.created_at).toLocaleString("nb-NO")}
+                </p>
                 <span
                   className={cn(
                     "rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-wide",
@@ -77,6 +65,18 @@ export default async function AdminInboxPage({
                 >
                   {statusBadge[item.status].label}
                 </span>
+              </div>
+              <div className="mt-4">
+                <p className="font-semibold text-ink">{item.name}</p>
+                <p className="text-sm text-ink-soft">
+                  <a href={`mailto:${item.email}`} className="hover:text-ink">
+                    {item.email}
+                  </a>
+                  {" · "}
+                  <a href={telHref(item.phone)} className="hover:text-ink">
+                    {formatPhone(item.phone)}
+                  </a>
+                </p>
               </div>
               <p className="mt-4 whitespace-pre-wrap text-sm leading-6 text-ink">
                 {item.message}
