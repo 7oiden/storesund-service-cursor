@@ -37,7 +37,6 @@ export async function updateSettings(
       email: String(formData.get("email") ?? ""),
       address: String(formData.get("address") ?? ""),
       org_nr: String(formData.get("org_nr") ?? ""),
-      availability_note: String(formData.get("availability_note") ?? ""),
       install_price: Number(formData.get("install_price") ?? 0),
       service_price: Number(formData.get("service_price") ?? 0),
       service_discount_percent: Number(

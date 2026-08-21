@@ -21,15 +21,6 @@ export function SettingsForm({ settings }: { settings: SiteSettings }) {
 
   return (
     <form action={action} className="mt-4 grid gap-4 rounded-3xl border border-line bg-cream p-6">
-      <label className="grid gap-2 text-sm">
-        Merknad om tilgjengelighet
-        <textarea
-          name="availability_note"
-          defaultValue={settings.availability_note}
-          rows={3}
-          className="rounded-2xl border border-line bg-field px-4 py-3"
-        />
-      </label>
       <div className="grid gap-4 sm:grid-cols-2">
         <Field name="phone" label="Telefon" defaultValue={settings.phone} />
         <Field name="email" label="E-post" defaultValue={settings.email} />

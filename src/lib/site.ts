@@ -35,6 +35,12 @@ export function availabilityStatusLabel(available: boolean) {
     : availabilityStatusText.unavailable;
 }
 
+export function hugoAvailabilityNote(available: boolean) {
+  return available
+    ? "På grunn av turnusarbeid offshore vil jeg ikke alltid være tilgjengelig på telefon. Jeg er for tiden i land og vil være tilgjengelig på telefon i tillegg til e-post og kontaktskjema."
+    : "På grunn av turnusarbeid offshore vil jeg ikke alltid være tilgjengelig på telefon. Jeg er for tiden offshore og vil kun være tilgjengelig via e-post og kontaktskjema.";
+}
+
 export const defaultSettings: SiteSettings = {
   phone: "90659303",
   email: "hugo.storesund@gmail.com",

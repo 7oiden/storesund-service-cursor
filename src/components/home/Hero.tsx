@@ -1,6 +1,5 @@
 import { ArrowRight, BadgeCheck } from "lucide-react";
-import { photos } from "@/lib/site";
-import type { SiteSettings } from "@/lib/site";
+import { hugoAvailabilityNote, photos, type SiteSettings } from "@/lib/site";
 import { formatPhone, telHref } from "@/lib/utils";
 import { ButtonLink } from "@/components/ui/ButtonLink";
 import { Container } from "@/components/ui/Container";
@@ -62,9 +61,7 @@ export function Hero({ settings }: { settings: SiteSettings }) {
               {settings.is_available ? "I land og tilgjengelig" : "Offshore nå"}
             </p>
             <p className="mt-1 text-sm leading-6 text-ink-soft">
-              {settings.is_available
-                ? "På grunn av turnusarbeid offshore vil jeg ikke alltid være tilgjengelig på telefon. Jeg er for tiden i land og vil være tilgjengelig på telefon i tillegg til e-post og kontaktskjema."
-                : "På grunn av turnusarbeid offshore vil jeg ikke alltid være tilgjengelig på telefon. Jeg er for tiden offshore og vil kun være tilgjengelig via e-post og kontaktskjema."}
+              {hugoAvailabilityNote(settings.is_available)}
             </p>
           </div>
         </div>

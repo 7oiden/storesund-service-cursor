@@ -4,6 +4,7 @@ import { FaqList } from "@/components/contact/FaqList";
 import { Container, SectionHeading } from "@/components/ui/Container";
 import { GreenWash } from "@/components/ui/GreenWash";
 import { getFaqs, getSiteSettings } from "@/lib/data";
+import { hugoAvailabilityNote } from "@/lib/site";
 import { formatPhone, telHref } from "@/lib/utils";
 
 export const metadata: Metadata = {
@@ -35,23 +36,19 @@ export default async function ContactPage() {
                 Bruk skjemaet, ring eller send e-post for timebestilling og
                 andre henvendelser.
               </li>
-              <li>
-                Jeg jobber perioder i Nordsjøen og er ikke alltid å få tak i på
-                telefon. E-post og skjemaet når meg uansett.
-              </li>
+              <li>{hugoAvailabilityNote(settings.is_available)}</li>
               <li>
                 Sjekk gjerne spørsmålene under først. Finner du ikke svaret, er
                 du velkommen til å ta kontakt.
               </li>
             </ul>
-            <div className="mt-8 space-y-2 text-sm font-medium">
+            <div className="mt-8 space-y-2 border-t border-white/10 pt-6 text-sm font-medium">
               <a href={telHref(settings.phone)} className="block hover:underline">
                 {formatPhone(settings.phone)}
               </a>
               <a href={`mailto:${settings.email}`} className="block hover:underline">
                 {settings.email}
               </a>
-              <p className="pt-2 text-cream/60">{settings.availability_note}</p>
             </div>
           </div>
           <ContactForm />
