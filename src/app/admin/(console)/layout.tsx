@@ -1,6 +1,8 @@
+import { ArrowUpRight } from "lucide-react";
 import { redirect } from "next/navigation";
-import { createClient } from "@/lib/supabase/server";
 import { AdminNav } from "@/components/admin/AdminNav";
+import { rentalAdminUrl } from "@/lib/site";
+import { createClient } from "@/lib/supabase/server";
 
 export default async function AdminConsoleLayout({
   children,
@@ -20,8 +22,16 @@ export default async function AdminConsoleLayout({
         <div className="h-1.5 bg-forest" aria-hidden="true" />
         <div className="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-4 px-5 py-4">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-forest">
+            <p className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-[0.18em] text-forest">
               Varmepumpe
+              <a
+                href={rentalAdminUrl}
+                title="Åpne utleie-admin"
+                aria-label="Åpne utleie-admin"
+                className="text-forest/45 transition hover:text-forest"
+              >
+                <ArrowUpRight className="size-3.5" strokeWidth={2.25} aria-hidden />
+              </a>
             </p>
             <p className="text-sm text-ink-soft">Admin · {user.email}</p>
           </div>
