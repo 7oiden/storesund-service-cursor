@@ -1,22 +1,18 @@
 import { Resend } from "resend";
-import { z } from "zod";
 import { createClient } from "@/lib/supabase/server";
 import { defaultSettings } from "@/lib/site";
-
-const schema = z.object({
-  name: z.string().trim().min(3).max(80),
-  email: z.string().trim().email(),
-  phone: z.string().trim().min(8).max(20),
-  message: z.string().trim().min(10).max(800),
-});
+import { contactSchema, fieldErrorsFromZod } from "@/lib/validation";
 
 export async function POST(request: Request) {
   const json = await request.json().catch(() => null);
-  const parsed = schema.safeParse(json);
+  const parsed = contactSchema.safeParse(json);
 
   if (!parsed.success) {
     return Response.json(
-      { error: "Sjekk at alle feltene er fylt ut riktig." },
+      {
+        error: "Sjekk at alle feltene er fylt ut riktig.",
+        fields: fieldErrorsFromZod(parsed.error),
+      },
       { status: 400 },
     );
   }

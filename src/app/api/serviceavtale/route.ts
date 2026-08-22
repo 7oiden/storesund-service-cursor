@@ -1,25 +1,19 @@
 import { Resend } from "resend";
-import { z } from "zod";
 import { createClient } from "@/lib/supabase/server";
 import { defaultSettings } from "@/lib/site";
 import { SERVICE_INTERVAL_YEARS, addYearsIso, isoDate } from "@/lib/utils";
-
-const schema = z.object({
-  name: z.string().trim().min(3).max(80),
-  email: z.string().trim().email(),
-  phone: z.string().trim().min(8).max(20),
-  address: z.string().trim().min(5).max(120),
-  note: z.string().trim().max(240).optional().default(""),
-  source: z.enum(["qr", "web"]).optional().default("qr"),
-});
+import { agreementSchema, fieldErrorsFromZod } from "@/lib/validation";
 
 export async function POST(request: Request) {
   const json = await request.json().catch(() => null);
-  const parsed = schema.safeParse(json);
+  const parsed = agreementSchema.safeParse(json);
 
   if (!parsed.success) {
     return Response.json(
-      { error: "Sjekk at alle feltene er fylt ut riktig." },
+      {
+        error: "Sjekk at alle feltene er fylt ut riktig.",
+        fields: fieldErrorsFromZod(parsed.error),
+      },
       { status: 400 },
     );
   }

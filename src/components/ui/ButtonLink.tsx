@@ -20,7 +20,7 @@ export function ButtonLink({
     copper:
       "bg-copper text-white hover:bg-copper/90 shadow-[0_1px_0_rgba(255,255,255,0.12)_inset]",
     secondary:
-      "bg-cream text-ink border border-line hover:border-ink/30",
+      "bg-cream text-ink border border-line hover:border-forest/30 hover:bg-white hover:text-forest",
     ghost: "text-cream underline-offset-4 hover:underline",
   } as const;
 

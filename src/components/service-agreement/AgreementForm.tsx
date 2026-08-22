@@ -2,6 +2,11 @@
 
 import { useEffect, useState } from "react";
 import { CircleCheck } from "lucide-react";
+import {
+  agreementSchema,
+  fieldErrorsFromZod,
+  type FieldErrors,
+} from "@/lib/validation";
 
 type Status = "idle" | "loading" | "success" | "error";
 
@@ -10,6 +15,7 @@ const SUCCESS_TIMEOUT_MS = 8000;
 export function AgreementForm({ source = "qr" }: { source?: "qr" | "web" }) {
   const [status, setStatus] = useState<Status>("idle");
   const [error, setError] = useState("");
+  const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
 
   useEffect(() => {
     if (status !== "success") return;
@@ -17,23 +23,49 @@ export function AgreementForm({ source = "qr" }: { source?: "qr" | "web" }) {
     return () => window.clearTimeout(timer);
   }, [status]);
 
+  function clearField(name: string) {
+    setFieldErrors((current) => {
+      if (!current[name]) return current;
+      const next = { ...current };
+      delete next[name];
+      return next;
+    });
+  }
+
   async function onSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    setStatus("loading");
     setError("");
 
     const form = event.currentTarget;
     const payload = Object.fromEntries(new FormData(form));
+    const parsed = agreementSchema.safeParse(payload);
+
+    if (!parsed.success) {
+      setFieldErrors(fieldErrorsFromZod(parsed.error));
+      setStatus("idle");
+      return;
+    }
+
+    setFieldErrors({});
+    setStatus("loading");
 
     try {
       const response = await fetch("/api/serviceavtale", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
+        body: JSON.stringify(parsed.data),
       });
-      const data = (await response.json()) as { error?: string };
+      const data = (await response.json()) as {
+        error?: string;
+        fields?: FieldErrors;
+      };
 
       if (!response.ok) {
+        if (data.fields) {
+          setFieldErrors(data.fields);
+          setStatus("idle");
+          return;
+        }
         setStatus("error");
         setError(data.error || "Noe gikk galt. Prøv igjen senere.");
         return;
@@ -49,6 +81,7 @@ export function AgreementForm({ source = "qr" }: { source?: "qr" | "web" }) {
 
   return (
     <form
+      noValidate
       onSubmit={onSubmit}
       className="rounded-3xl bg-cream p-6 text-ink sm:p-8"
     >
@@ -60,15 +93,31 @@ export function AgreementForm({ source = "qr" }: { source?: "qr" | "web" }) {
       <input type="hidden" name="source" value={source} />
 
       <div className="mt-6 grid gap-4">
-        <Field label="Navn" name="name" required minLength={3} maxLength={80} />
-        <Field label="Telefon" name="phone" type="tel" required />
-        <Field label="E-post" name="email" type="email" required />
+        <Field
+          label="Navn"
+          name="name"
+          error={fieldErrors.name}
+          onChange={() => clearField("name")}
+        />
+        <Field
+          label="Telefon"
+          name="phone"
+          type="tel"
+          error={fieldErrors.phone}
+          onChange={() => clearField("phone")}
+        />
+        <Field
+          label="E-post"
+          name="email"
+          type="email"
+          error={fieldErrors.email}
+          onChange={() => clearField("email")}
+        />
         <Field
           label="Adresse"
           name="address"
-          required
-          minLength={5}
-          maxLength={120}
+          error={fieldErrors.address}
+          onChange={() => clearField("address")}
         />
         <label className="grid gap-2 text-sm">
           <span className="font-medium">
@@ -79,8 +128,18 @@ export function AgreementForm({ source = "qr" }: { source?: "qr" | "web" }) {
             maxLength={240}
             rows={3}
             placeholder="F.eks. merke på pumpen, eller hvilken bolig"
-            className="rounded-2xl border border-line bg-field px-4 py-3.5 text-base outline-none focus:border-forest"
+            aria-invalid={Boolean(fieldErrors.note)}
+            aria-describedby={fieldErrors.note ? "note-error" : undefined}
+            onChange={() => clearField("note")}
+            className={`rounded-2xl border bg-field px-4 py-3.5 text-base outline-none focus:border-forest ${
+              fieldErrors.note ? "border-danger" : "border-line"
+            }`}
           />
+          {fieldErrors.note ? (
+            <p id="note-error" className="text-sm text-danger">
+              {fieldErrors.note}
+            </p>
+          ) : null}
         </label>
         <button
           type="submit"
@@ -109,28 +168,34 @@ function Field({
   label,
   name,
   type = "text",
-  required,
-  minLength,
-  maxLength,
+  error,
+  onChange,
 }: {
   label: string;
   name: string;
   type?: string;
-  required?: boolean;
-  minLength?: number;
-  maxLength?: number;
+  error?: string;
+  onChange?: () => void;
 }) {
+  const errorId = `${name}-error`;
   return (
     <label className="grid gap-2 text-sm">
       <span className="font-medium">{label}</span>
       <input
         name={name}
         type={type}
-        required={required}
-        minLength={minLength}
-        maxLength={maxLength}
-        className="rounded-2xl border border-line bg-field px-4 py-3.5 text-base outline-none focus:border-forest"
+        aria-invalid={Boolean(error)}
+        aria-describedby={error ? errorId : undefined}
+        onChange={onChange}
+        className={`rounded-2xl border bg-field px-4 py-3.5 text-base outline-none focus:border-forest ${
+          error ? "border-danger" : "border-line"
+        }`}
       />
+      {error ? (
+        <p id={errorId} className="text-sm text-danger">
+          {error}
+        </p>
+      ) : null}
     </label>
   );
 }
