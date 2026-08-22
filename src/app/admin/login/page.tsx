@@ -41,6 +41,7 @@ export default function AdminLoginPage() {
         className="w-full max-w-md rounded-3xl bg-cream p-8"
       >
         <Logo />
+        <div className="mt-6 border-t border-line" aria-hidden />
         <h1 className="display mt-6 text-3xl text-ink">Admin</h1>
         <p className="mt-2 text-sm text-ink-soft">
           Logg inn for å se henvendelser, FAQ og tilgjengelighet.
