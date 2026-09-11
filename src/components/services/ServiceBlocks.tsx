@@ -73,15 +73,17 @@ export function Checklist({
       <h2 className="display text-2xl text-ink">{title}</h2>
       <ul className="mt-5 space-y-3">
         {items.map((item) => (
-          <li key={item} className="flex gap-3 text-sm leading-6 text-ink-soft">
+          <li key={item} className="flex items-start gap-3 text-sm leading-6 text-ink-soft">
             <span
               className={
-                tone === "exclude" ? "mt-1 text-copper" : "mt-1 text-forest"
+                tone === "exclude"
+                  ? "flex h-6 shrink-0 items-center text-copper"
+                  : "flex h-6 shrink-0 items-center text-forest"
               }
             >
               {tone === "exclude" ? "–" : "✓"}
             </span>
-            <span>{item}</span>
+            <span className="pt-0.5">{item}</span>
           </li>
         ))}
       </ul>
@@ -127,7 +129,7 @@ export function InfoCard({
   children: React.ReactNode;
 }) {
   return (
-    <aside className="rounded-3xl bg-forest-deep p-7 text-cream">
+    <aside className="self-start rounded-3xl bg-forest-deep p-7 text-cream">
       <h3 className="display text-2xl">{title}</h3>
       <div className="mt-4 space-y-3 text-sm leading-6 text-cream/75">
         {children}

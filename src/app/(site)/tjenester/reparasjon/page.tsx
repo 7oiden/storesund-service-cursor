@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import {
   Checklist,
+  InfoCard,
   PriceBar,
   ServiceHero,
 } from "@/components/services/ServiceBlocks";
@@ -30,12 +31,21 @@ export default async function RepairPage() {
         ]}
       />
       <section className="py-16 lg:py-24">
-        <Container className="space-y-6">
-          <PriceBar settings={settings} kind="repair" />
-          <Checklist
-            title="Eksempler på jobber jeg tar"
-            items={repairExamples}
-          />
+        <Container className="grid gap-6 lg:grid-cols-[1.2fr_0.8fr]">
+          <div className="space-y-6">
+            <PriceBar settings={settings} kind="repair" />
+            <Checklist
+              title="Eksempler på jobber jeg tar"
+              items={repairExamples}
+            />
+          </div>
+          <InfoCard title="Reservedeler">
+            <p>
+              Jeg har tilgang til et stort utvalg reservedeler gjennom et bredt
+              leverandørnett. Det gjør det oftere mulig å reparere i stedet for
+              å bytte hele anlegget, og å holde kostnaden nede.
+            </p>
+          </InfoCard>
         </Container>
       </section>
     </>
