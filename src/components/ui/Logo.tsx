@@ -6,30 +6,26 @@ export function Logo({ inverted = false }: { inverted?: boolean }) {
   const mark = inverted ? "text-cream/70" : "text-forest";
 
   return (
-    <Link href="/" className="group inline-flex items-center gap-1.5 leading-none">
+    <Link
+      href="/"
+      aria-label="Storesund Service"
+      className="group inline-flex items-center gap-2 leading-none lg:gap-2.5"
+    >
       <Image
         src={inverted ? "/logo-mark-inverted.png" : "/logo-mark.png"}
         alt=""
         width={195}
         height={130}
-        className="h-6 w-auto shrink-0 sm:h-7 lg:h-9"
+        className="h-6 w-auto shrink-0 lg:h-7"
         priority
         unoptimized
       />
-      <span className="inline-flex items-baseline">
-        <span className={`display text-xl tracking-tight lg:text-3xl ${word}`}>
-          Stores
-        </span>
-        <span className="flex flex-col items-start">
-          <span className={`display text-xl tracking-tight lg:text-3xl ${word}`}>
-            und
-          </span>
-          <span
-            className={`-mt-1 text-[11px] font-extrabold uppercase leading-none tracking-[0.22em] lg:text-xs ${mark}`}
-          >
-            Service
-          </span>
-        </span>
+      <span
+        className="inline-flex items-baseline gap-1.5 whitespace-nowrap font-sans text-lg leading-none tracking-[-0.02em] lg:text-[1.375rem]"
+        aria-hidden="true"
+      >
+        <span className={`font-bold ${word}`}>Storesund</span>
+        <span className={`font-medium ${mark}`}>Service</span>
       </span>
     </Link>
   );
