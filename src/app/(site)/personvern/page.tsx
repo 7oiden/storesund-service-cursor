@@ -84,9 +84,9 @@ export default async function PrivacyPage() {
           <section>
             <h2 className="font-semibold text-ink">Lagring og leverandører</h2>
             <p className="mt-3">
-              Henvendelser og serviceavtaler lagres hos Supabase, som drifter
-              databasen. Hvis e-postvarsel er satt opp, sendes en kopi av nye
-              henvendelser og påmeldinger via Resend, slik at jeg får beskjed.
+              Henvendelser og påmeldinger til serviceavtale sendes via Web3Forms, som
+              videresender dem til meg på e-post. Selve nettstedet har ingen
+              database med kundedata.
               Driftsleverandøren som hoster nettstedet kan i tillegg se
               tekniske serverlogger som er nødvendige for at siden skal virke.
             </p>

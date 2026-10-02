@@ -1,5 +1,4 @@
 export type SiteSettings = {
-  id?: string;
   phone: string;
   email: string;
   address: string;
@@ -15,13 +14,6 @@ export type SiteSettings = {
 export const siteUrl = (
   process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"
 ).replace(/\/$/, "");
-
-/** Sibling rental site. Used for the admin bridge. */
-export const rentalSiteUrl = (
-  process.env.NEXT_PUBLIC_RENTAL_SITE_URL ?? ""
-).replace(/\/$/, "");
-
-export const rentalAdminUrl = `${rentalSiteUrl || "http://localhost:3001"}/admin`;
 
 /** Status copy shown in the public header. */
 export const availabilityStatusText = {

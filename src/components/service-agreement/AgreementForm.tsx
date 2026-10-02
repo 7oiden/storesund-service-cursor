@@ -7,6 +7,7 @@ import {
   fieldErrorsFromZod,
   type FieldErrors,
 } from "@/lib/validation";
+import { submitToWeb3Forms } from "@/lib/web3forms";
 
 type Status = "idle" | "loading" | "success" | "error";
 
@@ -49,34 +50,19 @@ export function AgreementForm({ source = "qr" }: { source?: "qr" | "web" }) {
     setFieldErrors({});
     setStatus("loading");
 
-    try {
-      const response = await fetch("/api/serviceavtale", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(parsed.data),
-      });
-      const data = (await response.json()) as {
-        error?: string;
-        fields?: FieldErrors;
-      };
+    const honeypot = Boolean(
+      (form.elements.namedItem("botcheck") as HTMLInputElement | null)?.checked,
+    );
+    const result = await submitToWeb3Forms(`Ny serviceavtale: ${parsed.data.name}`, { ...parsed.data }, honeypot);
 
-      if (!response.ok) {
-        if (data.fields) {
-          setFieldErrors(data.fields);
-          setStatus("idle");
-          return;
-        }
-        setStatus("error");
-        setError(data.error || "Noe gikk galt. Prøv igjen senere.");
-        return;
-      }
-
-      form.reset();
-      setStatus("success");
-    } catch {
+    if (!result.ok) {
       setStatus("error");
-      setError("Noe gikk galt. Prøv igjen senere.");
+      setError(result.error || "Noe gikk galt. Prøv igjen senere.");
+      return;
     }
+
+    form.reset();
+    setStatus("success");
   }
 
   return (
@@ -91,6 +77,14 @@ export function AgreementForm({ source = "qr" }: { source?: "qr" | "web" }) {
       </p>
 
       <input type="hidden" name="source" value={source} />
+      <input
+        type="checkbox"
+        name="botcheck"
+        tabIndex={-1}
+        autoComplete="off"
+        aria-hidden="true"
+        className="hidden"
+      />
 
       <div className="mt-6 grid gap-4">
         <Field

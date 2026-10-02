@@ -2,7 +2,7 @@
 
 Nettsted for Hugo Storesund – montering, service og reparasjon av varmepumper i Bergensområdet.
 
-Bygget med Next.js, Supabase og Tailwind. Sidetekst ligger i koden. Priser, tilgjengelighet, FAQ og kontaktskjema ligger i Supabase.
+Bygget med Next.js, Sanity og Tailwind. Sidetekst ligger i koden. Priser, tilgjengelighet, kontaktinfo og FAQ redigeres i Sanity Studio på `/studio`. Kontaktskjema og serviceavtale-påmelding sendes på e-post via Web3Forms. Serviceavtaler følges opp utenfor nettstedet.
 
 ## Kom i gang
 
@@ -12,36 +12,25 @@ cp .env.example .env.local
 npm run dev
 ```
 
-Åpne [http://localhost:3000](http://localhost:3000).
+Åpne [http://localhost:3000](http://localhost:3000). Uten Sanity-nøkler vises nettstedet med innebygde standardpriser og FAQ.
 
-## Supabase
+## Sanity
 
-1. Opprett et prosjekt (eller bruk det eksisterende).
-2. Lim inn `NEXT_PUBLIC_SUPABASE_URL` og `NEXT_PUBLIC_SUPABASE_ANON_KEY` i `.env.local`.
-3. Kjør [`supabase/schema.sql`](supabase/schema.sql) i SQL Editor. Det oppretter tabeller, RLS og startinnhold.
-4. Under Authentication → Users: opprett én adminbruker (Hugos e-post).
-5. Logg inn på `/admin/login`.
+1. Opprett et prosjekt på sanity.io/manage (dataset `production`).
+2. Sett `NEXT_PUBLIC_SANITY_PROJECT_ID` og `NEXT_PUBLIC_SANITY_DATASET` i `.env.local`.
+3. Under API → CORS origins: legg til nettstedets URL og `http://localhost:3000` (med credentials).
+4. Under Members: inviter Hugo. Han logger inn på `/studio`.
+5. Webhook (API → Webhooks): URL `https://ditt-domene.no/api/revalidate`, metode POST, hemmelighet = `SANITY_REVALIDATE_SECRET`. Uten webhook oppdateres siden innen en time.
 
-Uten tabellene vises fortsatt nettstedet med innebygde standardpriser og FAQ. Kontaktskjemaet krever at `contact_submissions` finnes. Serviceavtaler krever at `service_agreements` finnes. Servicelogg krever `service_visits`. Kjør SQL-filen på nytt, eller lim inn `create table`-blokkene som mangler.
+## Skjemaer
 
-## E-postvarsel
-
-Sett `RESEND_API_KEY` og `CONTACT_NOTIFY_EMAIL` i `.env.local`. Uten nøkkel lagres henvendelsen bare i admin-innboksen.
-
-`RESEND_FROM` kan stå på `beth.t@example.com` for testhenvendelser. Bytt til et verifisert domene før produksjon.
-
-## Admin
-
-- `/admin` – henvendelser
-- `/admin/serviceavtaler` – serviceavtaler og QR til påmelding
-- `/admin/faq` – spørsmål og svar
-- `/admin/innstillinger` – offshore/tilgjengelig, priser og kontaktinfo
+Opprett en nøkkel på web3forms.com (e-postadressen mottar henvendelsene) og sett `NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY`. Nøkkelen er ment å være offentlig. Skjemaene har et skjult spamfelt (`botcheck`).
 
 ## Bilder
 
 Hero, om-meg og tjenestesidene bruker midlertidige Unsplash-bilder. Bytt ut URL-ene i `src/lib/site.ts` når ekte foto er klart.
 
-Sett `NEXT_PUBLIC_SITE_URL` (f.eks. `https://ditt-domene.no`) før lansering, så `sitemap.xml` og `robots.txt` peker på riktig adresse. Admin er satt til `noindex`.
+Sett `NEXT_PUBLIC_SITE_URL` (f.eks. `https://ditt-domene.no`) før lansering, så `sitemap.xml` og `robots.txt` peker på riktig adresse. Studio er satt til `noindex`.
 
 ## Navigasjon
 
