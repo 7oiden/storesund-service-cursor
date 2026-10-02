@@ -31,15 +31,18 @@ export function Hero({ settings }: { settings: SiteSettings }) {
             f-gass sertifisert
           </div>
           <h1 className="display text-5xl leading-[1.05] sm:text-6xl lg:text-7xl">
-            Varmepumpe i Bergen og omegn –
-            <span className="mt-5 block text-[0.6em]">
-              montasje, service og reparasjon.
+            <span className="mb-3 block text-[0.5em] leading-[1.15]">
+              Montasje, service
+              <br />
+              og reparasjon av
+            </span>
+            <span className="[text-shadow:0.05em_0.05em_0_var(--color-forest)]">
+              varmepumper.
             </span>
           </h1>
           <p className="mt-6 max-w-xl text-base leading-7 text-cream/75 sm:text-lg">
-            Fastpris på
-            standard jobber, hjemmebesøk etter arbeidstid, og ærlige råd når
-            reparasjon lønner seg mer enn å bytte.
+            Fastpris på standard jobber, hjemmebesøk etter arbeidstid, og ærlige
+            råd når reparasjon lønner seg mer enn å bytte.
           </p>
           <div className="mt-8 flex flex-wrap items-center gap-3">
             <ButtonLink href="/kontakt" variant="copper">

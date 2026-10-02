@@ -30,12 +30,12 @@ export function ScrollToTop() {
       type="button"
       onClick={scrollToTop}
       aria-label="Til toppen"
-      tabIndex={visible ? 0 : -1}
-      aria-hidden={!visible}
       className={cn(
-        "fixed right-5 z-30 inline-flex size-10 cursor-pointer items-center justify-center rounded-full bg-moss/80 text-cream transition duration-300 hover:bg-moss focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-forest print:hidden",
+        "fixed right-5 z-30 inline-flex size-10 cursor-pointer items-center justify-center rounded-full border border-forest-deep/30 bg-forest text-cream shadow-sm transition-[opacity,visibility,background-color] duration-300 hover:bg-forest-deep focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-forest print:hidden",
         "bottom-[max(1.25rem,env(safe-area-inset-bottom))]",
-        visible ? "opacity-100" : "pointer-events-none opacity-0",
+        // `invisible` drops the button from the tab order and a11y tree
+        // without aria-hidden on a (possibly still focused) element.
+        visible ? "opacity-100" : "invisible opacity-0",
       )}
     >
       <ArrowUp size={16} strokeWidth={2} />
