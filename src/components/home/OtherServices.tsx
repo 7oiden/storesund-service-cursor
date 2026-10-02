@@ -1,5 +1,6 @@
 import { otherServices } from "@/lib/content";
 import { photos } from "@/lib/site";
+import { cn } from "@/lib/utils";
 import { Container, SectionHeading } from "@/components/ui/Container";
 import { Photo } from "@/components/ui/Photo";
 
@@ -9,6 +10,34 @@ const workPhotos = [
   { src: photos.work3, alt: "Interiør – plassholder" },
   { src: photos.work4, alt: "Hus og hage – plassholder" },
 ];
+
+export function OtherServiceTags({
+  className,
+  tone = "light",
+}: {
+  className?: string;
+  tone?: "light" | "dark";
+}) {
+  const dark = tone === "dark";
+  return (
+    <div className={cn("flex flex-wrap gap-2", className)}>
+      {otherServices.map((tag) => (
+        <span
+          key={tag}
+          className={cn(
+            "inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-sm",
+            dark
+              ? "border-white/15 bg-white/5 text-cream/80"
+              : "border-line bg-paper text-ink-soft",
+          )}
+        >
+          <span aria-hidden className="size-1.5 rounded-full bg-copper/80" />
+          {tag}
+        </span>
+      ))}
+    </div>
+  );
+}
 
 export function OtherServices() {
   return (
@@ -20,16 +49,7 @@ export function OtherServices() {
             title="Ikke bare luft-til-luft."
             body="Ta kontakt for tilbud på montasje, service og reparasjon av andre typer anlegg enn standard varmepumpe."
           />
-          <div className="mt-8 flex flex-wrap gap-2">
-            {otherServices.map((tag) => (
-              <span
-                key={tag}
-                className="rounded-full border border-line bg-paper px-3 py-1.5 text-sm text-ink-soft"
-              >
-                {tag}
-              </span>
-            ))}
-          </div>
+          <OtherServiceTags className="mt-8" />
         </div>
         <div className="grid grid-cols-2 gap-3">
           {workPhotos.map((photo) => (

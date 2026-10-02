@@ -1,12 +1,19 @@
 import type { Metadata } from "next";
+import { RefreshCw, Wrench } from "lucide-react";
+import { CtaBand } from "@/components/home/CtaBand";
 import {
   Checklist,
-  InfoCard,
-  PriceBar,
+  DETAILS_ID,
+  FactStrip,
+  PriceAside,
+  ProcessSteps,
+  RelatedServices,
   ServiceHero,
 } from "@/components/services/ServiceBlocks";
-import { Container } from "@/components/ui/Container";
-import { repairExamples } from "@/lib/content";
+import { Container, SectionHeading } from "@/components/ui/Container";
+import { GreenWash } from "@/components/ui/GreenWash";
+import { IconBadge } from "@/components/ui/IconBadge";
+import { repairComparison, repairExamples, repairSteps } from "@/lib/content";
 import { getSiteSettings } from "@/lib/data";
 
 export const metadata: Metadata = {
@@ -17,37 +24,100 @@ export const metadata: Metadata = {
 
 export default async function RepairPage() {
   const settings = await getSiteSettings();
+  const { repair, replace } = repairComparison;
 
   return (
     <>
       <ServiceHero
-        title="Reparasjon."
+        slug="reparasjon"
         heading="Hvorfor kjøpe ny varmepumpe når den du har kan reddes?"
         image="repair"
+        badge={{ label: "Feilsøking og prisestimat", value: "Gratis befaring" }}
+        detailsLabel="Se hva jeg reparerer"
         points={[
           "Mange feil kan løses med en enkel reparasjon, i stedet for ny pumpe og ny montering.",
           "Hvis reparasjon likevel ikke lønner seg, hjelper jeg med en prisgunstig erstatning via leverandøravtaler.",
           "Ta kontakt for gratis befaring med feilsøking og prisestimat.",
         ]}
       />
+      <FactStrip
+        facts={[
+          { value: "0 kr", label: "for befaring og feilsøking" },
+          { value: "Alle", label: "typer og merker varmepumper" },
+          { value: "20+ år", label: "erfaring med varmepumper" },
+          { value: "Kat. I", label: "f-gass sertifisert" },
+        ]}
+      />
+
       <section className="py-16 lg:py-24">
-        <Container className="grid gap-6 lg:grid-cols-[1.2fr_0.8fr]">
-          <div className="space-y-6">
-            <PriceBar settings={settings} kind="repair" />
-            <Checklist
-              title="Eksempler på jobber jeg tar"
-              items={repairExamples}
-            />
+        <Container>
+          <SectionHeading
+            eyebrow="Reparere eller bytte?"
+            title="En ærlig vurdering før du bytter."
+            body="Etter feilsøkingen får du en ærlig vurdering av hva som faktisk lønner seg for deg."
+          />
+          <div className="mt-10 grid gap-5 md:grid-cols-2">
+            <article className="reveal relative overflow-hidden rounded-3xl bg-forest-deep p-8 text-cream">
+              <GreenWash />
+              <div className="relative">
+                <div className="flex items-center justify-between gap-4">
+                  <IconBadge icon={Wrench} tone="dark" size="lg" />
+                  <span className="rounded-full bg-copper px-3 py-1 text-xs font-semibold text-white">
+                    Ofte best
+                  </span>
+                </div>
+                <h3 className="display mt-6 text-3xl">{repair.title}</h3>
+                <ul className="mt-5 space-y-3 text-sm leading-6 text-cream/80">
+                  {repair.points.map((point) => (
+                    <li key={point} className="flex gap-3">
+                      <span className="mt-2 size-1.5 shrink-0 rounded-full bg-leaf" />
+                      {point}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </article>
+            <article className="reveal rounded-3xl border border-line bg-cream p-8">
+              <IconBadge icon={RefreshCw} size="lg" />
+              <h3 className="display mt-6 text-3xl text-ink">{replace.title}</h3>
+              <ul className="mt-5 space-y-3 text-sm leading-6 text-ink-soft">
+                {replace.points.map((point) => (
+                  <li key={point} className="flex gap-3">
+                    <span className="mt-2 size-1.5 shrink-0 rounded-full bg-copper/70" />
+                    {point}
+                  </li>
+                ))}
+              </ul>
+            </article>
           </div>
-          <InfoCard title="Reservedeler">
-            <p>
-              Jeg har tilgang til et stort utvalg reservedeler gjennom et bredt
-              leverandørnett. Det gjør det oftere mulig å reparere i stedet for
-              å bytte hele anlegget, og å holde kostnaden nede.
-            </p>
-          </InfoCard>
         </Container>
       </section>
+
+      <ProcessSteps title="Fra feilkode til fungerende anlegg." steps={repairSteps} />
+
+      <section id={DETAILS_ID} className="scroll-mt-24 py-16 lg:py-24">
+        <Container className="grid gap-6 lg:grid-cols-[1fr_20rem] lg:gap-8">
+          <Checklist
+            title="Eksempler på jobber jeg tar"
+            items={repairExamples}
+            columns={2}
+          />
+          <PriceAside
+            label="Feilsøking og estimat"
+            value="Gratis"
+            note="Reparasjon prissettes etter befaring."
+            points={[
+              "Feilsøking på stedet",
+              "Ærlig vurdering av reparasjon mot bytte",
+              "Prisestimat før arbeidet starter",
+            ]}
+            settings={settings}
+          />
+        </Container>
+      </section>
+
+      <RelatedServices current="reparasjon" settings={settings} />
+      <CtaBand />
     </>
   );
 }

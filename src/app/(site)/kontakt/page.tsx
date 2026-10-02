@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
+import { Mail, Phone } from "lucide-react";
 import { ContactForm } from "@/components/contact/ContactForm";
+import { IconBadge } from "@/components/ui/IconBadge";
 import { FaqList } from "@/components/contact/FaqList";
 import { Container, SectionHeading } from "@/components/ui/Container";
 import { GreenWash } from "@/components/ui/GreenWash";
@@ -42,11 +44,19 @@ export default async function ContactPage() {
                 du velkommen til å ta kontakt.
               </li>
             </ul>
-            <div className="mt-8 space-y-2 border-t border-white/10 pt-6 text-sm font-medium">
-              <a href={telHref(settings.phone)} className="block hover:underline">
+            <div className="mt-8 flex flex-col items-start gap-3 border-t border-white/10 pt-6 text-sm font-medium">
+              <a
+                href={telHref(settings.phone)}
+                className="inline-flex items-center gap-3 hover:underline"
+              >
+                <IconBadge icon={Phone} tone="dark" size="sm" />
                 {formatPhone(settings.phone)}
               </a>
-              <a href={`mailto:${settings.email}`} className="block hover:underline">
+              <a
+                href={`mailto:${settings.email}`}
+                className="inline-flex items-center gap-3 hover:underline"
+              >
+                <IconBadge icon={Mail} tone="dark" size="sm" />
                 {settings.email}
               </a>
             </div>
@@ -60,7 +70,7 @@ export default async function ContactPage() {
           <SectionHeading
             eyebrow="Spørsmål"
             title="Ofte stilte spørsmål"
-            body="Korte svar om varmepumper, service og pris. Innholdet kan oppdateres fra admin."
+            body="Korte svar om varmepumper, service og pris."
           />
           <FaqList items={faqs} />
         </Container>

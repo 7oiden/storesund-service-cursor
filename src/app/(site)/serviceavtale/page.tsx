@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { CalendarCheck, Wallet } from "lucide-react";
+import { IconBadge } from "@/components/ui/IconBadge";
 import { AgreementForm } from "@/components/service-agreement/AgreementForm";
 import { Container } from "@/components/ui/Container";
 import { GreenWash } from "@/components/ui/GreenWash";
@@ -32,14 +34,20 @@ export default async function ServiceAgreementPage({
             Fast avtale. {settings.service_discount_percent} % rabatt<span className="text-[0.55em] align-super">*</span>{" "}
             på neste service.
           </h1>
-          <ul className="mt-8 space-y-4 text-base leading-7 text-cream/80">
-            <li>
-              Jeg tar kontakt når det er tid for neste service – du trenger
-              ikke huske det selv.
+          <ul className="mt-8 space-y-5 text-base leading-7 text-cream/80">
+            <li className="flex gap-4">
+              <IconBadge icon={CalendarCheck} tone="dark" />
+              <span className="pt-2">
+                Jeg tar kontakt når det er tid for neste service – du trenger
+                ikke huske det selv.
+              </span>
             </li>
-            <li>
-              Du betaler etter jobben er gjort. Ingen trekk eller binding utover
-              at du står på listen.
+            <li className="flex gap-4">
+              <IconBadge icon={Wallet} tone="dark" />
+              <span className="pt-2">
+                Du betaler etter jobben er gjort. Ingen trekk eller binding
+                utover at du står på listen.
+              </span>
             </li>
           </ul>
           <p className="mt-6 text-xs leading-5 text-cream/50">

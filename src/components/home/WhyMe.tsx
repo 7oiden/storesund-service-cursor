@@ -1,5 +1,14 @@
+import { Award, Clock, Layers, ReceiptText, type LucideIcon } from "lucide-react";
 import { whyMe } from "@/lib/content";
 import { Container, SectionHeading } from "@/components/ui/Container";
+import { IconBadge } from "@/components/ui/IconBadge";
+
+const icons: Record<(typeof whyMe)[number]["icon"], LucideIcon> = {
+  price: ReceiptText,
+  range: Layers,
+  time: Clock,
+  experience: Award,
+};
 
 export function WhyMe() {
   return (
@@ -13,12 +22,15 @@ export function WhyMe() {
           {whyMe.map((item, index) => (
             <article
               key={item.title}
-              className="rounded-3xl border border-line bg-paper p-7"
+              className="reveal rounded-3xl border border-line bg-paper p-7 transition duration-300 hover:border-forest/25"
             >
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-copper">
-                0{index + 1}
-              </p>
-              <h3 className="display mt-4 text-2xl text-ink">{item.title}</h3>
+              <div className="flex items-start justify-between gap-4">
+                <IconBadge icon={icons[item.icon]} />
+                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-copper/80">
+                  0{index + 1}
+                </p>
+              </div>
+              <h3 className="display mt-5 text-2xl text-ink">{item.title}</h3>
               <p className="mt-3 text-sm leading-6 text-ink-soft">{item.body}</p>
             </article>
           ))}

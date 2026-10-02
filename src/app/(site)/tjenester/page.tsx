@@ -5,9 +5,11 @@ import { CtaBand } from "@/components/home/CtaBand";
 import { OtherServices } from "@/components/home/OtherServices";
 import { Container, SectionHeading } from "@/components/ui/Container";
 import { GreenWash } from "@/components/ui/GreenWash";
+import { IconBadge } from "@/components/ui/IconBadge";
+import { servicePrices } from "@/components/services/ServiceCard";
+import { serviceIcons } from "@/components/services/serviceIcons";
 import { serviceNav } from "@/lib/content";
 import { getSiteSettings } from "@/lib/data";
-import { formatNok } from "@/lib/utils";
 
 export const metadata: Metadata = {
   title: "Tjenester",
@@ -17,11 +19,7 @@ export const metadata: Metadata = {
 
 export default async function ServicesPage() {
   const settings = await getSiteSettings();
-  const prices = {
-    montering: `${formatNok(settings.install_price)} inkl. mva`,
-    service: `${formatNok(settings.service_price)} inkl. mva`,
-    reparasjon: "Etter befaring",
-  };
+  const prices = servicePrices(settings);
 
   return (
     <>
@@ -45,20 +43,23 @@ export default async function ServicesPage() {
             <Link
               key={service.href}
               href={service.href}
-              className="group flex flex-col justify-between gap-6 rounded-3xl border border-line bg-cream p-8 transition hover:border-forest/30 sm:flex-row sm:items-center"
+              className="reveal group flex flex-col justify-between gap-6 rounded-3xl border border-line bg-cream p-7 transition duration-300 hover:-translate-y-1 hover:border-forest/30 hover:shadow-[0_18px_40px_-24px_rgb(14_58_41/0.45)] sm:flex-row sm:items-center sm:p-8"
             >
-              <div>
-                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-forest">
-                  {prices[service.slug]}
-                </p>
-                <h2 className="display mt-2 text-3xl text-ink">
-                  {service.label}
-                </h2>
-                <p className="mt-2 max-w-xl text-sm leading-6 text-ink-soft">
-                  {service.summary}
-                </p>
+              <div className="flex flex-col gap-5 sm:flex-row sm:items-start sm:gap-6">
+                <IconBadge icon={serviceIcons[service.slug]} size="lg" />
+                <div>
+                  <span className="inline-flex rounded-full bg-forest/10 px-3 py-1 text-xs font-semibold text-forest">
+                    {prices[service.slug]}
+                  </span>
+                  <h2 className="display mt-3 text-3xl text-ink">
+                    {service.label}
+                  </h2>
+                  <p className="mt-2 max-w-xl text-sm leading-6 text-ink-soft">
+                    {service.summary}
+                  </p>
+                </div>
               </div>
-              <span className="inline-flex items-center gap-2 text-sm font-semibold text-forest">
+              <span className="inline-flex shrink-0 items-center gap-2 text-sm font-semibold text-forest">
                 Les mer
                 <ArrowRight
                   size={16}

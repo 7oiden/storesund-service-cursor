@@ -9,6 +9,7 @@
   --color-forest: #1a5c43;
   --color-forest-deep: #0e3a29;
   --color-moss: #6f8a76;
+  --color-leaf: #5fd39a;
   --color-copper: #c06a2a;
   --color-line: #ddd4c4;
   --color-danger: #b42318;
@@ -32,6 +33,46 @@ body {
 .display {
   font-family: var(--font-display), Georgia, serif;
   font-optical-sizing: auto;
+}
+
+/* Scroll-in reveal. Uses transform (not translate) so Tailwind's
+   hover:-translate-y-* still composes on top. Content stays visible
+   wherever scroll-driven animations or motion are unavailable. */
+@keyframes reveal {
+  from {
+    opacity: 0;
+    transform: translateY(1.5rem);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .reveal {
+      animation: reveal linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 40%;
+    }
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .pulse-dot {
+    animation: pulse-dot 2.4s ease-out infinite;
+  }
+}
+
+@keyframes pulse-dot {
+  0% {
+    box-shadow: 0 0 0 0 currentColor;
+  }
+  70%,
+  100% {
+    box-shadow: 0 0 0 0.45rem transparent;
+  }
 }
 
 .hero-wash {

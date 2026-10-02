@@ -28,18 +28,22 @@ export const serviceNav = [
 export const whyMe = [
   {
     title: "Forutsigbar",
+    icon: "price",
     body: "Fastpris på standard montering og service. Kjøring inntil 50 km tur-retur er inkludert.",
   },
   {
     title: "Allsidig",
+    icon: "range",
     body: "Tar på meg oppdrag både for private og næring – fra luft-til-luft i enebolig til mikrobryggeri, kjøleanlegg og skipsfart.",
   },
   {
     title: "Fleksibel",
+    icon: "time",
     body: "Hjemmebesøk etter arbeidstid uten tillegg. Avtalen kan tilpasses ditt behov.",
   },
   {
     title: "Erfaring",
+    icon: "experience",
     body: "Mer enn 20 års erfaring med varmepumper, 15 års erfaring som maskinist offshore, og sertifisering som sikrer korrekt og sikkert arbeid.",
   },
 ] as const;
@@ -80,20 +84,100 @@ export const installationExcluded = [
   "Lift eller stillas for montering over arbeidshøyde.",
 ] as const;
 
-export const serviceIncluded = [
-  "Visuell overflatesjekk og rens/desinfisering av inne- og utedelen.",
-  "Ser etter skader, fester og gummidempere på utedelen.",
-  "Undersøker vibrasjoner og ulyd på innedel, utedel og vifter.",
-  "Sjekker plassering av varmekabel og termostat.",
-  "Kontrollerer rør, rørtrasé og avløp.",
-  "Sjekker for lekkasje i kraner, ventiler og mutterhetter.",
-  "Etterstrammer kabler og kontaktpunkter.",
-  "Sjekker isolering og plastkanaler.",
-  "Utfører lekkasjekontroll og undersøker kuldemedium.",
-  "Kontrollerer og rengjør luftfiltre.",
-  "Etterstrammer og rengjør innedelen.",
-  "Sjekker fjernkontroll, bytter batterier og undersøker feilkoder.",
-  "Funksjonstest etter utført arbeid, med testrapport.",
+export const installationConditions = [
+  {
+    icon: "wall",
+    title: "Trevegg inntil 30 cm",
+    body: "Hulltaking i vanlig trevegg er med. Lettmur og betong prises for seg.",
+  },
+  {
+    icon: "height",
+    title: "God atkomst",
+    body: "Utedelen monteres innenfor arbeidshøyde. Lift eller stillas kommer i tillegg.",
+  },
+  {
+    icon: "power",
+    title: "Strøm til utedel",
+    body: "Elektriker legger frem tilkobling med jordfeilbryter før montering.",
+  },
+] as const;
+
+export const installationSteps = [
+  {
+    title: "Avklaring",
+    body: "Vi går gjennom plassering, vegg og atkomst, så du vet at prisen holder.",
+  },
+  {
+    title: "Montering",
+    body: "Hulltaking, braketter, rør, signalkabel og kondensslange monteres og tettes.",
+  },
+  {
+    title: "Vakuum og tetthet",
+    body: "Anlegget vakuumeres og tetthetsprøves før det settes i drift.",
+  },
+  {
+    title: "Igangkjøring",
+    body: "Varmepumpen testes og startes, og du får testrapport.",
+  },
+] as const;
+
+export const serviceIncludedGroups = [
+  {
+    icon: "indoor",
+    title: "Rens og innedel",
+    items: [
+      "Visuell overflatesjekk og rens/desinfisering av inne- og utedelen.",
+      "Kontrollerer og rengjør luftfiltre.",
+      "Etterstrammer og rengjør innedelen.",
+      "Sjekker fjernkontroll, bytter batterier og undersøker feilkoder.",
+    ],
+  },
+  {
+    icon: "outdoor",
+    title: "Utedel og vifter",
+    items: [
+      "Ser etter skader, fester og gummidempere på utedelen.",
+      "Undersøker vibrasjoner og ulyd på innedel, utedel og vifter.",
+      "Sjekker plassering av varmekabel og termostat.",
+    ],
+  },
+  {
+    icon: "pipes",
+    title: "Rør og elektrisk",
+    items: [
+      "Kontrollerer rør, rørtrasé og avløp.",
+      "Etterstrammer kabler og kontaktpunkter.",
+      "Sjekker isolering og plastkanaler.",
+    ],
+  },
+  {
+    icon: "refrigerant",
+    title: "Kuldemedium og test",
+    items: [
+      "Sjekker for lekkasje i kraner, ventiler og mutterhetter.",
+      "Utfører lekkasjekontroll og undersøker kuldemedium.",
+      "Funksjonstest etter utført arbeid, med testrapport.",
+    ],
+  },
+] as const;
+
+export const serviceSteps = [
+  {
+    title: "Avtal tid",
+    body: "Send en melding, så finner vi en tid – også etter arbeidstid.",
+  },
+  {
+    title: "Rens",
+    body: "Inne- og utedel rengjøres og desinfiseres, og filtrene renses.",
+  },
+  {
+    title: "Kontroll",
+    body: "Rør, elektrisk, vifter og kuldemedium sjekkes for slitasje og lekkasje.",
+  },
+  {
+    title: "Testrapport",
+    body: "Funksjonstest etter utført arbeid, med testrapport og råd videre.",
+  },
 ] as const;
 
 export const repairExamples = [
@@ -109,6 +193,44 @@ export const repairExamples = [
   "Lekkasjekontroll og kuldemedium.",
   "Kontroll og rengjøring av luftfiltre.",
 ] as const;
+
+export const repairSteps = [
+  {
+    title: "Ta kontakt",
+    body: "Beskriv hva som skjer: ulyd, feilkode, dårlig varme eller lekkasje.",
+  },
+  {
+    title: "Gratis befaring",
+    body: "Jeg feilsøker anlegget på stedet, uten kostnad for deg.",
+  },
+  {
+    title: "Prisestimat",
+    body: "Du får en ærlig vurdering av om reparasjon lønner seg, og hva den koster.",
+  },
+  {
+    title: "Reparasjon eller erstatning",
+    body: "Jeg reparerer, eller hjelper deg med en prisgunstig ny pumpe.",
+  },
+] as const;
+
+export const repairComparison = {
+  repair: {
+    title: "Reparere",
+    points: [
+      "Du beholder anlegget og monteringen du allerede har betalt for.",
+      "Mange feil løses med en enkel reparasjon.",
+      "Tilgang til et stort utvalg reservedeler gjennom et bredt leverandørnett.",
+    ],
+  },
+  replace: {
+    title: "Bytte",
+    points: [
+      "Ny pumpe betyr også ny montering.",
+      "Fornuftig når reparasjonen ikke lønner seg.",
+      "Jeg hjelper deg med en prisgunstig erstatning via leverandøravtaler.",
+    ],
+  },
+} as const;
 
 export const fallbackFaqs = [
   {

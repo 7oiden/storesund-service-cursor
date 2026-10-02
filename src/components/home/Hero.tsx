@@ -1,10 +1,24 @@
-import { ArrowRight, BadgeCheck } from "lucide-react";
+import {
+  ArrowRight,
+  Award,
+  BadgeCheck,
+  Clock,
+  Mail,
+  Phone,
+  ReceiptText,
+} from "lucide-react";
 import { hugoAvailabilityNote, photos, type SiteSettings } from "@/lib/site";
-import { formatPhone, telHref } from "@/lib/utils";
+import { cn, formatPhone, telHref } from "@/lib/utils";
 import { ButtonLink } from "@/components/ui/ButtonLink";
 import { Container } from "@/components/ui/Container";
 import { GreenWash } from "@/components/ui/GreenWash";
 import { Photo } from "@/components/ui/Photo";
+
+const trustPoints = [
+  { icon: Award, label: "20+ år erfaring" },
+  { icon: ReceiptText, label: "Fastpris på standard" },
+  { icon: Clock, label: "Kveldsbesøk uten tillegg" },
+];
 
 export function Hero({ settings }: { settings: SiteSettings }) {
   return (
@@ -36,11 +50,27 @@ export function Hero({ settings }: { settings: SiteSettings }) {
               Se tjenester
             </ButtonLink>
           </div>
-          <div className="mt-10 flex flex-wrap gap-x-8 gap-y-3 border-t border-white/10 pt-6 text-sm text-cream/70">
-            <a href={telHref(settings.phone)} className="hover:text-cream">
+          <ul className="mt-8 flex flex-wrap gap-x-6 gap-y-2 text-sm text-cream/80">
+            {trustPoints.map(({ icon: Icon, label }) => (
+              <li key={label} className="inline-flex items-center gap-2">
+                <Icon size={16} strokeWidth={1.75} className="text-cream/55" />
+                {label}
+              </li>
+            ))}
+          </ul>
+          <div className="mt-8 flex flex-wrap gap-x-8 gap-y-3 border-t border-white/10 pt-6 text-sm text-cream/70">
+            <a
+              href={telHref(settings.phone)}
+              className="inline-flex items-center gap-2 hover:text-cream"
+            >
+              <Phone size={15} strokeWidth={1.75} />
               {formatPhone(settings.phone)}
             </a>
-            <a href={`mailto:${settings.email}`} className="hover:text-cream">
+            <a
+              href={`mailto:${settings.email}`}
+              className="inline-flex items-center gap-2 hover:text-cream"
+            >
+              <Mail size={15} strokeWidth={1.75} />
               {settings.email}
             </a>
           </div>
@@ -54,10 +84,17 @@ export function Hero({ settings }: { settings: SiteSettings }) {
           />
           <div className="absolute bottom-5 left-5 right-5 rounded-2xl bg-cream/95 p-4 text-ink shadow-lg">
             <p
-              className={`text-xs font-semibold uppercase tracking-[0.16em] ${
-                settings.is_available ? "text-forest" : "text-copper"
-              }`}
+              className={cn(
+                "flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.16em]",
+                settings.is_available ? "text-forest" : "text-copper",
+              )}
             >
+              <span
+                className={cn(
+                  "size-2 rounded-full bg-current",
+                  settings.is_available && "pulse-dot",
+                )}
+              />
               {settings.is_available ? "I land og tilgjengelig" : "Offshore nå"}
             </p>
             <p className="mt-1 text-sm leading-6 text-ink-soft">
