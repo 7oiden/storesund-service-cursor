@@ -9,8 +9,8 @@ import {
   Phone,
   type LucideIcon,
 } from "lucide-react";
-import { serviceNav } from "@/lib/content";
-import { photos, type SiteSettings } from "@/lib/site";
+import { serviceNav, type Photo as PhotoData } from "@/lib/content";
+import type { SiteSettings } from "@/lib/site";
 import { cn, formatPhone, telHref } from "@/lib/utils";
 import { ButtonLink } from "@/components/ui/ButtonLink";
 import { Container, SectionHeading } from "@/components/ui/Container";
@@ -31,14 +31,14 @@ export function ServiceHero({
   slug,
   heading,
   points,
-  image,
+  photo,
   badge,
   detailsLabel = "Se hva som inngår",
 }: {
   slug: ServiceSlug;
   heading: string;
   points: string[];
-  image: keyof typeof photos;
+  photo: PhotoData;
   badge: { label: string; value: string };
   detailsLabel?: string;
 }) {
@@ -101,8 +101,7 @@ export function ServiceHero({
         </div>
         <div className="relative">
           <Photo
-            src={photos[image]}
-            alt={`${label} av varmepumpe`}
+            photo={photo}
             className="aspect-[5/4] rounded-[2rem]"
             priority
           />
@@ -357,9 +356,11 @@ export function InfoCard({
 export function RelatedServices({
   current,
   settings,
+  summaries,
 }: {
   current: ServiceSlug;
   settings: SiteSettings;
+  summaries: Record<ServiceSlug, string>;
 }) {
   const prices = servicePrices(settings);
 
@@ -374,6 +375,7 @@ export function RelatedServices({
               <ServiceCard
                 key={service.href}
                 service={service}
+                summary={summaries[service.slug]}
                 price={prices[service.slug]}
               />
             ))}

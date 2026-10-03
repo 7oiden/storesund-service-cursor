@@ -6,7 +6,7 @@ import { FaqList } from "@/components/contact/FaqList";
 import { Container, SectionHeading } from "@/components/ui/Container";
 import { GreenWash } from "@/components/ui/GreenWash";
 import { getFaqs, getSiteSettings } from "@/lib/data";
-import { hugoAvailabilityNote } from "@/lib/site";
+import { availabilityNote } from "@/lib/site";
 import { formatPhone, telHref } from "@/lib/utils";
 
 export const metadata: Metadata = {
@@ -38,7 +38,7 @@ export default async function ContactPage() {
                 Bruk skjemaet, ring eller send e-post for timebestilling og
                 andre henvendelser.
               </li>
-              <li>{hugoAvailabilityNote(settings.is_available)}</li>
+              <li>{availabilityNote(settings)}</li>
               <li>
                 Sjekk gjerne spørsmålene under først. Finner du ikke svaret, er
                 du velkommen til å ta kontakt.

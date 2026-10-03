@@ -12,8 +12,11 @@ import {
 import { Container, SectionHeading } from "@/components/ui/Container";
 import { GreenWash } from "@/components/ui/GreenWash";
 import { IconBadge } from "@/components/ui/IconBadge";
-import { repairComparison, repairExamples, repairSteps } from "@/lib/content";
-import { getSiteSettings } from "@/lib/data";
+import {
+  getRepairContent,
+  getServiceSummaries,
+  getSiteSettings,
+} from "@/lib/data";
 
 export const metadata: Metadata = {
   title: "Reparasjon",
@@ -22,22 +25,21 @@ export const metadata: Metadata = {
 };
 
 export default async function RepairPage() {
-  const settings = await getSiteSettings();
-  const { repair, replace } = repairComparison;
+  const [settings, content, summaries] = await Promise.all([
+    getSiteSettings(),
+    getRepairContent(),
+    getServiceSummaries(),
+  ]);
 
   return (
     <>
       <ServiceHero
         slug="reparasjon"
-        heading="Hvorfor kjøpe ny varmepumpe når den du har kan reddes?"
-        image="repair"
+        heading={content.heroHeading}
+        photo={content.heroPhoto}
         badge={{ label: "Feilsøking og prisestimat", value: "Gratis befaring" }}
         detailsLabel="Se hva jeg reparerer"
-        points={[
-          "Mange feil kan løses med en enkel reparasjon, i stedet for ny pumpe og ny montering.",
-          "Hvis reparasjon likevel ikke lønner seg, hjelper jeg med en prisgunstig erstatning via leverandøravtaler.",
-          "Ta kontakt for gratis befaring med feilsøking og prisestimat.",
-        ]}
+        points={content.heroPoints}
       />
       <FactStrip
         facts={[
@@ -65,9 +67,9 @@ export default async function RepairPage() {
                     Ofte best
                   </span>
                 </div>
-                <h3 className="display mt-6 text-3xl">{repair.title}</h3>
+                <h3 className="display mt-6 text-3xl">Reparere</h3>
                 <ul className="mt-5 space-y-3 text-sm leading-6 text-cream/80">
-                  {repair.points.map((point) => (
+                  {content.repairPoints.map((point) => (
                     <li key={point} className="flex gap-3">
                       <span className="mt-2 size-1.5 shrink-0 rounded-full bg-leaf" />
                       {point}
@@ -78,9 +80,9 @@ export default async function RepairPage() {
             </article>
             <article className="rounded-3xl border border-line bg-cream p-8">
               <IconBadge icon={RefreshCw} size="lg" />
-              <h3 className="display mt-6 text-3xl text-ink">{replace.title}</h3>
+              <h3 className="display mt-6 text-3xl text-ink">Bytte</h3>
               <ul className="mt-5 space-y-3 text-sm leading-6 text-ink-soft">
-                {replace.points.map((point) => (
+                {content.replacePoints.map((point) => (
                   <li key={point} className="flex gap-3">
                     <span className="mt-2 size-1.5 shrink-0 rounded-full bg-copper/70" />
                     {point}
@@ -92,13 +94,13 @@ export default async function RepairPage() {
         </Container>
       </section>
 
-      <ProcessSteps title="Fra feilkode til fungerende anlegg." steps={repairSteps} />
+      <ProcessSteps title={content.stepsTitle} steps={content.steps} />
 
       <section id={DETAILS_ID} className="scroll-mt-24 py-16 lg:py-24">
         <Container className="grid gap-6 lg:grid-cols-[1fr_20rem] lg:gap-8">
           <Checklist
             title="Eksempler på jobber jeg tar"
-            items={repairExamples}
+            items={content.examples}
             columns={2}
           />
           <PriceAside
@@ -115,7 +117,11 @@ export default async function RepairPage() {
         </Container>
       </section>
 
-      <RelatedServices current="reparasjon" settings={settings} />
+      <RelatedServices
+        current="reparasjon"
+        settings={settings}
+        summaries={summaries}
+      />
     </>
   );
 }

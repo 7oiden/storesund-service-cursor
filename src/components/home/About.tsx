@@ -1,37 +1,26 @@
-import { photos } from "@/lib/site";
+import type { HomeContent } from "@/lib/content";
 import { Container, SectionHeading } from "@/components/ui/Container";
 import { Photo } from "@/components/ui/Photo";
 
-export function About() {
+export function About({ content }: { content: HomeContent }) {
+  const paragraphs = content.aboutBody
+    .split(/\n\s*\n/)
+    .map((paragraph) => paragraph.trim())
+    .filter(Boolean);
+
   return (
     <section className="py-20 lg:py-28">
       <Container className="grid items-center gap-12 lg:grid-cols-2">
         <Photo
-          src={photos.about}
-          alt="Arbeid med teknisk anlegg – plassholderbilde"
+          photo={content.aboutPhoto}
           className="aspect-[4/5] rounded-[2rem]"
         />
         <div>
-          <SectionHeading
-            eyebrow="Om meg"
-            title="Maskinist til havs. Varmepumpemann i land."
-          />
+          <SectionHeading eyebrow="Om meg" title={content.aboutHeading} />
           <div className="mt-6 space-y-4 text-base leading-7 text-ink-soft">
-            <p>
-              Jeg heter Hugo Storesund og driver Storesund Service ved siden av
-              full jobb som maskinist i Nordsjøen. Når jeg er hjemme på Sotra tar jeg på meg montering, service og reparasjon av
-              varmepumper og klimaanlegg – for både privatpersoner og bedrifter.
-            </p>
-            <p>
-              Bakgrunnen er mer enn 20 år med varmepumper og 15 år offshore. Jeg
-              er f-gass sertifisert i kategori I, og kan derfor også jobbe på
-              anlegg med mer enn 3 kg kuldemedium.
-            </p>
-            <p>
-              På grunn av turnusordningen på jobb, er jeg ikke alltid
-              tilgjengelig på telefon. Men dersom du ønsker å sette opp en avtale eller har spørsmål, kan du gjøre det gjennom e-post eller via kontaktskjemaet; så svarer jeg
-               så snart jeg kan.
-            </p>
+            {paragraphs.map((paragraph) => (
+              <p key={paragraph}>{paragraph}</p>
+            ))}
           </div>
         </div>
       </Container>

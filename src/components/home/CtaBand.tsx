@@ -3,7 +3,13 @@ import { ButtonLink } from "@/components/ui/ButtonLink";
 import { Container } from "@/components/ui/Container";
 import { GreenWash } from "@/components/ui/GreenWash";
 
-export function CtaBand() {
+export function CtaBand({
+  eyebrow,
+  heading,
+}: {
+  eyebrow: string;
+  heading: string;
+}) {
   return (
     <section className="py-16 lg:py-24">
       <Container>
@@ -12,10 +18,10 @@ export function CtaBand() {
           <div className="relative z-10 flex flex-col items-start justify-between gap-6 px-7 py-10 sm:flex-row sm:items-center sm:px-12 lg:py-14">
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.2em] text-cream/60">
-                Klar for en time?
+                {eyebrow}
               </p>
               <h2 className="display mt-2 text-3xl sm:text-4xl">
-                Send en melding, så tar vi det derfra.
+                {heading}
               </h2>
             </div>
             <ButtonLink href="/kontakt" variant="copper" className="shrink-0">

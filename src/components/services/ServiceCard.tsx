@@ -16,9 +16,11 @@ export function servicePrices(settings: SiteSettings): Record<ServiceSlug, strin
 
 export function ServiceCard({
   service,
+  summary,
   price,
 }: {
   service: (typeof serviceNav)[number];
+  summary: string;
   price: string;
 }) {
   return (
@@ -34,7 +36,7 @@ export function ServiceCard({
       </div>
       <h3 className="display mt-6 text-3xl">{service.label}</h3>
       <p className="mt-3 flex-1 text-sm leading-6 text-cream/70">
-        {service.summary}
+        {summary}
       </p>
       <span className="mt-8 inline-flex items-center gap-2 text-sm font-semibold">
         Les mer

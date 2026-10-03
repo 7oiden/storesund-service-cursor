@@ -8,7 +8,7 @@ import { IconBadge } from "@/components/ui/IconBadge";
 import { servicePrices } from "@/components/services/ServiceCard";
 import { serviceIcons } from "@/components/services/serviceIcons";
 import { serviceNav } from "@/lib/content";
-import { getSiteSettings } from "@/lib/data";
+import { getHomeContent, getServiceSummaries, getSiteSettings } from "@/lib/data";
 
 export const metadata: Metadata = {
   title: "Tjenester",
@@ -17,7 +17,11 @@ export const metadata: Metadata = {
 };
 
 export default async function ServicesPage() {
-  const settings = await getSiteSettings();
+  const [settings, summaries, home] = await Promise.all([
+    getSiteSettings(),
+    getServiceSummaries(),
+    getHomeContent(),
+  ]);
   const prices = servicePrices(settings);
 
   return (
@@ -54,7 +58,7 @@ export default async function ServicesPage() {
                     {service.label}
                   </h2>
                   <p className="mt-2 max-w-xl text-sm leading-6 text-ink-soft">
-                    {service.summary}
+                    {summaries[service.slug]}
                   </p>
                 </div>
               </div>
@@ -69,7 +73,7 @@ export default async function ServicesPage() {
           ))}
         </Container>
       </section>
-      <OtherServices />
+      <OtherServices content={home} />
     </>
   );
 }

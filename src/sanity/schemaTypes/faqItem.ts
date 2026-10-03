@@ -16,6 +16,8 @@ export const faqItem = defineType({
     defineField({
       name: "answer",
       title: "Svar",
+      description:
+        "Skriv {servicepris}, {monteringspris} eller {rabatt} for å vise gjeldende pris fra Innstillinger.",
       type: "text",
       rows: 4,
       validation: (rule) => rule.required(),

@@ -1,9 +1,15 @@
-import { serviceNav } from "@/lib/content";
+import { serviceNav, type ServiceSlug } from "@/lib/content";
 import type { SiteSettings } from "@/lib/site";
 import { Container, SectionHeading } from "@/components/ui/Container";
 import { ServiceCard, servicePrices } from "@/components/services/ServiceCard";
 
-export function ServicesPreview({ settings }: { settings: SiteSettings }) {
+export function ServicesPreview({
+  settings,
+  summaries,
+}: {
+  settings: SiteSettings;
+  summaries: Record<ServiceSlug, string>;
+}) {
   const prices = servicePrices(settings);
 
   return (
@@ -19,6 +25,7 @@ export function ServicesPreview({ settings }: { settings: SiteSettings }) {
             <ServiceCard
               key={service.href}
               service={service}
+              summary={summaries[service.slug]}
               price={prices[service.slug]}
             />
           ))}

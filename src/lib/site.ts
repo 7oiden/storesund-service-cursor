@@ -1,10 +1,14 @@
+import { formatNok } from "./utils";
+
 export type SiteSettings = {
   phone: string;
   email: string;
   address: string;
   org_nr: string;
   is_available: boolean;
-  availability_note: string;
+  available_text: string;
+  offshore_text: string;
+  footer_tagline: string;
   install_price: number;
   service_price: number;
   service_discount_percent: number;
@@ -27,10 +31,16 @@ export function availabilityStatusLabel(available: boolean) {
     : availabilityStatusText.unavailable;
 }
 
-export function hugoAvailabilityNote(available: boolean) {
-  return available
-    ? "På grunn av turnusarbeid offshore vil jeg ikke alltid være tilgjengelig på telefon. Jeg er for tiden i land og vil være tilgjengelig på telefon i tillegg til e-post og kontaktskjema."
-    : "På grunn av turnusarbeid offshore vil jeg ikke alltid være tilgjengelig på telefon. Jeg er for tiden offshore og vil kun være tilgjengelig via e-post og kontaktskjema.";
+export function availabilityNote(settings: SiteSettings) {
+  return settings.is_available ? settings.available_text : settings.offshore_text;
+}
+
+/** Replaces {monteringspris}, {servicepris} and {rabatt} with current prices. */
+export function fillPrices(text: string, settings: SiteSettings) {
+  return text
+    .replaceAll("{monteringspris}", formatNok(settings.install_price))
+    .replaceAll("{servicepris}", formatNok(settings.service_price))
+    .replaceAll("{rabatt}", `${settings.service_discount_percent} %`);
 }
 
 export const defaultSettings: SiteSettings = {
@@ -39,21 +49,13 @@ export const defaultSettings: SiteSettings = {
   address: "Lyngvegen 4a, 5382 Skogsvåg",
   org_nr: "977314194",
   is_available: true,
-  availability_note:
-    "Jobber 14 dager om gangen i Nordsjøen. E-post og kontaktskjemaet når meg alltid.",
+  available_text:
+    "På grunn av turnusarbeid offshore vil jeg ikke alltid være tilgjengelig på telefon. Jeg er for tiden i land og vil være tilgjengelig på telefon i tillegg til e-post og kontaktskjema.",
+  offshore_text:
+    "På grunn av turnusarbeid offshore vil jeg ikke alltid være tilgjengelig på telefon. Jeg er for tiden offshore og vil kun være tilgjengelig via e-post og kontaktskjema.",
+  footer_tagline:
+    "Montering, service og reparasjon av varmepumper og klimaanlegg i Bergen og omegn.",
   install_price: 3750,
   service_price: 1300,
   service_discount_percent: 10,
 };
-
-export const photos = {
-  hero: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1800&q=80",
-  about: "https://images.unsplash.com/photo-1581094794329-c8112a89af12?auto=format&fit=crop&w=1200&q=80",
-  install: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1400&q=80",
-  service: "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1400&q=80",
-  repair: "/images/work-repair.jpg",
-  work1: "https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=900&q=80",
-  work2: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=900&q=80",
-  work3: "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=900&q=80",
-  work4: "https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=900&q=80",
-} as const;

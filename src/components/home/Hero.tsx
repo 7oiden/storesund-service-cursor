@@ -1,26 +1,20 @@
-import {
-  ArrowRight,
-  Award,
-  BadgeCheck,
-  Clock,
-  Mail,
-  Phone,
-  ReceiptText,
-} from "lucide-react";
-import { hugoAvailabilityNote, photos, type SiteSettings } from "@/lib/site";
+import { ArrowRight, BadgeCheck, Mail, Phone } from "lucide-react";
+import type { HomeContent } from "@/lib/content";
+import { availabilityNote, type SiteSettings } from "@/lib/site";
 import { cn, formatPhone, telHref } from "@/lib/utils";
 import { ButtonLink } from "@/components/ui/ButtonLink";
 import { Container } from "@/components/ui/Container";
 import { GreenWash } from "@/components/ui/GreenWash";
 import { Photo } from "@/components/ui/Photo";
+import { homeIcons } from "./homeIcons";
 
-const trustPoints = [
-  { icon: Award, label: "20+ år erfaring" },
-  { icon: ReceiptText, label: "Fastpris på standard" },
-  { icon: Clock, label: "Kveldsbesøk uten tillegg" },
-];
-
-export function Hero({ settings }: { settings: SiteSettings }) {
+export function Hero({
+  settings,
+  content,
+}: {
+  settings: SiteSettings;
+  content: HomeContent;
+}) {
   return (
     <section className="relative overflow-hidden bg-forest-deep text-cream">
       <GreenWash />
@@ -31,18 +25,15 @@ export function Hero({ settings }: { settings: SiteSettings }) {
             f-gass sertifisert
           </div>
           <h1 className="display text-[clamp(2.25rem,11vw,3rem)] leading-[1.05] sm:text-6xl lg:text-7xl">
-            <span className="mb-3 block text-[0.5em] leading-[1.15]">
-              Montasje, service
-              <br />
-              og reparasjon av
+            <span className="mb-3 block whitespace-pre-line text-[0.5em] leading-[1.15]">
+              {content.heroHeadingLead}
             </span>
             <span className="[text-shadow:0.05em_0.05em_0_var(--color-forest)]">
-              varmepumper.
+              {content.heroHeadingMain}
             </span>
           </h1>
           <p className="mt-6 max-w-xl text-base leading-7 text-cream/75 sm:text-lg">
-            Fastpris på standard jobber, hjemmebesøk etter arbeidstid, og ærlige
-            råd når reparasjon lønner seg mer enn å bytte.
+            {content.heroIntro}
           </p>
           <div className="mt-8 flex flex-wrap items-center gap-3">
             <ButtonLink href="/kontakt" variant="copper">
@@ -54,12 +45,15 @@ export function Hero({ settings }: { settings: SiteSettings }) {
             </ButtonLink>
           </div>
           <ul className="mt-8 flex flex-wrap gap-x-6 gap-y-2 text-sm text-cream/80">
-            {trustPoints.map(({ icon: Icon, label }) => (
-              <li key={label} className="inline-flex items-center gap-2">
-                <Icon size={16} strokeWidth={1.75} className="text-cream/55" />
-                {label}
-              </li>
-            ))}
+            {content.trustPoints.map(({ icon, label }) => {
+              const Icon = homeIcons[icon];
+              return (
+                <li key={label} className="inline-flex items-center gap-2">
+                  <Icon size={16} strokeWidth={1.75} className="text-cream/55" />
+                  {label}
+                </li>
+              );
+            })}
           </ul>
           <div className="mt-8 flex flex-wrap gap-x-8 gap-y-3 border-t border-white/10 pt-6 text-sm text-cream/70">
             <a
@@ -82,8 +76,7 @@ export function Hero({ settings }: { settings: SiteSettings }) {
         </div>
         <div className="relative">
           <Photo
-            src={photos.hero}
-            alt="Bolig der en varmepumpe kan monteras"
+            photo={content.heroPhoto}
             className="aspect-[4/5] rounded-3xl"
             priority
           />
@@ -103,7 +96,7 @@ export function Hero({ settings }: { settings: SiteSettings }) {
               {settings.is_available ? "I land og tilgjengelig" : "Offshore nå"}
             </p>
             <p className="mt-1 text-sm leading-6 text-ink-soft">
-              {hugoAvailabilityNote(settings.is_available)}
+              {availabilityNote(settings)}
             </p>
           </div>
         </div>

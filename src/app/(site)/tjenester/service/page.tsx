@@ -23,8 +23,12 @@ import {
 import { ButtonLink } from "@/components/ui/ButtonLink";
 import { Container, SectionHeading } from "@/components/ui/Container";
 import { IconBadge } from "@/components/ui/IconBadge";
-import { serviceIncludedGroups, serviceSteps } from "@/lib/content";
-import { getSiteSettings } from "@/lib/data";
+import type { CheckGroupIcon } from "@/lib/content";
+import {
+  getMaintenanceContent,
+  getServiceSummaries,
+  getSiteSettings,
+} from "@/lib/data";
 import { formatNok } from "@/lib/utils";
 
 export const metadata: Metadata = {
@@ -33,40 +37,36 @@ export const metadata: Metadata = {
     "Fastpris service på luft-til-luft varmepumpe. Anbefales annethvert år.",
 };
 
-const groupIcons: Record<
-  (typeof serviceIncludedGroups)[number]["icon"],
-  LucideIcon
-> = {
+const groupIcons: Record<CheckGroupIcon, LucideIcon> = {
   indoor: AirVent,
   outdoor: Fan,
   pipes: Cable,
   refrigerant: Thermometer,
 };
 
-const checkpointCount = serviceIncludedGroups.reduce(
-  (total, group) => total + group.items.length,
-  0,
-);
-
 export default async function ServicePage() {
-  const settings = await getSiteSettings();
+  const [settings, content, summaries] = await Promise.all([
+    getSiteSettings(),
+    getMaintenanceContent(),
+    getServiceSummaries(),
+  ]);
+  const checkpointCount = content.checkGroups.reduce(
+    (total, group) => total + group.items.length,
+    0,
+  );
   const discount = settings.service_discount_percent;
 
   return (
     <>
       <ServiceHero
         slug="service"
-        heading="Sikre lang levetid og god energieffektivitet med regelmessig service."
-        image="service"
+        heading={content.heroHeading}
+        photo={content.heroPhoto}
         badge={{
           label: "Fastpris standard service",
           value: `${formatNok(settings.service_price)} inkl. mva`,
         }}
-        points={[
-          "En godt vedlikeholdt varmepumpe holder strømregningen nede. Smuss på lamellene gir merkbart dårligere ytelse over tid.",
-          "Regelmessig service gjør det lettere å oppdage slitasje før den blir kostbar å utbedre.",
-          "Anbefalingen er service annethvert år, i tillegg til jevnlig rengjøring du gjør selv.",
-        ]}
+        points={content.heroPoints}
       />
       <FactStrip
         facts={[
@@ -85,7 +85,7 @@ export default async function ServicePage() {
               title="Dette inngår i en service."
             />
             <div className="mt-10 grid gap-5 md:grid-cols-2">
-              {serviceIncludedGroups.map((group) => (
+              {content.checkGroups.map((group) => (
                 <article
                   key={group.title}
                   className="rounded-3xl border border-line bg-cream p-7"
@@ -113,7 +113,7 @@ export default async function ServicePage() {
         </Container>
       </section>
 
-      <ProcessSteps title="Én time som lønner seg." steps={serviceSteps} />
+      <ProcessSteps title={content.stepsTitle} steps={content.steps} />
 
       <section className="py-16 lg:py-24">
         <Container className="grid gap-6 lg:grid-cols-[1.15fr_0.85fr]">
@@ -142,19 +142,21 @@ export default async function ServicePage() {
             </ButtonLink>
           </div>
           <div className="grid gap-6">
-            <FeatureCard icon={Wind} title="Innedel og filter">
-              Støvsug eller vask filteret, tørk av med en klut og støvsug
-              innedelen før filteret settes på plass. Det gir bedre
-              luftsirkulasjon og lenger levetid.
+            <FeatureCard icon={Wind} title={content.tipIndoor.title}>
+              {content.tipIndoor.body}
             </FeatureCard>
-            <FeatureCard icon={Snowflake} title="Utedelen">
-              Hold utedelen fri for støv, løv og snø om vinteren.
+            <FeatureCard icon={Snowflake} title={content.tipOutdoor.title}>
+              {content.tipOutdoor.body}
             </FeatureCard>
           </div>
         </Container>
       </section>
 
-      <RelatedServices current="service" settings={settings} />
+      <RelatedServices
+        current="service"
+        settings={settings}
+        summaries={summaries}
+      />
     </>
   );
 }

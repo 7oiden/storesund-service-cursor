@@ -13,14 +13,13 @@ import {
   ServiceHero,
 } from "@/components/services/ServiceBlocks";
 import { Container, SectionHeading } from "@/components/ui/Container";
+import type { ConditionIcon } from "@/lib/content";
 import {
-  installationConditions,
-  installationExcluded,
-  installationIncluded,
-  installationParts,
-  installationSteps,
-} from "@/lib/content";
-import { getSiteSettings } from "@/lib/data";
+  getHomeContent,
+  getInstallationContent,
+  getServiceSummaries,
+  getSiteSettings,
+} from "@/lib/data";
 import { formatNok } from "@/lib/utils";
 
 export const metadata: Metadata = {
@@ -29,31 +28,29 @@ export const metadata: Metadata = {
     "Fastpris montering av luft-til-luft varmepumpe i Bergensområdet.",
 };
 
-const conditionIcons: Record<
-  (typeof installationConditions)[number]["icon"],
-  LucideIcon
-> = {
+const conditionIcons: Record<ConditionIcon, LucideIcon> = {
   wall: House,
   height: MoveVertical,
   power: PlugZap,
 };
 
 export default async function InstallationPage() {
-  const settings = await getSiteSettings();
+  const [settings, content, summaries, home] = await Promise.all([
+    getSiteSettings(),
+    getInstallationContent(),
+    getServiceSummaries(),
+    getHomeContent(),
+  ]);
   const price = `${formatNok(settings.install_price)} inkl. mva`;
 
   return (
     <>
       <ServiceHero
         slug="montering"
-        heading="Jeg monterer og demonterer alle typer varmepumper, også de du har kjøpt selv."
-        image="install"
+        heading={content.heroHeading}
+        photo={content.heroPhoto}
         badge={{ label: "Fastpris standard montering", value: price }}
-        points={[
-          "Fastpris på standard montasje gjelder luft-til-luft uansett merke, i bolig med trevegg og god atkomst.",
-          "Kjøring og nødvendig utstyr for en klar-til-bruk installasjon er inkludert, forutsatt at elektrisk tilkobling for utedel er på plass.",
-          "Ta kontakt for time, eller for pristilbud på andre typer varmepumper og anlegg utenom standard.",
-        ]}
+        points={content.heroPoints}
       />
       <FactStrip
         facts={[
@@ -72,7 +69,7 @@ export default async function InstallationPage() {
             body="Fastprisen forutsetter tre ting. Ligger jobben utenfor, får du et eget tilbud."
           />
           <div className="mt-10 grid gap-5 md:grid-cols-3">
-            {installationConditions.map((condition) => (
+            {content.conditions.map((condition) => (
               <FeatureCard
                 key={condition.title}
                 icon={conditionIcons[condition.icon]}
@@ -85,10 +82,7 @@ export default async function InstallationPage() {
         </Container>
       </section>
 
-      <ProcessSteps
-        title="Fra avklaring til varme i huset."
-        steps={installationSteps}
-      />
+      <ProcessSteps title={content.stepsTitle} steps={content.steps} />
 
       <section id={DETAILS_ID} className="scroll-mt-24 py-16 lg:py-24">
         <Container className="grid gap-6 lg:grid-cols-[1fr_20rem] lg:gap-8">
@@ -96,13 +90,13 @@ export default async function InstallationPage() {
             <div className="grid gap-6 xl:grid-cols-2">
               <Checklist
                 title="Inkludert i montering"
-                items={installationIncluded}
+                items={content.included}
               />
-              <Checklist title="Deler som følger med" items={installationParts} />
+              <Checklist title="Deler som følger med" items={content.parts} />
             </div>
             <Checklist
               title="Ikke inkludert"
-              items={installationExcluded}
+              items={content.excluded}
               tone="exclude"
             />
             <InfoCard title="Ikke bare luft-til-luft" icon={Layers}>
@@ -112,7 +106,7 @@ export default async function InstallationPage() {
                 kategori I kan jeg også montere anlegg med over 3 kg
                 kuldemedium.
               </p>
-              <OtherServiceTags tone="dark" className="pt-2" />
+              <OtherServiceTags tags={home.otherTags} tone="dark" className="pt-2" />
             </InfoCard>
           </div>
           <PriceAside
@@ -129,7 +123,11 @@ export default async function InstallationPage() {
         </Container>
       </section>
 
-      <RelatedServices current="montering" settings={settings} />
+      <RelatedServices
+        current="montering"
+        settings={settings}
+        summaries={summaries}
+      />
     </>
   );
 }

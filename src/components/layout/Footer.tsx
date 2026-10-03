@@ -73,8 +73,7 @@ export async function Footer() {
         <div className="sm:col-span-2 lg:col-span-1">
           <Logo inverted />
           <p className="mt-4 max-w-xs text-sm leading-6 text-cream/70">
-            Montering, service og reparasjon av varmepumper og klimaanlegg i
-            Bergen og omegn.
+            {settings.footer_tagline}
           </p>
           <p className="mt-6 inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3 py-1.5 text-xs font-medium text-cream/85">
             <span

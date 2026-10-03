@@ -4,19 +4,23 @@ import { Hero } from "@/components/home/Hero";
 import { OtherServices } from "@/components/home/OtherServices";
 import { ServicesPreview } from "@/components/home/ServicesPreview";
 import { WhyMe } from "@/components/home/WhyMe";
-import { getSiteSettings } from "@/lib/data";
+import { getHomeContent, getServiceSummaries, getSiteSettings } from "@/lib/data";
 
 export default async function HomePage() {
-  const settings = await getSiteSettings();
+  const [settings, content, summaries] = await Promise.all([
+    getSiteSettings(),
+    getHomeContent(),
+    getServiceSummaries(),
+  ]);
 
   return (
     <>
-      <Hero settings={settings} />
-      <About />
-      <WhyMe />
-      <ServicesPreview settings={settings} />
-      <OtherServices />
-      <CtaBand />
+      <Hero settings={settings} content={content} />
+      <About content={content} />
+      <WhyMe items={content.whyMe} />
+      <ServicesPreview settings={settings} summaries={summaries} />
+      <OtherServices content={content} />
+      <CtaBand eyebrow={content.ctaEyebrow} heading={content.ctaHeading} />
     </>
   );
 }

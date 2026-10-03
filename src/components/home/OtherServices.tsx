@@ -1,27 +1,21 @@
-import { otherServices } from "@/lib/content";
-import { photos } from "@/lib/site";
+import type { HomeContent } from "@/lib/content";
 import { cn } from "@/lib/utils";
 import { Container, SectionHeading } from "@/components/ui/Container";
 import { Photo } from "@/components/ui/Photo";
 
-const workPhotos = [
-  { src: photos.work1, alt: "Boligfasade – plassholder" },
-  { src: photos.work2, alt: "Moderne bolig – plassholder" },
-  { src: photos.work3, alt: "Interiør – plassholder" },
-  { src: photos.work4, alt: "Hus og hage – plassholder" },
-];
-
 export function OtherServiceTags({
+  tags,
   className,
   tone = "light",
 }: {
+  tags: string[];
   className?: string;
   tone?: "light" | "dark";
 }) {
   const dark = tone === "dark";
   return (
     <div className={cn("flex flex-wrap gap-2", className)}>
-      {otherServices.map((tag) => (
+      {tags.map((tag) => (
         <span
           key={tag}
           className={cn(
@@ -39,7 +33,7 @@ export function OtherServiceTags({
   );
 }
 
-export function OtherServices() {
+export function OtherServices({ content }: { content: HomeContent }) {
   return (
     <section className="bg-cream py-20 lg:py-28">
       <Container className="grid items-start gap-12 lg:grid-cols-2">
@@ -47,16 +41,15 @@ export function OtherServices() {
           <SectionHeading
             eyebrow="Andre anlegg"
             title="Ikke bare luft-til-luft."
-            body="Ta kontakt for tilbud på montasje, service og reparasjon av andre typer anlegg enn standard varmepumpe."
+            body={content.otherIntro}
           />
-          <OtherServiceTags className="mt-8" />
+          <OtherServiceTags tags={content.otherTags} className="mt-8" />
         </div>
         <div className="grid grid-cols-2 gap-3">
-          {workPhotos.map((photo) => (
+          {content.otherPhotos.slice(0, 4).map((photo) => (
             <Photo
               key={photo.src}
-              src={photo.src}
-              alt={photo.alt}
+              photo={photo}
               className="aspect-square rounded-2xl"
             />
           ))}
