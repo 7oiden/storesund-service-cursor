@@ -248,7 +248,7 @@ export function Checklist({
 }) {
   if (tone === "exclude") {
     return (
-      <section className="rounded-3xl border border-line border-l-4 border-l-copper bg-paper p-6 sm:p-7">
+      <section className="rounded-3xl border border-line border-l-4 border-l-copper bg-cream p-6 sm:p-7">
         <h2 className="text-xs font-semibold uppercase tracking-[0.2em] text-copper">
           {title}
         </h2>
@@ -291,9 +291,8 @@ export function PriceAside({
   settings: SiteSettings;
 }) {
   return (
-    <aside className="relative self-start overflow-hidden rounded-3xl bg-forest-deep p-7 text-cream lg:sticky lg:top-24">
-      <div aria-hidden className="hero-wash pointer-events-none absolute inset-0 opacity-60" />
-      <div className="relative">
+    <aside className="self-start rounded-3xl bg-ink p-7 text-cream lg:sticky lg:top-24">
+      <div>
         <p className="text-xs font-semibold uppercase tracking-[0.2em] text-cream/55">
           {label}
         </p>
@@ -338,9 +337,8 @@ export function InfoCard({
   children: React.ReactNode;
 }) {
   return (
-    <aside className="relative overflow-hidden rounded-3xl bg-forest-deep p-7 text-cream">
-      <div aria-hidden className="hero-wash pointer-events-none absolute inset-0 opacity-50" />
-      <div className="relative">
+    <aside className="rounded-3xl bg-forest-deep p-7 text-cream">
+      <div>
         <div className="flex items-center gap-3">
           {icon ? <IconBadge icon={icon} tone="dark" /> : null}
           <h3 className="display text-2xl">{title}</h3>

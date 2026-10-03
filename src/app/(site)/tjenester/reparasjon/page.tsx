@@ -10,7 +10,6 @@ import {
   ServiceHero,
 } from "@/components/services/ServiceBlocks";
 import { Container, SectionHeading } from "@/components/ui/Container";
-import { GreenWash } from "@/components/ui/GreenWash";
 import { IconBadge } from "@/components/ui/IconBadge";
 import {
   getRepairContent,
@@ -58,9 +57,8 @@ export default async function RepairPage() {
             body="Etter feilsøkingen får du en ærlig vurdering av hva som faktisk lønner seg for deg."
           />
           <div className="mt-10 grid gap-5 md:grid-cols-2">
-            <article className="relative overflow-hidden rounded-3xl bg-forest-deep p-8 text-cream">
-              <GreenWash />
-              <div className="relative">
+            <article className="rounded-3xl bg-forest-deep p-8 text-cream">
+              <div>
                 <div className="flex items-center justify-between gap-4">
                   <IconBadge icon={Wrench} tone="dark" size="lg" />
                   <span className="rounded-full bg-copper px-3 py-1 text-xs font-semibold text-white">
