@@ -7,7 +7,7 @@ export function CtaBand() {
   return (
     <section className="py-16 lg:py-24">
       <Container>
-        <div className="reveal relative overflow-hidden rounded-[2rem] bg-forest-deep text-cream">
+        <div className="relative overflow-hidden rounded-[2rem] bg-forest-deep text-cream">
           <GreenWash />
           <div className="relative z-10 flex flex-col items-start justify-between gap-6 px-7 py-10 sm:flex-row sm:items-center sm:px-12 lg:py-14">
             <div>

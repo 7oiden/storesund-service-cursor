@@ -30,7 +30,7 @@ export function Hero({ settings }: { settings: SiteSettings }) {
             <BadgeCheck size={14} />
             f-gass sertifisert
           </div>
-          <h1 className="display text-5xl leading-[1.05] sm:text-6xl lg:text-7xl">
+          <h1 className="display text-[clamp(2.25rem,11vw,3rem)] leading-[1.05] sm:text-6xl lg:text-7xl">
             <span className="mb-3 block text-[0.5em] leading-[1.15]">
               Montasje, service
               <br />
@@ -71,10 +71,12 @@ export function Hero({ settings }: { settings: SiteSettings }) {
             </a>
             <a
               href={`mailto:${settings.email}`}
-              className="inline-flex items-center gap-2 hover:text-cream"
+              className="inline-flex max-w-full items-center gap-2 hover:text-cream"
             >
-              <Mail size={15} strokeWidth={1.75} />
-              {settings.email}
+              <Mail size={15} strokeWidth={1.75} className="shrink-0" />
+              <span className="min-w-0 [overflow-wrap:anywhere]">
+                {settings.email}
+              </span>
             </a>
           </div>
         </div>

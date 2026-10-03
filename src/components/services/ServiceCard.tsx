@@ -24,7 +24,7 @@ export function ServiceCard({
   return (
     <Link
       href={service.href}
-      className="reveal group flex flex-col rounded-3xl bg-forest-deep p-7 text-cream transition duration-300 hover:-translate-y-1 hover:shadow-[0_18px_40px_-18px_rgb(14_58_41/0.6)]"
+      className="group flex flex-col rounded-3xl bg-forest-deep p-7 text-cream transition duration-300 hover:-translate-y-1 hover:shadow-[0_18px_40px_-18px_rgb(14_58_41/0.6)]"
     >
       <div className="flex items-start justify-between gap-4">
         <IconBadge icon={serviceIcons[service.slug]} tone="dark" />

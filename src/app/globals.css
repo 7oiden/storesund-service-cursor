@@ -21,6 +21,15 @@ html {
   scroll-behavior: smooth;
 }
 
+@layer base {
+  /* An implicit grid column is `auto`, so it grows to its widest child and
+     breaks the page margins on narrow screens. Let it shrink instead;
+     grid-cols-* utilities still override this. */
+  .grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
 body {
   background: var(--color-paper);
   color: var(--color-ink);
@@ -33,30 +42,6 @@ body {
 .display {
   font-family: var(--font-display), Georgia, serif;
   font-optical-sizing: auto;
-}
-
-/* Scroll-in reveal. Uses transform (not translate) so Tailwind's
-   hover:-translate-y-* still composes on top. Content stays visible
-   wherever scroll-driven animations or motion are unavailable. */
-@keyframes reveal {
-  from {
-    opacity: 0;
-    transform: translateY(1.5rem);
-  }
-  to {
-    opacity: 1;
-    transform: none;
-  }
-}
-
-@supports (animation-timeline: view()) {
-  @media (prefers-reduced-motion: no-preference) {
-    .reveal {
-      animation: reveal linear both;
-      animation-timeline: view();
-      animation-range: entry 0% entry 40%;
-    }
-  }
 }
 
 @media (prefers-reduced-motion: no-preference) {

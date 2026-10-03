@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { RefreshCw, Wrench } from "lucide-react";
-import { CtaBand } from "@/components/home/CtaBand";
 import {
   Checklist,
   DETAILS_ID,
@@ -57,7 +56,7 @@ export default async function RepairPage() {
             body="Etter feilsøkingen får du en ærlig vurdering av hva som faktisk lønner seg for deg."
           />
           <div className="mt-10 grid gap-5 md:grid-cols-2">
-            <article className="reveal relative overflow-hidden rounded-3xl bg-forest-deep p-8 text-cream">
+            <article className="relative overflow-hidden rounded-3xl bg-forest-deep p-8 text-cream">
               <GreenWash />
               <div className="relative">
                 <div className="flex items-center justify-between gap-4">
@@ -77,7 +76,7 @@ export default async function RepairPage() {
                 </ul>
               </div>
             </article>
-            <article className="reveal rounded-3xl border border-line bg-cream p-8">
+            <article className="rounded-3xl border border-line bg-cream p-8">
               <IconBadge icon={RefreshCw} size="lg" />
               <h3 className="display mt-6 text-3xl text-ink">{replace.title}</h3>
               <ul className="mt-5 space-y-3 text-sm leading-6 text-ink-soft">
@@ -117,7 +116,6 @@ export default async function RepairPage() {
       </section>
 
       <RelatedServices current="reparasjon" settings={settings} />
-      <CtaBand />
     </>
   );
 }

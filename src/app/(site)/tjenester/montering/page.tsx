@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { House, Layers, MoveVertical, PlugZap, type LucideIcon } from "lucide-react";
-import { CtaBand } from "@/components/home/CtaBand";
 import { OtherServiceTags } from "@/components/home/OtherServices";
 import {
   Checklist,
@@ -131,7 +130,6 @@ export default async function InstallationPage() {
       </section>
 
       <RelatedServices current="montering" settings={settings} />
-      <CtaBand />
     </>
   );
 }

@@ -63,7 +63,7 @@ export function ServiceHero({
           </nav>
           <div className="mt-4 flex items-center gap-4">
             <IconBadge icon={serviceIcons[slug]} tone="dark" size="lg" />
-            <h1 className="display text-5xl leading-tight sm:text-6xl">
+            <h1 className="display min-w-0 text-[clamp(2.25rem,11vw,3rem)] leading-tight sm:text-6xl">
               {label}.
             </h1>
           </div>
@@ -160,7 +160,7 @@ export function FeatureCard({
   children: React.ReactNode;
 }) {
   return (
-    <article className="reveal rounded-3xl border border-line bg-cream p-7">
+    <article className="rounded-3xl border border-line bg-cream p-7">
       <IconBadge icon={icon} />
       <h3 className="display mt-5 text-xl text-ink">{title}</h3>
       <div className="mt-2 text-sm leading-6 text-ink-soft">{children}</div>
@@ -183,7 +183,7 @@ export function ProcessSteps({
         <SectionHeading eyebrow={eyebrow} title={title} />
         <ol className="mt-12 grid gap-10 sm:grid-cols-2 lg:grid-cols-4 lg:gap-6">
           {steps.map((step, index) => (
-            <li key={step.title} className="reveal">
+            <li key={step.title}>
               <div className="flex items-center gap-4">
                 <span className="display inline-flex size-12 shrink-0 items-center justify-center rounded-full border border-copper/30 bg-copper/10 text-lg text-copper">
                   {String(index + 1).padStart(2, "0")}
@@ -268,7 +268,7 @@ export function Checklist({
   }
 
   return (
-    <section className="reveal rounded-3xl border border-line bg-cream p-7">
+    <section className="rounded-3xl border border-line bg-cream p-7">
       <div className="flex items-center gap-3">
         {icon ? <IconBadge icon={icon} /> : null}
         <h2 className="display text-2xl text-ink">{title}</h2>
@@ -339,7 +339,7 @@ export function InfoCard({
   children: React.ReactNode;
 }) {
   return (
-    <aside className="reveal relative overflow-hidden rounded-3xl bg-forest-deep p-7 text-cream">
+    <aside className="relative overflow-hidden rounded-3xl bg-forest-deep p-7 text-cream">
       <div aria-hidden className="hero-wash pointer-events-none absolute inset-0 opacity-50" />
       <div className="relative">
         <div className="flex items-center gap-3">
@@ -364,7 +364,7 @@ export function RelatedServices({
   const prices = servicePrices(settings);
 
   return (
-    <section className="pt-16 lg:pt-24">
+    <section className="py-16 lg:py-24">
       <Container>
         <SectionHeading eyebrow="Andre tjenester" title="Trenger du noe mer?" />
         <div className="mt-10 grid gap-5 md:grid-cols-2">

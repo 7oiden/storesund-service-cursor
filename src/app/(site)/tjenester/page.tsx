@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import { CtaBand } from "@/components/home/CtaBand";
 import { OtherServices } from "@/components/home/OtherServices";
 import { Container, SectionHeading } from "@/components/ui/Container";
 import { GreenWash } from "@/components/ui/GreenWash";
@@ -43,7 +42,7 @@ export default async function ServicesPage() {
             <Link
               key={service.href}
               href={service.href}
-              className="reveal group flex flex-col justify-between gap-6 rounded-3xl border border-line bg-cream p-7 transition duration-300 hover:-translate-y-1 hover:border-forest/30 hover:shadow-[0_18px_40px_-24px_rgb(14_58_41/0.45)] sm:flex-row sm:items-center sm:p-8"
+              className="group flex flex-col justify-between gap-6 rounded-3xl border border-line bg-cream p-7 transition duration-300 hover:-translate-y-1 hover:border-forest/30 hover:shadow-[0_18px_40px_-24px_rgb(14_58_41/0.45)] sm:flex-row sm:items-center sm:p-8"
             >
               <div className="flex flex-col gap-5 sm:flex-row sm:items-start sm:gap-6">
                 <IconBadge icon={serviceIcons[service.slug]} size="lg" />
@@ -71,7 +70,6 @@ export default async function ServicesPage() {
         </Container>
       </section>
       <OtherServices />
-      <CtaBand />
     </>
   );
 }

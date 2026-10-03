@@ -10,7 +10,6 @@ import {
   Wind,
   type LucideIcon,
 } from "lucide-react";
-import { CtaBand } from "@/components/home/CtaBand";
 import {
   CheckList,
   DETAILS_ID,
@@ -89,7 +88,7 @@ export default async function ServicePage() {
               {serviceIncludedGroups.map((group) => (
                 <article
                   key={group.title}
-                  className="reveal rounded-3xl border border-line bg-cream p-7"
+                  className="rounded-3xl border border-line bg-cream p-7"
                 >
                   <div className="flex items-center gap-3">
                     <IconBadge icon={groupIcons[group.icon]} />
@@ -118,7 +117,7 @@ export default async function ServicePage() {
 
       <section className="py-16 lg:py-24">
         <Container className="grid gap-6 lg:grid-cols-[1.15fr_0.85fr]">
-          <div className="reveal relative flex flex-col justify-between gap-8 overflow-hidden rounded-[2rem] border border-copper/25 bg-copper/[0.07] p-8 sm:p-10">
+          <div className="relative flex flex-col justify-between gap-8 overflow-hidden rounded-[2rem] border border-copper/25 bg-copper/[0.07] p-8 sm:p-10">
             <div>
               <div className="flex items-center gap-3">
                 <IconBadge icon={CalendarCheck} tone="copper" />
@@ -156,7 +155,6 @@ export default async function ServicePage() {
       </section>
 
       <RelatedServices current="service" settings={settings} />
-      <CtaBand />
     </>
   );
 }

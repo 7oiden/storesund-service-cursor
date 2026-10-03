@@ -4,7 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { MapPin, Menu, X } from "lucide-react";
-import { navLinks, serviceNav } from "@/lib/content";
+import { navLinks } from "@/lib/content";
 import { availabilityStatusLabel, type SiteSettings } from "@/lib/site";
 import { cn } from "@/lib/utils";
 import { ButtonLink } from "@/components/ui/ButtonLink";
@@ -65,9 +65,15 @@ export function Header({ settings }: { settings: SiteSettings }) {
           </button>
         </div>
 
-        {open ? (
-          <div className="border-t border-line bg-cream px-5 py-5 lg:hidden">
-            <nav className="flex flex-col gap-1">
+        <div
+          className={cn(
+            "grid transition-[grid-template-rows,opacity] duration-300 ease-out motion-reduce:transition-none lg:hidden",
+            open ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0",
+          )}
+          inert={!open}
+        >
+          <div className="overflow-hidden">
+            <nav className="flex flex-col gap-1 border-t border-line bg-cream px-5 py-5">
               {navLinks.map((link) => {
                 const active =
                   link.href === "/"
@@ -90,25 +96,15 @@ export function Header({ settings }: { settings: SiteSettings }) {
                   </Link>
                 );
               })}
-              <div className="grid gap-2 pt-2">
-                {serviceNav.map((item) => (
-                  <Link
-                    key={item.href}
-                    href={item.href}
-                    onClick={() => setOpen(false)}
-                    className="text-sm text-ink-soft"
-                  >
-                    {item.label}
-                  </Link>
-                ))}
+              <div className="mt-3">
+                <AvailabilityDot available={settings.is_available} />
               </div>
-              <AvailabilityDot available={settings.is_available} />
               <ButtonLink href="/kontakt" className="mt-2">
                 Be om time
               </ButtonLink>
             </nav>
           </div>
-        ) : null}
+        </div>
       </header>
     </>
   );

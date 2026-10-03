@@ -22,7 +22,7 @@ export function WhyMe() {
           {whyMe.map((item, index) => (
             <article
               key={item.title}
-              className="reveal rounded-3xl border border-line bg-paper p-7 transition duration-300 hover:border-forest/25"
+              className="rounded-3xl border border-line bg-paper p-7 transition duration-300 hover:border-forest/25"
             >
               <div className="flex items-start justify-between gap-4">
                 <IconBadge icon={icons[item.icon]} />

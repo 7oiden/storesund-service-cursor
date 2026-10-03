@@ -18,7 +18,7 @@ export default async function PrivacyPage() {
         <p className="text-xs font-semibold uppercase tracking-[0.22em] text-forest">
           Personvern
         </p>
-        <h1 className="display mt-3 text-4xl leading-tight sm:text-5xl">
+        <h1 className="display mt-3 text-[clamp(1.75rem,8vw,2.25rem)] leading-tight sm:text-5xl">
           Personvernerklæring
         </h1>
         <p className="mt-4 text-base leading-7 text-ink-soft">
